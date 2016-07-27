@@ -70,6 +70,7 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(FortUsedEvent evt, Context ctx)
         {
+            _guiItems.UpdateItemByItemsString(evt.Items);
             _guiItems.Dirty(ctx.Inventory);
         }
 

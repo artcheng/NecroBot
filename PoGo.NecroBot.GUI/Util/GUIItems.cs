@@ -71,6 +71,21 @@ namespace GUI.Utils
                 _candies.Add(familyid, value);
         }
 
+        public void UpdateItemByItemsString(string items)
+        {
+            string[] itemsList = Array.ConvertAll(items.Split(','), i => i.Trim());
+            foreach(var item in itemsList)
+            {
+                ItemId itemId = (ItemId)Enum.Parse(typeof(ItemId), ((item.Substring(item.LastIndexOf(' ')))));
+                int count = Convert.ToInt16(item.Substring(0, item.IndexOf(' ')));
+                if (_items.ContainsKey(itemId))
+                    _items[itemId] += count;
+                else
+                    _items.Add(itemId, count);
+            }
+
+        }
+
         public void Dirty(Inventory inventory)
         {
             DirtyEvent?.Invoke();
