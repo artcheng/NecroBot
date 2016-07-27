@@ -47,14 +47,11 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(PokemonEvolveEvent evt, Context ctx)
         {
-            //_guiPokemons.RemovePokemon(evt.UniqueIdBefore);
-            //_guiPokemons.AddPokemon(evt.FullData);
             _guiPokemons.Dirty(ctx.Inventory);
         }
 
         public void HandleEvent(TransferPokemonEvent evt, Context ctx)
         {
-            //_guiPokemons.RemovePokemon(evt.UniqueId);
             _guiPokemons.Dirty(ctx.Inventory);
         }
 
@@ -87,7 +84,6 @@ namespace PoGo.NecroBot.GUI
         {
             if (evt.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
             {
-                //_guiPokemons.AddPokemon(evt.FullData);
                 _guiPokemons.Dirty(ctx.Inventory);
             }
         }

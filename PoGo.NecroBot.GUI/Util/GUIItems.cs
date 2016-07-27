@@ -10,6 +10,7 @@ using Google.Protobuf.Collections;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Inventory;
 using PoGo.NecroBot.Logic.State;
+using POGOProtos.Settings.Master;
 
 namespace GUI.Utils
 {
@@ -19,6 +20,7 @@ namespace GUI.Utils
     {
         public Dictionary<ItemId, int> _items = new Dictionary<ItemId, int>();
         public Dictionary<PokemonFamilyId, int> _candies = new Dictionary<PokemonFamilyId, int>();
+        public IEnumerable<PokemonSettings> _pokemonSettings;
 
         public void SetItems(Inventory inventory)
         {
@@ -66,9 +68,10 @@ namespace GUI.Utils
 
         public async void UpdateCandyByValue(PokemonId pokemonid, int value, Context ctx)
         {
-            var pokemonSettings = await ctx.Inventory.GetPokemonSettings();
+            if(_pokemonSettings == null)
+                _pokemonSettings = await ctx.Inventory.GetPokemonSettings();
 
-            var setting = pokemonSettings.Single(q => q.PokemonId == pokemonid);
+            var setting = _pokemonSettings.Single(q => q.PokemonId == pokemonid);
 
             if (_candies.ContainsKey(setting.FamilyId))
                 _candies[setting.FamilyId] = value;
