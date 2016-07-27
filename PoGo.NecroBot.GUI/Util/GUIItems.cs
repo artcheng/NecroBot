@@ -9,6 +9,7 @@ using POGOProtos.Enums;
 using Google.Protobuf.Collections;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Inventory;
+using PoGo.NecroBot.Logic.State;
 
 namespace GUI.Utils
 {
@@ -63,12 +64,16 @@ namespace GUI.Utils
                 _items.Add(itemId, count);
         }
 
-        public void UpdateCandyByValue(PokemonFamilyId familyid, int value)
+        public async void UpdateCandyByValue(PokemonId pokemonid, int value, Context ctx)
         {
-            if (_candies.ContainsKey(familyid))
-                _candies[familyid] += value;
+            var pokemonSettings = await ctx.Inventory.GetPokemonSettings();
+
+            var setting = pokemonSettings.Single(q => q.PokemonId == pokemonid);
+
+            if (_candies.ContainsKey(setting.FamilyId))
+                _candies[setting.FamilyId] = value;
             else
-                _candies.Add(familyid, value);
+                _candies.Add(setting.FamilyId, value);
         }
 
         public void UpdateItemByItemsString(string items)

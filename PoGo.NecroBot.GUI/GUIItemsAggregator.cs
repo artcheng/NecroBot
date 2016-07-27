@@ -53,7 +53,7 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(TransferPokemonEvent evt, Context ctx)
         {
-            _guiItems.UpdateCandyByValue((PokemonFamilyId)evt.FamilyCandies, 1);
+            _guiItems.UpdateCandyByValue(evt.Id, evt.FamilyCandies, ctx);
             _guiItems.Dirty(ctx.Inventory);
         }
 
@@ -87,6 +87,7 @@ namespace PoGo.NecroBot.GUI
         public void HandleEvent(PokemonCaptureEvent evt, Context ctx)
         {
             _guiItems.UpdateItemByValue(evt.Pokeball, -1);
+            _guiItems.UpdateCandyByValue(evt.Id, evt.FamilyCandies, ctx);
             _guiItems.Dirty(ctx.Inventory);
         }
 
