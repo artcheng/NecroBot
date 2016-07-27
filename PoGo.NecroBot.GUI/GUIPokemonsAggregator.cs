@@ -47,11 +47,13 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(PokemonEvolveEvent evt, Context ctx)
         {
+            _guiPokemons.SetPokemons(ctx.Inventory);
             _guiPokemons.Dirty(ctx.Inventory);
         }
 
         public void HandleEvent(TransferPokemonEvent evt, Context ctx)
         {
+            _guiPokemons.SetPokemons(ctx.Inventory);
             _guiPokemons.Dirty(ctx.Inventory);
         }
 
@@ -67,7 +69,6 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(FortUsedEvent evt, Context ctx)
         {
-
         }
 
         public void HandleEvent(FortFailedEvent evt, Context ctx)
@@ -84,6 +85,7 @@ namespace PoGo.NecroBot.GUI
         {
             if (evt.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
             {
+                _guiPokemons.SetPokemons(ctx.Inventory);
                 _guiPokemons.Dirty(ctx.Inventory);
             }
         }
@@ -103,7 +105,6 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(UpdateEvent evt, Context ctx)
         {
-
         }
 
         public void Listen(IEvent evt, Context ctx)

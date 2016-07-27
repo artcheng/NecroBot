@@ -141,8 +141,17 @@ namespace PoGo.NecroBot.GUI
             textPlayerStardust.Invoke(new Action(() => textPlayerStardust.Text = _guiStats._playerStardust.ToString()));
             textPlayerPokecoins.Invoke(new Action(() => textPlayerPokecoins.Text = _guiStats._playerPokecoins.ToString()));
 
-            progressPlayerExpBar.Invoke(new Action(() => progressPlayerExpBar.Maximum = (int)_guiStats._playerNextLevelXp - (int)_guiStats._playerPrevLevelXp - Statistics.GetXpDiff(_guiStats._playerLevel)));
-            progressPlayerExpBar.Invoke(new Action(() => progressPlayerExpBar.Value = (int)_guiStats._playerExperience - (int)_guiStats._playerPrevLevelXp - Statistics.GetXpDiff(_guiStats._playerLevel)));
+            int max = (int)_guiStats._playerNextLevelXp - (int)_guiStats._playerPrevLevelXp - Statistics.GetXpDiff(_guiStats._playerLevel);
+            int current = (int)_guiStats._playerExperience - (int)_guiStats._playerPrevLevelXp - Statistics.GetXpDiff(_guiStats._playerLevel);
+
+            if (current > max)
+            {
+                current = current - max;
+                _guiStats._playerLevel++;
+            }
+
+            progressPlayerExpBar.Invoke(new Action(() => progressPlayerExpBar.Maximum = max));
+            progressPlayerExpBar.Invoke(new Action(() => progressPlayerExpBar.Value = current));
 
             labelPlayerExpOverLevelExp.Invoke(new Action(() => labelPlayerExpOverLevelExp.Text = progressPlayerExpBar.Value.ToString() + "/" + progressPlayerExpBar.Maximum.ToString()));
 
