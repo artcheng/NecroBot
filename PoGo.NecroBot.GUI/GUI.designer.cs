@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridConsole = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,6 +62,13 @@
             this.tabControlMapSettings = new System.Windows.Forms.TabControl();
             this.tabConsole = new System.Windows.Forms.TabPage();
             this.tabMap = new System.Windows.Forms.TabPage();
+            this.checkShowPath = new System.Windows.Forms.CheckBox();
+            this.checkShowPokegyms = new System.Windows.Forms.CheckBox();
+            this.checkShowPokestops = new System.Windows.Forms.CheckBox();
+            this.checkShowPokemons = new System.Windows.Forms.CheckBox();
+            this.textCurrentLatLng = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.gMap = new GMap.NET.WindowsForms.GMapControl();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.grpMyPokemons = new System.Windows.Forms.GroupBox();
             this.dataMyPokemons = new System.Windows.Forms.DataGridView();
@@ -77,13 +84,6 @@
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.gMap = new GMap.NET.WindowsForms.GMapControl();
-            this.checkShowPath = new System.Windows.Forms.CheckBox();
-            this.checkShowPokegyms = new System.Windows.Forms.CheckBox();
-            this.checkShowPokestops = new System.Windows.Forms.CheckBox();
-            this.checkShowPokemons = new System.Windows.Forms.CheckBox();
-            this.textCurrentLatLng = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -109,14 +109,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridConsole.GridColor = System.Drawing.Color.Black;
             this.dataGridConsole.Location = new System.Drawing.Point(3, 3);
@@ -459,6 +459,104 @@
             this.tabMap.Text = "Live Map";
             this.tabMap.UseVisualStyleBackColor = true;
             // 
+            // checkShowPath
+            // 
+            this.checkShowPath.AutoSize = true;
+            this.checkShowPath.Checked = true;
+            this.checkShowPath.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkShowPath.Location = new System.Drawing.Point(344, 31);
+            this.checkShowPath.Name = "checkShowPath";
+            this.checkShowPath.Size = new System.Drawing.Size(108, 17);
+            this.checkShowPath.TabIndex = 28;
+            this.checkShowPath.Text = "Show Path taken";
+            this.checkShowPath.UseVisualStyleBackColor = true;
+            this.checkShowPath.CheckedChanged += new System.EventHandler(this.checkShowPath_CheckedChanged);
+            // 
+            // checkShowPokegyms
+            // 
+            this.checkShowPokegyms.AutoSize = true;
+            this.checkShowPokegyms.Checked = true;
+            this.checkShowPokegyms.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkShowPokegyms.Location = new System.Drawing.Point(232, 31);
+            this.checkShowPokegyms.Name = "checkShowPokegyms";
+            this.checkShowPokegyms.Size = new System.Drawing.Size(105, 17);
+            this.checkShowPokegyms.TabIndex = 27;
+            this.checkShowPokegyms.Text = "Show Pokegyms";
+            this.checkShowPokegyms.UseVisualStyleBackColor = true;
+            this.checkShowPokegyms.CheckedChanged += new System.EventHandler(this.checkShowPokegyms_CheckedChanged);
+            // 
+            // checkShowPokestops
+            // 
+            this.checkShowPokestops.AutoSize = true;
+            this.checkShowPokestops.Checked = true;
+            this.checkShowPokestops.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkShowPokestops.Location = new System.Drawing.Point(120, 31);
+            this.checkShowPokestops.Name = "checkShowPokestops";
+            this.checkShowPokestops.Size = new System.Drawing.Size(106, 17);
+            this.checkShowPokestops.TabIndex = 26;
+            this.checkShowPokestops.Text = "Show Pokestops";
+            this.checkShowPokestops.UseVisualStyleBackColor = true;
+            this.checkShowPokestops.CheckedChanged += new System.EventHandler(this.checkShowPokestops_CheckedChanged);
+            // 
+            // checkShowPokemons
+            // 
+            this.checkShowPokemons.AutoSize = true;
+            this.checkShowPokemons.Checked = true;
+            this.checkShowPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkShowPokemons.Location = new System.Drawing.Point(8, 31);
+            this.checkShowPokemons.Name = "checkShowPokemons";
+            this.checkShowPokemons.Size = new System.Drawing.Size(106, 17);
+            this.checkShowPokemons.TabIndex = 25;
+            this.checkShowPokemons.Text = "Show Pokémons";
+            this.checkShowPokemons.UseVisualStyleBackColor = true;
+            this.checkShowPokemons.CheckedChanged += new System.EventHandler(this.checkShowPokemons_CheckedChanged);
+            // 
+            // textCurrentLatLng
+            // 
+            this.textCurrentLatLng.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textCurrentLatLng.Location = new System.Drawing.Point(85, 6);
+            this.textCurrentLatLng.Name = "textCurrentLatLng";
+            this.textCurrentLatLng.ReadOnly = true;
+            this.textCurrentLatLng.Size = new System.Drawing.Size(467, 20);
+            this.textCurrentLatLng.TabIndex = 24;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(74, 13);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "Current lat/lng";
+            // 
+            // gMap
+            // 
+            this.gMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gMap.Bearing = 0F;
+            this.gMap.CanDragMap = true;
+            this.gMap.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMap.GrayScaleMode = false;
+            this.gMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMap.LevelsKeepInMemmory = 5;
+            this.gMap.Location = new System.Drawing.Point(6, 54);
+            this.gMap.MarkersEnabled = true;
+            this.gMap.MaxZoom = 18;
+            this.gMap.MinZoom = 2;
+            this.gMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
+            this.gMap.Name = "gMap";
+            this.gMap.NegativeMode = false;
+            this.gMap.PolygonsEnabled = true;
+            this.gMap.RetryLoadTile = 0;
+            this.gMap.RoutesEnabled = true;
+            this.gMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMap.ShowTileGridLines = false;
+            this.gMap.Size = new System.Drawing.Size(685, 437);
+            this.gMap.TabIndex = 0;
+            this.gMap.Zoom = 0D;
+            // 
             // tabSettings
             // 
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
@@ -466,7 +564,7 @@
             this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
             this.tabSettings.Size = new System.Drawing.Size(694, 497);
             this.tabSettings.TabIndex = 1;
-            this.tabSettings.Text = "Settings";
+            this.tabSettings.Text = "Profile settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
             // grpMyPokemons
@@ -581,104 +679,6 @@
             this.Column7.HeaderText = "Transfer";
             this.Column7.Name = "Column7";
             this.Column7.Width = 60;
-            // 
-            // gMap
-            // 
-            this.gMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gMap.Bearing = 0F;
-            this.gMap.CanDragMap = true;
-            this.gMap.EmptyTileColor = System.Drawing.Color.Navy;
-            this.gMap.GrayScaleMode = false;
-            this.gMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.gMap.LevelsKeepInMemmory = 5;
-            this.gMap.Location = new System.Drawing.Point(6, 54);
-            this.gMap.MarkersEnabled = true;
-            this.gMap.MaxZoom = 18;
-            this.gMap.MinZoom = 2;
-            this.gMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
-            this.gMap.Name = "gMap";
-            this.gMap.NegativeMode = false;
-            this.gMap.PolygonsEnabled = true;
-            this.gMap.RetryLoadTile = 0;
-            this.gMap.RoutesEnabled = true;
-            this.gMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.gMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.gMap.ShowTileGridLines = false;
-            this.gMap.Size = new System.Drawing.Size(685, 437);
-            this.gMap.TabIndex = 0;
-            this.gMap.Zoom = 0D;
-            // 
-            // checkShowPath
-            // 
-            this.checkShowPath.AutoSize = true;
-            this.checkShowPath.Checked = true;
-            this.checkShowPath.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowPath.Location = new System.Drawing.Point(344, 31);
-            this.checkShowPath.Name = "checkShowPath";
-            this.checkShowPath.Size = new System.Drawing.Size(108, 17);
-            this.checkShowPath.TabIndex = 28;
-            this.checkShowPath.Text = "Show Path taken";
-            this.checkShowPath.UseVisualStyleBackColor = true;
-            this.checkShowPath.CheckedChanged += new System.EventHandler(this.checkShowPath_CheckedChanged);
-            // 
-            // checkShowPokegyms
-            // 
-            this.checkShowPokegyms.AutoSize = true;
-            this.checkShowPokegyms.Checked = true;
-            this.checkShowPokegyms.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowPokegyms.Location = new System.Drawing.Point(232, 31);
-            this.checkShowPokegyms.Name = "checkShowPokegyms";
-            this.checkShowPokegyms.Size = new System.Drawing.Size(105, 17);
-            this.checkShowPokegyms.TabIndex = 27;
-            this.checkShowPokegyms.Text = "Show Pokegyms";
-            this.checkShowPokegyms.UseVisualStyleBackColor = true;
-            this.checkShowPokegyms.CheckedChanged += new System.EventHandler(this.checkShowPokegyms_CheckedChanged);
-            // 
-            // checkShowPokestops
-            // 
-            this.checkShowPokestops.AutoSize = true;
-            this.checkShowPokestops.Checked = true;
-            this.checkShowPokestops.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowPokestops.Location = new System.Drawing.Point(120, 31);
-            this.checkShowPokestops.Name = "checkShowPokestops";
-            this.checkShowPokestops.Size = new System.Drawing.Size(106, 17);
-            this.checkShowPokestops.TabIndex = 26;
-            this.checkShowPokestops.Text = "Show Pokestops";
-            this.checkShowPokestops.UseVisualStyleBackColor = true;
-            this.checkShowPokestops.CheckedChanged += new System.EventHandler(this.checkShowPokestops_CheckedChanged);
-            // 
-            // checkShowPokemons
-            // 
-            this.checkShowPokemons.AutoSize = true;
-            this.checkShowPokemons.Checked = true;
-            this.checkShowPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowPokemons.Location = new System.Drawing.Point(8, 31);
-            this.checkShowPokemons.Name = "checkShowPokemons";
-            this.checkShowPokemons.Size = new System.Drawing.Size(106, 17);
-            this.checkShowPokemons.TabIndex = 25;
-            this.checkShowPokemons.Text = "Show Pokémons";
-            this.checkShowPokemons.UseVisualStyleBackColor = true;
-            this.checkShowPokemons.CheckedChanged += new System.EventHandler(this.checkShowPokemons_CheckedChanged);
-            // 
-            // textCurrentLatLng
-            // 
-            this.textCurrentLatLng.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textCurrentLatLng.Location = new System.Drawing.Point(85, 6);
-            this.textCurrentLatLng.Name = "textCurrentLatLng";
-            this.textCurrentLatLng.ReadOnly = true;
-            this.textCurrentLatLng.Size = new System.Drawing.Size(467, 20);
-            this.textCurrentLatLng.TabIndex = 24;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 9);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 13);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "Current lat/lng";
             // 
             // GUI
             // 

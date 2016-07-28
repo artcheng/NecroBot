@@ -64,12 +64,14 @@ namespace PoGo.NecroBot.GUI
             if (result == DialogResult.OK)
             {
                 profilePath = loadProfile.ProfileFolder;
-                subPath = "\\config\\profiles\\" + loadProfile.ProfileName;
+                subPath = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + loadProfile.ProfileName;
             }
             //return;
             
 
             Logger.SetLogger(new GUILogger(LogLevel.Info, this), subPath);
+
+            return;
 
             var settings = GlobalSettings.Load(profilePath);
             settings.AutoUpdate = false;

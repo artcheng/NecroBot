@@ -54,6 +54,7 @@ namespace GUI.Utils
 
         public void Dirty(Inventory inventory)
         {
+            SetStats(inventory);
             DirtyEvent?.Invoke();
         }
 
