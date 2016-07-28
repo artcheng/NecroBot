@@ -22,6 +22,11 @@ using GUI.Utils;
 using PoGo.NecroBot.Logic.Event;
 using System.IO;
 using POGOProtos.Data;
+using GMap.NET.WindowsForms;
+using GMap.NET;
+using GMap.NET.MapProviders;
+using GMap.NET.WindowsForms.Markers;
+using PoGo.NecroBot.GUI.Util;
 
 namespace PoGo.NecroBot.GUI
 {
@@ -32,11 +37,14 @@ namespace PoGo.NecroBot.GUI
         private static GUIStats _guiStats = new GUIStats();
         private static GUIItems _guiItems = new GUIItems();
         private static GUIPokemons _guiPokemons = new GUIPokemons();
+        private static GUILiveMap _guiLiveMap = new GUILiveMap();
+
         private static Context _ctx;
         private static StateMachine _machine;
 
-
         private static Dictionary<string, Bitmap> _imagesList = new Dictionary<string, Bitmap>();
+
+        private static Dictionary<string, GMapOverlay> _mapOverlays;
 
         public GUI()
         {
@@ -69,16 +77,19 @@ namespace PoGo.NecroBot.GUI
             _machine = new StateMachine();
             _guiItems.DirtyEvent += () => UpdateMyItems();
             _guiPokemons.DirtyEvent += () => UpdateMyPokemons();
+            _guiLiveMap.DirtyEvent += () => UpdateLiveMap();
 
             var listener = new GUIEventListener();
             var statsAggregator = new GUIStatsAggregator(_guiStats);
             var itemsAggregator = new GUIItemsAggregator(_guiItems);
             var pokemonsAggregator = new GUIPokemonsAggregator(_guiPokemons);
+            var livemapAggregator = new GUILiveMapAggregator(_guiLiveMap);
 
             _machine.EventListener += listener.Listen;
             _machine.EventListener += statsAggregator.Listen;
             _machine.EventListener += itemsAggregator.Listen;
             _machine.EventListener += pokemonsAggregator.Listen;
+            _machine.EventListener += livemapAggregator.Listen;
 
             _machine.SetFailureState(new LoginState());
 
@@ -95,6 +106,33 @@ namespace PoGo.NecroBot.GUI
             _exphrUpdater.Interval = 1000;
             _exphrUpdater.Tick += new EventHandler(UpdateStats);
             _exphrUpdater.Start();
+
+            gMap.MapProvider = GoogleMapProvider.Instance;
+            GMaps.Instance.Mode = AccessMode.ServerOnly;
+            gMap.Zoom = 15;
+
+            _mapOverlays = new Dictionary<string, GMapOverlay>();
+            _mapOverlays.Add("pokemons", new GMapOverlay("pokemons"));
+            gMap.Overlays.Add(_mapOverlays["pokemons"]);
+
+            _mapOverlays.Add("pokestops", new GMapOverlay("pokestops"));
+            gMap.Overlays.Add(_mapOverlays["pokestops"]);
+
+            _mapOverlays.Add("pokegyms", new GMapOverlay("pokegyms"));
+            gMap.Overlays.Add(_mapOverlays["pokegyms"]);
+
+            _mapOverlays.Add("player", new GMapOverlay("player"));
+            gMap.Overlays.Add(_mapOverlays["player"]);
+
+            _mapOverlays.Add("path", new GMapOverlay("path"));
+            gMap.Overlays.Add(_mapOverlays["path"]);
+
+            Bitmap player = new Bitmap(_imagesList["player"]);
+            player.MakeTransparent(Color.White);
+            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(_ctx.Client.CurrentLatitude, _ctx.Client.CurrentLongitude), player);
+            _mapOverlays["player"].Markers.Add(marker);
+            gMap.Position = new PointLatLng(_ctx.Client.CurrentLatitude, _ctx.Client.CurrentLongitude);
+            textCurrentLatLng.Text = _ctx.Client.CurrentLatitude.ToString() + "," + _ctx.Client.CurrentLongitude.ToString();
         }
 
         private void InitImageList()
@@ -270,6 +308,29 @@ namespace PoGo.NecroBot.GUI
             }
         }
 
+        private void UpdateLiveMap()
+        {
+            if (_guiLiveMap._positionUpdated)
+            {
+                _guiLiveMap._positionUpdated = false;
+                gMap.Invoke(new Action(() => gMap.Position = _guiLiveMap._currentPosition));
+                textCurrentLatLng.Invoke(new Action(() => textCurrentLatLng.Text = _guiLiveMap._currentPosition.Lat.ToString() + "," + _guiLiveMap._currentPosition.Lng.ToString()));
+                _mapOverlays["player"].Markers[0].Position = _guiLiveMap._currentPosition;
+
+                if (_guiLiveMap._lastPosition != null && (_guiLiveMap._lastPosition.Lat != 0 && _guiLiveMap._lastPosition.Lng != 0))
+                {
+                    List<PointLatLng> polygon = new List<PointLatLng>();
+                    polygon.Add(new PointLatLng(_guiLiveMap._lastPosition.Lat, _guiLiveMap._lastPosition.Lng));
+                    polygon.Add(new PointLatLng(_guiLiveMap._currentPosition.Lat, _guiLiveMap._currentPosition.Lng));
+                    GMapRoute route = new GMapRoute(polygon, "route");
+
+                    route.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                    route.Stroke.Width = 2;
+                    _mapOverlays["path"].Routes.Add(route);
+                }
+            }
+        }
+
         private async void dataMyPokemons_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
@@ -332,6 +393,26 @@ namespace PoGo.NecroBot.GUI
                         break;
                 }
             }
+        }
+
+        private void checkShowPokemons_CheckedChanged(object sender, EventArgs e)
+        {
+            _mapOverlays["pokemons"].IsVisibile = checkShowPokemons.Checked ? true : false;
+        }
+
+        private void checkShowPokestops_CheckedChanged(object sender, EventArgs e)
+        {
+            _mapOverlays["pokestops"].IsVisibile = checkShowPokestops.Checked ? true : false;
+        }
+
+        private void checkShowPokegyms_CheckedChanged(object sender, EventArgs e)
+        {
+            _mapOverlays["pokegyms"].IsVisibile = checkShowPokegyms.Checked ? true : false;
+        }
+
+        private void checkShowPath_CheckedChanged(object sender, EventArgs e)
+        {
+            _mapOverlays["path"].IsVisibile = checkShowPath.Checked ? true : false;
         }
     }
 }
