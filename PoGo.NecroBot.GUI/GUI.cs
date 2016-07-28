@@ -56,6 +56,11 @@ namespace PoGo.NecroBot.GUI
             this.Show();
             InitImageList();
 
+ 
+
+            //LoadGUISettings();
+ 
+
             var subPath = "";
             var profilePath = "";
 
@@ -70,8 +75,6 @@ namespace PoGo.NecroBot.GUI
             
 
             Logger.SetLogger(new GUILogger(LogLevel.Info, this), subPath);
-
-            return;
 
             var settings = GlobalSettings.Load(profilePath);
             settings.AutoUpdate = false;
@@ -469,6 +472,43 @@ namespace PoGo.NecroBot.GUI
         private void checkShowPath_CheckedChanged(object sender, EventArgs e)
         {
             _mapOverlays["path"].IsVisibile = checkShowPath.Checked ? true : false;
+        }
+
+        private void LoadGUISettings()
+        {
+            foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
+            {
+                // Skip pokemon = 0
+                if((int)pokemon > 0)
+                {
+                    // ToNotCatch
+                    bool toNotCatch = false;
+                    if (_session.LogicSettings.PokemonsNotToCatch.Where(p => p == pokemon).ToList().Count > 0)
+                        toNotCatch = true;
+
+                    //ToEvolve
+                    bool toEvolve = false;
+                    if (_session.LogicSettings.PokemonsToEvolve.Where(p => p == pokemon).ToList().Count > 0)
+                        toEvolve = true;
+
+                    // ToNotTransfer
+                    bool toNotTransfer = false;
+                    if (_session.LogicSettings.PokemonsNotToTransfer.Where(p => p == pokemon).ToList().Count > 0)
+                        toNotTransfer = true;
+
+
+                    Bitmap bmp = new Bitmap(40, 30);
+                    _imagesList.TryGetValue("pokemon_" + ((int)pokemon).ToString(), out bmp);
+                    dataPokemonSettings.Invoke(new Action(() => dataPokemonSettings.Rows.Add((int)pokemon, bmp, pokemon, "", "", "", toNotTransfer, toEvolve, toNotCatch)));
+
+                    if (_session.LogicSettings.PokemonsNotToCatch.Where(p => p == pokemon).ToList().Count > 0)
+                    {
+
+                    }
+
+                        //_session.LogicSettings.PokemonsNotToCatch(pokemon =>)
+                }
+            }
         }
     }
 }

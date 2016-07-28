@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridConsole = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -84,6 +84,25 @@
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataItemSettings = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataPokemonSettings = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column16 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.tabControlSettings = new System.Windows.Forms.TabControl();
+            this.tabPageSettingsGlobal = new System.Windows.Forms.TabPage();
+            this.tabPageSettingsPokemons = new System.Windows.Forms.TabPage();
+            this.tabPageSettingsItems = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -95,8 +114,14 @@
             this.tabControlMapSettings.SuspendLayout();
             this.tabConsole.SuspendLayout();
             this.tabMap.SuspendLayout();
+            this.tabSettings.SuspendLayout();
             this.grpMyPokemons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataMyPokemons)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataItemSettings)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataPokemonSettings)).BeginInit();
+            this.tabControlSettings.SuspendLayout();
+            this.tabPageSettingsPokemons.SuspendLayout();
+            this.tabPageSettingsItems.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridConsole
@@ -109,14 +134,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridConsole.GridColor = System.Drawing.Color.Black;
             this.dataGridConsole.Location = new System.Drawing.Point(3, 3);
@@ -559,6 +584,7 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.tabControlSettings);
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
@@ -680,6 +706,179 @@
             this.Column7.Name = "Column7";
             this.Column7.Width = 60;
             // 
+            // dataItemSettings
+            // 
+            this.dataItemSettings.AllowUserToAddRows = false;
+            this.dataItemSettings.AllowUserToDeleteRows = false;
+            this.dataItemSettings.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataItemSettings.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewImageColumn2,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewTextBoxColumn9});
+            this.dataItemSettings.Location = new System.Drawing.Point(6, 6);
+            this.dataItemSettings.Name = "dataItemSettings";
+            this.dataItemSettings.ReadOnly = true;
+            this.dataItemSettings.RowHeadersWidth = 10;
+            this.dataItemSettings.RowTemplate.Height = 40;
+            this.dataItemSettings.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataItemSettings.Size = new System.Drawing.Size(272, 453);
+            this.dataItemSettings.TabIndex = 11;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            this.dataGridViewTextBoxColumn7.Visible = false;
+            // 
+            // dataGridViewImageColumn2
+            // 
+            this.dataGridViewImageColumn2.HeaderText = "";
+            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            this.dataGridViewImageColumn2.ReadOnly = true;
+            this.dataGridViewImageColumn2.Width = 30;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.HeaderText = "Item";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            this.dataGridViewTextBoxColumn8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn8.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.HeaderText = "Keep Max";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            this.dataGridViewTextBoxColumn9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn9.Width = 75;
+            // 
+            // dataPokemonSettings
+            // 
+            this.dataPokemonSettings.AllowUserToAddRows = false;
+            this.dataPokemonSettings.AllowUserToDeleteRows = false;
+            this.dataPokemonSettings.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataPokemonSettings.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn10,
+            this.dataGridViewImageColumn3,
+            this.dataGridViewTextBoxColumn11,
+            this.Column17,
+            this.Column18,
+            this.Column19,
+            this.Column11,
+            this.Column12,
+            this.Column16});
+            this.dataPokemonSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataPokemonSettings.Location = new System.Drawing.Point(3, 3);
+            this.dataPokemonSettings.Name = "dataPokemonSettings";
+            this.dataPokemonSettings.RowHeadersWidth = 10;
+            this.dataPokemonSettings.RowTemplate.Height = 40;
+            this.dataPokemonSettings.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataPokemonSettings.Size = new System.Drawing.Size(674, 459);
+            this.dataPokemonSettings.TabIndex = 12;
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            this.dataGridViewTextBoxColumn10.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            this.dataGridViewTextBoxColumn10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn10.Visible = false;
+            // 
+            // dataGridViewImageColumn3
+            // 
+            this.dataGridViewImageColumn3.HeaderText = "";
+            this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
+            this.dataGridViewImageColumn3.ReadOnly = true;
+            this.dataGridViewImageColumn3.Width = 30;
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.HeaderText = "Pokemon";
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            this.dataGridViewTextBoxColumn11.ReadOnly = true;
+            this.dataGridViewTextBoxColumn11.Width = 125;
+            // 
+            // Column17
+            // 
+            this.Column17.HeaderText = "KeepMinCP";
+            this.Column17.Name = "Column17";
+            this.Column17.Width = 75;
+            // 
+            // Column18
+            // 
+            this.Column18.HeaderText = "KeepMinIV";
+            this.Column18.Name = "Column18";
+            this.Column18.Width = 75;
+            // 
+            // Column19
+            // 
+            this.Column19.HeaderText = "KeepMinDuplicate";
+            this.Column19.Name = "Column19";
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "NotToTransfer";
+            this.Column11.Name = "Column11";
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "ToEvolve";
+            this.Column12.Name = "Column12";
+            this.Column12.Width = 75;
+            // 
+            // Column16
+            // 
+            this.Column16.HeaderText = "ToIgnore";
+            this.Column16.Name = "Column16";
+            this.Column16.Width = 75;
+            // 
+            // tabControlSettings
+            // 
+            this.tabControlSettings.Controls.Add(this.tabPageSettingsGlobal);
+            this.tabControlSettings.Controls.Add(this.tabPageSettingsPokemons);
+            this.tabControlSettings.Controls.Add(this.tabPageSettingsItems);
+            this.tabControlSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlSettings.Location = new System.Drawing.Point(3, 3);
+            this.tabControlSettings.Name = "tabControlSettings";
+            this.tabControlSettings.SelectedIndex = 0;
+            this.tabControlSettings.Size = new System.Drawing.Size(688, 491);
+            this.tabControlSettings.TabIndex = 13;
+            // 
+            // tabPageSettingsGlobal
+            // 
+            this.tabPageSettingsGlobal.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSettingsGlobal.Name = "tabPageSettingsGlobal";
+            this.tabPageSettingsGlobal.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSettingsGlobal.Size = new System.Drawing.Size(680, 465);
+            this.tabPageSettingsGlobal.TabIndex = 0;
+            this.tabPageSettingsGlobal.Text = "Global";
+            this.tabPageSettingsGlobal.UseVisualStyleBackColor = true;
+            // 
+            // tabPageSettingsPokemons
+            // 
+            this.tabPageSettingsPokemons.Controls.Add(this.dataPokemonSettings);
+            this.tabPageSettingsPokemons.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSettingsPokemons.Name = "tabPageSettingsPokemons";
+            this.tabPageSettingsPokemons.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSettingsPokemons.Size = new System.Drawing.Size(680, 465);
+            this.tabPageSettingsPokemons.TabIndex = 1;
+            this.tabPageSettingsPokemons.Text = "Pokemons";
+            this.tabPageSettingsPokemons.UseVisualStyleBackColor = true;
+            // 
+            // tabPageSettingsItems
+            // 
+            this.tabPageSettingsItems.Controls.Add(this.dataItemSettings);
+            this.tabPageSettingsItems.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSettingsItems.Name = "tabPageSettingsItems";
+            this.tabPageSettingsItems.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSettingsItems.Size = new System.Drawing.Size(680, 465);
+            this.tabPageSettingsItems.TabIndex = 2;
+            this.tabPageSettingsItems.Text = "Items";
+            this.tabPageSettingsItems.UseVisualStyleBackColor = true;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -703,8 +902,14 @@
             this.tabConsole.ResumeLayout(false);
             this.tabMap.ResumeLayout(false);
             this.tabMap.PerformLayout();
+            this.tabSettings.ResumeLayout(false);
             this.grpMyPokemons.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataMyPokemons)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataItemSettings)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataPokemonSettings)).EndInit();
+            this.tabControlSettings.ResumeLayout(false);
+            this.tabPageSettingsPokemons.ResumeLayout(false);
+            this.tabPageSettingsItems.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -766,6 +971,25 @@
         private System.Windows.Forms.TextBox textCurrentLatLng;
         private System.Windows.Forms.Label label5;
         private GMap.NET.WindowsForms.GMapControl gMap;
+        private System.Windows.Forms.DataGridView dataItemSettings;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.TabControl tabControlSettings;
+        private System.Windows.Forms.TabPage tabPageSettingsGlobal;
+        private System.Windows.Forms.TabPage tabPageSettingsPokemons;
+        private System.Windows.Forms.DataGridView dataPokemonSettings;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column19;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column11;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column16;
+        private System.Windows.Forms.TabPage tabPageSettingsItems;
     }
 }
 
