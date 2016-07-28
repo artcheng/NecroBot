@@ -70,6 +70,15 @@ namespace PoGo.NecroBot.GUI
             }
         }
 
+        public void NewProfile(string username, string password, AuthType type, string path)
+        {
+            AuthType = type;
+            PtcUsername = username;
+            PtcPassword = password;
+
+            Save(path);
+        }
+
         public void Save(string path)
         {
             var output = JsonConvert.SerializeObject(this, Formatting.Indented,

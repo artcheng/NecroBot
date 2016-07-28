@@ -26,8 +26,15 @@ namespace PoGo.NecroBot.GUI
 
         private void GUILogin_Load(object sender, EventArgs e)
         {
+            UpdateCombo();
+        }
+
+        private void UpdateCombo()
+        {
+            cboProfiles.Items.Clear();
+            _profilesList.Clear();
             string profilesFolder = Directory.GetCurrentDirectory() + "\\config\\profiles\\";
-            
+
             if (Directory.Exists(profilesFolder))
             {
                 DirectoryInfo directory = new DirectoryInfo(profilesFolder);
@@ -71,6 +78,17 @@ namespace PoGo.NecroBot.GUI
              if (_close == false)
                 Environment.Exit(0);
             
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string profilesFolder = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\auth.json";
+            var newProfile = new AuthSettings();
+            newProfile.NewProfile(textUsername.Text, textPassword.Text, radioGoogle.Checked ? PokemonGo.RocketAPI.Enums.AuthType.Google : PokemonGo.RocketAPI.Enums.AuthType.Ptc, profilesFolder);
+            textUsername.Text = "";
+            textPassword.Text = "";
+            radioGoogle.Checked = true;
+            UpdateCombo();
         }
     }
 }
