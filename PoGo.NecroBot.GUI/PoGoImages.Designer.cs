@@ -63,6 +63,16 @@ namespace PoGo.NecroBot.GUI {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap evolve {
+            get {
+                object obj = ResourceManager.GetObject("evolve", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap instinct {
             get {
                 object obj = ResourceManager.GetObject("instinct", resourceCulture);
@@ -1846,6 +1856,16 @@ namespace PoGo.NecroBot.GUI {
         internal static System.Drawing.Bitmap pokestop_lured {
             get {
                 object obj = ResourceManager.GetObject("pokestop_lured", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap transfer {
+            get {
+                object obj = ResourceManager.GetObject("transfer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

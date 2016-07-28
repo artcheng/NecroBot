@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridConsole = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,6 +74,8 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Move1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Move2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -98,14 +100,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridConsole.GridColor = System.Drawing.Color.Black;
             this.dataGridConsole.Location = new System.Drawing.Point(3, 3);
@@ -477,7 +479,9 @@
             this.dataGridViewTextBoxColumn5,
             this.dataGridViewTextBoxColumn6,
             this.Move1,
-            this.Move2});
+            this.Move2,
+            this.Column10,
+            this.Column7});
             this.dataMyPokemons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataMyPokemons.Location = new System.Drawing.Point(3, 16);
             this.dataMyPokemons.Name = "dataMyPokemons";
@@ -486,6 +490,7 @@
             this.dataMyPokemons.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataMyPokemons.Size = new System.Drawing.Size(996, 175);
             this.dataMyPokemons.TabIndex = 11;
+            this.dataMyPokemons.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataMyPokemons_CellContentClick);
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -542,6 +547,18 @@
             // 
             this.Move2.HeaderText = "Move2";
             this.Move2.Name = "Move2";
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Evolve";
+            this.Column10.Name = "Column10";
+            this.Column10.Width = 60;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Transfer";
+            this.Column7.Name = "Column7";
+            this.Column7.Width = 60;
             // 
             // GUI
             // 
@@ -617,6 +634,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Move1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Move2;
+        private System.Windows.Forms.DataGridViewImageColumn Column10;
+        private System.Windows.Forms.DataGridViewImageColumn Column7;
     }
 }
 

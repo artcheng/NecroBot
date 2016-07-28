@@ -48,7 +48,8 @@ namespace GUI.Utils
 
         public void AddPokemon(PokemonData pokemon)
         {
-            if (_pokemons.TryGetValue(pokemon.Id,out pokemon) == false)
+            PokemonData pokeData;
+            if (_pokemons.TryGetValue(pokemon.Id,out pokeData) == false)
                 _pokemons.Add(pokemon.Id, pokemon);
         }
 

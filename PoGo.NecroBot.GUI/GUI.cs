@@ -21,6 +21,7 @@ using PoGo.NecroBot.Logic.PoGoUtils;
 using GUI.Utils;
 using PoGo.NecroBot.Logic.Event;
 using System.IO;
+using POGOProtos.Data;
 
 namespace PoGo.NecroBot.GUI
 {
@@ -31,6 +32,9 @@ namespace PoGo.NecroBot.GUI
         private static GUIStats _guiStats = new GUIStats();
         private static GUIItems _guiItems = new GUIItems();
         private static GUIPokemons _guiPokemons = new GUIPokemons();
+        private static Context _ctx;
+        private static StateMachine _machine;
+
 
         private static Dictionary<string, Bitmap> _imagesList = new Dictionary<string, Bitmap>();
 
@@ -61,7 +65,7 @@ namespace PoGo.NecroBot.GUI
 
             var settings = GlobalSettings.Load(profilePath);
 
-            var machine = new StateMachine();
+            _machine = new StateMachine();
             _guiItems.DirtyEvent += () => UpdateMyItems();
             _guiPokemons.DirtyEvent += () => UpdateMyPokemons();
 
@@ -70,21 +74,21 @@ namespace PoGo.NecroBot.GUI
             var itemsAggregator = new GUIItemsAggregator(_guiItems);
             var pokemonsAggregator = new GUIPokemonsAggregator(_guiPokemons);
 
-            machine.EventListener += listener.Listen;
-            machine.EventListener += statsAggregator.Listen;
-            machine.EventListener += itemsAggregator.Listen;
-            machine.EventListener += pokemonsAggregator.Listen;
+            _machine.EventListener += listener.Listen;
+            _machine.EventListener += statsAggregator.Listen;
+            _machine.EventListener += itemsAggregator.Listen;
+            _machine.EventListener += pokemonsAggregator.Listen;
 
-            machine.SetFailureState(new LoginState());
+            _machine.SetFailureState(new LoginState());
 
-            var context = new Context(new ClientSettings(settings), new LogicSettings(settings));
+            _ctx = new Context(new ClientSettings(settings), new LogicSettings(settings));
 
-            context.Navigation.UpdatePositionEvent +=
-                (lat, lng) => machine.Fire(new UpdatePositionEvent { Latitude = lat, Longitude = lng });
+            _ctx.Navigation.UpdatePositionEvent +=
+                (lat, lng) => _machine.Fire(new UpdatePositionEvent { Latitude = lat, Longitude = lng });
 
-            context.Client.Login.GoogleDeviceCodeEvent += LoginWithGoogle;
+            _ctx.Client.Login.GoogleDeviceCodeEvent += LoginWithGoogle;
 
-            machine.AsyncStart(new VersionCheckState(), context);
+            _machine.AsyncStart(new VersionCheckState(), _ctx);
 
             _exphrUpdater = new System.Windows.Forms.Timer();
             _exphrUpdater.Interval = 1000;
@@ -189,11 +193,15 @@ namespace PoGo.NecroBot.GUI
             {
                 if (currentPokemonList.Where(p => (ulong)p.Cells[0].Value == pokemon.Value.Id).Count() == 0)
                 {
+                    Bitmap evolve = new Bitmap(40, 30);
+                    _imagesList.TryGetValue("evolve", out evolve);
+                    Bitmap transfer = new Bitmap(40, 30);
+                    _imagesList.TryGetValue("transfer", out transfer);
                     Bitmap bmp = new Bitmap(40, 30);
                     if (_imagesList.TryGetValue("pokemon_" + ((int)pokemon.Value.PokemonId).ToString(), out bmp))
-                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, bmp, pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString())));
+                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, bmp, pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), evolve, transfer)));
                     else
-                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, new Bitmap(40, 30), pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString())));
+                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, new Bitmap(40, 30), pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), evolve, transfer)));
                 }
             }
 
@@ -259,6 +267,70 @@ namespace PoGo.NecroBot.GUI
                     DataGridViewRow row = currentCandyList.Where(p => (PokemonFamilyId)p.Cells[0].Value == candy.Key).FirstOrDefault();
                     if (row != null)
                         dataMyCandies.Invoke(new Action(() => dataMyCandies[2, row.Index].Value = candy.Value));
+                }
+            }
+        }
+
+        private async void dataMyPokemons_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewImageColumn && 
+                e.RowIndex >= 0)
+            {
+                ulong pokemonId = (ulong)dataMyPokemons.Rows[dataMyPokemons.CurrentCell.RowIndex].Cells[0].Value;
+                PokemonData selectedPokemon = _guiPokemons._pokemons[pokemonId];
+
+                switch (e.ColumnIndex)
+                {
+                    case 9:
+                        // Evolve
+                        var evolveResponse = await _ctx.Client.Inventory.EvolvePokemon(selectedPokemon.Id);
+
+                        _machine.Fire(new PokemonEvolveEvent
+                        {
+                            Id = selectedPokemon.PokemonId,
+                            Exp = evolveResponse.ExperienceAwarded,
+                            Result = evolveResponse.Result
+                        });
+                        if(evolveResponse.Result == POGOProtos.Networking.Responses.EvolvePokemonResponse.Types.Result.Success)
+                        {
+                            _guiPokemons.RemovePokemon(selectedPokemon.Id);
+                            _guiPokemons.AddPokemon(evolveResponse.EvolvedPokemonData);
+                            UpdateMyPokemons();
+                        }
+  
+                        break;
+
+                    case 10:
+                        // Transfer
+                        await _ctx.Client.Inventory.TransferPokemon(selectedPokemon.Id);
+                        await _ctx.Inventory.DeletePokemonFromInvById(selectedPokemon.Id);
+
+                        var pokemonSettings = await _ctx.Inventory.GetPokemonSettings();
+                        var pokemonFamilies = await _ctx.Inventory.GetPokemonFamilies();
+
+                        var bestPokemonOfType = (_ctx.LogicSettings.PrioritizeIvOverCp
+                            ? await _ctx.Inventory.GetHighestPokemonOfTypeByIv(selectedPokemon)
+                            : await _ctx.Inventory.GetHighestPokemonOfTypeByCp(selectedPokemon)) ?? selectedPokemon;
+
+                        var setting = pokemonSettings.Single(q => q.PokemonId == selectedPokemon.PokemonId);
+                        var family = pokemonFamilies.First(q => q.FamilyId == setting.FamilyId);
+
+                        family.Candy++;
+
+                        _machine.Fire(new TransferPokemonEvent
+                        {
+                            Id = selectedPokemon.PokemonId,
+                            Perfection = PokemonInfo.CalculatePokemonPerfection(selectedPokemon),
+                            Cp = selectedPokemon.Cp,
+                            BestCp = bestPokemonOfType.Cp,
+                            BestPerfection = PokemonInfo.CalculatePokemonPerfection(bestPokemonOfType),
+                            FamilyCandies = family.Candy
+                        });
+                        _guiPokemons.RemovePokemon(pokemonId);
+                        UpdateMyPokemons();
+                        break;
                 }
             }
         }
