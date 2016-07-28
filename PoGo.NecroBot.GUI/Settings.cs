@@ -247,8 +247,10 @@ namespace PoGo.NecroBot.GUI
         public static GlobalSettings Load(string path)
         {
             GlobalSettings settings;
-            var profilePath = Path.Combine(Directory.GetCurrentDirectory(), path);
-            var configPath = Path.Combine(profilePath, "config");
+            //var profilePath = Path.Combine(Directory.GetCurrentDirectory(), path);
+            //var configPath = Path.Combine(profilePath, "config");
+            var profilePath = path;
+            var configPath = path;
             var fullPath = Path.Combine(configPath, "config.json");
 
             if (File.Exists(fullPath))

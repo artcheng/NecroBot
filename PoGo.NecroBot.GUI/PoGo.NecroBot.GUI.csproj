@@ -64,8 +64,20 @@
     <Compile Include="GUIEventListener.cs" />
     <Compile Include="GUIItemsAggregator.cs" />
     <Compile Include="GUILogger.cs" />
+    <Compile Include="GUILogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUILogin.Designer.cs">
+      <DependentUpon>GUILogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUIPokemonsAggregator.cs" />
     <Compile Include="GUIStatsAggregator.cs" />
+    <Compile Include="MDI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MDI.Designer.cs">
+      <DependentUpon>MDI.cs</DependentUpon>
+    </Compile>
     <Compile Include="PoGoImages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -80,6 +92,12 @@
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUILogin.resx">
+      <DependentUpon>GUILogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MDI.resx">
+      <DependentUpon>MDI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PoGoImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PoGoImages.Designer.cs</LastGenOutput>
@@ -93,6 +111,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -655,6 +674,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Valor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MDIWindowManager.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

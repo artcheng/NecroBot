@@ -43,12 +43,22 @@ namespace PoGo.NecroBot.GUI
         {
             InitImageList();
 
-            //return;
             var subPath = "";
+            var profilePath = "";
+
+            GUILogin loadProfile = new GUILogin();
+            var result = loadProfile.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                profilePath = loadProfile.ProfileFolder;
+                subPath = "\\config\\profiles\\" + loadProfile.ProfileName;
+            }
+            //return;
+            
 
             Logger.SetLogger(new GUILogger(LogLevel.Info, this), subPath);
 
-            var settings = GlobalSettings.Load(subPath);
+            var settings = GlobalSettings.Load(profilePath);
 
             var machine = new StateMachine();
             _guiItems.DirtyEvent += () => UpdateMyItems();
