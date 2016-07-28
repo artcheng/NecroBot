@@ -64,6 +64,7 @@ namespace PoGo.NecroBot.GUI
             Logger.SetLogger(new GUILogger(LogLevel.Info, this), subPath);
 
             var settings = GlobalSettings.Load(profilePath);
+            settings.AutoUpdate = false;
 
             _machine = new StateMachine();
             _guiItems.DirtyEvent += () => UpdateMyItems();
