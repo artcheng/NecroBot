@@ -37,7 +37,8 @@ namespace PoGo.NecroBot.GUI
         public void HandleEvent(UpdatePositionEvent evt, Context ctx)
         {
             _guiLiveMap.SetPosition(new PointLatLng(evt.Latitude, evt.Longitude));
-            _guiLiveMap.Dirty(ctx.Client);
+            _guiLiveMap.UpdateMapObjects(ctx);
+            _guiLiveMap.Dirty(ctx);
         }
 
         public void Listen(IEvent evt, Context ctx)

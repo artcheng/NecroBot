@@ -48,8 +48,6 @@ namespace PoGo.NecroBot.GUI
             else
             {
                 Directory.CreateDirectory(profilesFolder);
-                MessageBox.Show("Move your profiles in seperate folder under " + profilesFolder);
-                Environment.Exit(0);
             }
         }
 
