@@ -13,7 +13,7 @@ namespace PoGo.NecroBot.GUI
     {
         private readonly LogLevel _maxLogLevel;
         private readonly GUI _GUI;
-        private Session _session;
+        private ISession _session;
 
         /// <summary>
         ///     To create a ConsoleLogger, we must define a maximum log level.
@@ -87,7 +87,7 @@ namespace PoGo.NecroBot.GUI
             _GUI.UpdateLog(level, message, messageColor);
         }
 
-        public void SetContext(Session session)
+        public void SetSession(ISession session)
         {
             _session = session;
         }

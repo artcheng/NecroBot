@@ -113,7 +113,7 @@ namespace PoGo.NecroBot.GUI
             _session.Navigation.UpdatePositionEvent +=
                 (lat, lng) => _session.EventDispatcher.Send(new UpdatePositionEvent { Latitude = lat, Longitude = lng });
 
-            _session.Client.Login.GoogleDeviceCodeEvent += LoginWithGoogle;
+            //_session.Client.Login.GoogleDeviceCodeEvent += LoginWithGoogle;
 
             _machine.AsyncStart(new VersionCheckState(), _session);
 
@@ -489,32 +489,33 @@ namespace PoGo.NecroBot.GUI
             // GlobalSettings
             globalSettingsControl.SetSetting("AmountOfPokemonToDisplayOnStart", _session.LogicSettings.AmountOfPokemonToDisplayOnStart.ToString());
             globalSettingsControl.SetSetting("AutoUpdate", _session.LogicSettings.AutoUpdate.ToString());
-            globalSettingsControl.SetSetting("ConfigPath", _session.LogicSettings.ConfigPath);
             globalSettingsControl.SetSetting("DefaultAltitude", _session.Settings.DefaultAltitude.ToString(".0"));
             globalSettingsControl.SetSetting("DefaultLatitude", _session.Settings.DefaultLatitude.ToString());
             globalSettingsControl.SetSetting("DefaultLongitude", _session.Settings.DefaultLongitude.ToString());
             globalSettingsControl.SetSetting("DelayBetweenPokemonCatch", _session.LogicSettings.DelayBetweenPokemonCatch.ToString());
+            globalSettingsControl.SetSetting("DelayBetweenPlayerActions", _session.LogicSettings.DelayBetweenPlayerActions.ToString());
             globalSettingsControl.SetSetting("EvolveAboveIvValue", _session.LogicSettings.EvolveAboveIvValue.ToString(".0"));
             globalSettingsControl.SetSetting("EvolveAllPokemonAboveIv", _session.LogicSettings.EvolveAllPokemonAboveIv.ToString());
             globalSettingsControl.SetSetting("EvolveAllPokemonWithEnoughCandy", _session.LogicSettings.EvolveAllPokemonWithEnoughCandy.ToString());
+            globalSettingsControl.SetSetting("UseLuckyEggsMinPokemonAmount", _session.LogicSettings.UseLuckyEggsMinPokemonAmount.ToString());
+            globalSettingsControl.SetSetting("UseLuckyEggsWhileEvolving", _session.LogicSettings.UseLuckyEggsWhileEvolving.ToString());
+            globalSettingsControl.SetSetting("UseEggIncubators", _session.LogicSettings.UseEggIncubators.ToString());
+            globalSettingsControl.SetSetting("DumpPokemonStats", _session.LogicSettings.DumpPokemonStats.ToString());
             globalSettingsControl.SetSetting("GpxFile", _session.LogicSettings.GpxFile);
+            globalSettingsControl.SetSetting("UseGpxPathing", _session.LogicSettings.UseGpxPathing.ToString());
+            globalSettingsControl.SetSetting("WalkingSpeedInKilometerPerHour", _session.LogicSettings.WalkingSpeedInKilometerPerHour.ToString(".0"));
+            globalSettingsControl.SetSetting("MaxTravelDistanceInMeters", _session.LogicSettings.MaxTravelDistanceInMeters.ToString());
             globalSettingsControl.SetSetting("KeepMinCp", _session.LogicSettings.KeepMinCp.ToString());
             globalSettingsControl.SetSetting("KeepMinDuplicatePokemon", _session.LogicSettings.KeepMinDuplicatePokemon.ToString());
             globalSettingsControl.SetSetting("KeepMinIvPercentage", _session.LogicSettings.KeepMinIvPercentage.ToString());
             globalSettingsControl.SetSetting("KeepPokemonsThatCanEvolve", _session.LogicSettings.KeepPokemonsThatCanEvolve.ToString());
-            globalSettingsControl.SetSetting("MaxTravelDistanceInMeters", _session.LogicSettings.MaxTravelDistanceInMeters.ToString());
             globalSettingsControl.SetSetting("PrioritizeIvOverCp", _session.LogicSettings.PrioritizeIvOverCp.ToString());
-            globalSettingsControl.SetSetting("ProfilePath", _session.LogicSettings.ProfilePath);
             globalSettingsControl.SetSetting("RenameAboveIv", _session.LogicSettings.RenameAboveIv.ToString());
             globalSettingsControl.SetSetting("TransferDuplicatePokemon", _session.LogicSettings.TransferDuplicatePokemon.ToString());
             globalSettingsControl.SetSetting("TranslationLanguageCode", _session.LogicSettings.TranslationLanguageCode);
-            globalSettingsControl.SetSetting("UseEggIncubators", _session.LogicSettings.UseEggIncubators.ToString());
-            globalSettingsControl.SetSetting("UseGpxPathing", _session.LogicSettings.UseGpxPathing.ToString());
-            globalSettingsControl.SetSetting("UseLuckyEggsMinPokemonAmount", _session.LogicSettings.UseLuckyEggsMinPokemonAmount.ToString());
-            globalSettingsControl.SetSetting("UseLuckyEggsWhileEvolving", _session.LogicSettings.UseLuckyEggsWhileEvolving.ToString());
             globalSettingsControl.SetSetting("UsePokemonToNotCatchFilter", _session.LogicSettings.UsePokemonToNotCatchFilter.ToString());
-            globalSettingsControl.SetSetting("WalkingSpeedInKilometerPerHour", _session.LogicSettings.WalkingSpeedInKilometerPerHour.ToString(".0"));
             //globalSettingsControl.SetSetting("WebSocketPort", _session.Settings.We.ToString());
+            //globalSettingsControl.SetSetting("StartupWelcomeDelay", _session.SettingsStartupWelcomeDelay.ToString());
 
             // Pokemon settings
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
@@ -571,33 +572,32 @@ namespace PoGo.NecroBot.GUI
             try
             {
                 _settings.AmountOfPokemonToDisplayOnStart = Convert.ToInt16(globalSettingsControl.GetSetting("AmountOfPokemonToDisplayOnStart"));
-
                 _settings.AutoUpdate = Convert.ToBoolean(globalSettingsControl.GetSetting("AutoUpdate"));
-                _settings.ConfigPath = globalSettingsControl.GetSetting("ConfigPath");
                 _settings.DefaultAltitude = Convert.ToDouble(globalSettingsControl.GetSetting("DefaultAltitude"));
                 _settings.DefaultLatitude = Convert.ToDouble(globalSettingsControl.GetSetting("DefaultLatitude"));
                 _settings.DefaultLongitude = Convert.ToDouble(globalSettingsControl.GetSetting("DefaultLongitude"));
                 _settings.DelayBetweenPokemonCatch = Convert.ToInt16(globalSettingsControl.GetSetting("DelayBetweenPokemonCatch"));
+                _settings.DelayBetweenPlayerActions = Convert.ToInt16(globalSettingsControl.GetSetting("DelayBetweenPlayerActions"));
                 _settings.EvolveAboveIvValue = Convert.ToSingle(globalSettingsControl.GetSetting("EvolveAboveIvValue"));
                 _settings.EvolveAllPokemonAboveIv = Convert.ToBoolean(globalSettingsControl.GetSetting("EvolveAllPokemonAboveIv"));
                 _settings.EvolveAllPokemonWithEnoughCandy = Convert.ToBoolean(globalSettingsControl.GetSetting("EvolveAllPokemonWithEnoughCandy"));
+                _settings.UseLuckyEggsMinPokemonAmount = Convert.ToInt16(globalSettingsControl.GetSetting("UseLuckyEggsMinPokemonAmount"));
+                _settings.UseLuckyEggsWhileEvolving = Convert.ToBoolean(globalSettingsControl.GetSetting("UseLuckyEggsWhileEvolving"));
+                _settings.UseEggIncubators = Convert.ToBoolean(globalSettingsControl.GetSetting("UseEggIncubators"));
+                _settings.DumpPokemonStats = Convert.ToBoolean(globalSettingsControl.GetSetting("DumpPokemonStats"));
                 _settings.GpxFile = globalSettingsControl.GetSetting("GpxFile");
+                _settings.UseGpxPathing = Convert.ToBoolean(globalSettingsControl.GetSetting("UseGpxPathing"));
+                _settings.WalkingSpeedInKilometerPerHour = Convert.ToDouble(globalSettingsControl.GetSetting("WalkingSpeedInKilometerPerHour"));
+                _settings.MaxTravelDistanceInMeters = Convert.ToInt16(globalSettingsControl.GetSetting("MaxTravelDistanceInMeters"));
                 _settings.KeepMinCp = Convert.ToInt16(globalSettingsControl.GetSetting("KeepMinCp"));
                 _settings.KeepMinDuplicatePokemon = Convert.ToInt16(globalSettingsControl.GetSetting("KeepMinDuplicatePokemon"));
                 _settings.KeepMinIvPercentage = Convert.ToSingle(globalSettingsControl.GetSetting("KeepMinIvPercentage"));
                 _settings.KeepPokemonsThatCanEvolve = Convert.ToBoolean(globalSettingsControl.GetSetting("KeepPokemonsThatCanEvolve"));
-                _settings.MaxTravelDistanceInMeters = Convert.ToInt16(globalSettingsControl.GetSetting("MaxTravelDistanceInMeters"));
                 _settings.PrioritizeIvOverCp = Convert.ToBoolean(globalSettingsControl.GetSetting("PrioritizeIvOverCp"));
-                _settings.ProfilePath = globalSettingsControl.GetSetting("ProfilePath");
                 _settings.RenameAboveIv = Convert.ToBoolean(globalSettingsControl.GetSetting("RenameAboveIv"));
                 _settings.TransferDuplicatePokemon = Convert.ToBoolean(globalSettingsControl.GetSetting("TransferDuplicatePokemon"));
                 _settings.TranslationLanguageCode = globalSettingsControl.GetSetting("TranslationLanguageCode");
-                _settings.UseEggIncubators = Convert.ToBoolean(globalSettingsControl.GetSetting("UseEggIncubators"));
-                _settings.UseGpxPathing = Convert.ToBoolean(globalSettingsControl.GetSetting("UseGpxPathing"));
-                _settings.UseLuckyEggsMinPokemonAmount = Convert.ToInt16(globalSettingsControl.GetSetting("UseLuckyEggsMinPokemonAmount"));
-                _settings.UseLuckyEggsWhileEvolving = Convert.ToBoolean(globalSettingsControl.GetSetting("UseLuckyEggsWhileEvolving"));
                 _settings.UsePokemonToNotCatchFilter = Convert.ToBoolean(globalSettingsControl.GetSetting("UsePokemonToNotCatchFilter"));
-                _settings.WalkingSpeedInKilometerPerHour = Convert.ToDouble(globalSettingsControl.GetSetting("WalkingSpeedInKilometerPerHour"));
 
                 List<PokemonId> PokemonsNotToTransfer = new List<PokemonId>();
                 List<PokemonId> PokemonsToEvolve = new List<PokemonId>();
