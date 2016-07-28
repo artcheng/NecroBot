@@ -279,7 +279,7 @@ namespace PoGo.NecroBot.GUI
             }
 
             //dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Sort(dataMyPokemons.Columns[2], ListSortDirection.Ascending)));
-            grpMyPokemons.Invoke(new Action(() => grpMyPokemons.Text = "Pokemons (" + _guiPokemons._pokemons.Count().ToString() + "/" + _guiStats._playerMaxPokemonSpace.ToString() + ")"));
+            tabMyPokemons.Invoke(new Action(() => tabMyPokemons.Text = "Pokemons (" + _guiPokemons._pokemons.Count().ToString() + "/" + _guiStats._playerMaxPokemonSpace.ToString() + ")"));
         }
 
         private void UpdateMyItems()

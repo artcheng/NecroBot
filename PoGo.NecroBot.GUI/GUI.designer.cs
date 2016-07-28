@@ -35,6 +35,7 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.grpPlayer = new System.Windows.Forms.GroupBox();
+            this.cmdStart = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textPlayerPokecoins = new System.Windows.Forms.TextBox();
             this.labelPlayerPokeHr = new System.Windows.Forms.Label();
@@ -59,8 +60,7 @@
             this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabControlMapSettings = new System.Windows.Forms.TabControl();
-            this.tabConsole = new System.Windows.Forms.TabPage();
+            this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabMap = new System.Windows.Forms.TabPage();
             this.checkShowPath = new System.Windows.Forms.CheckBox();
             this.checkShowPokegyms = new System.Windows.Forms.CheckBox();
@@ -90,7 +90,6 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.grpMyPokemons = new System.Windows.Forms.GroupBox();
             this.dataMyPokemons = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -104,8 +103,8 @@
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.cmdStart = new System.Windows.Forms.Button();
             this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
+            this.tabMyPokemons = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -114,8 +113,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataMyItems)).BeginInit();
             this.tabCandies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataMyCandies)).BeginInit();
-            this.tabControlMapSettings.SuspendLayout();
-            this.tabConsole.SuspendLayout();
+            this.tabControlMain.SuspendLayout();
             this.tabMap.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.tabControlSettings.SuspendLayout();
@@ -124,8 +122,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataPokemonSettings)).BeginInit();
             this.tabPageSettingsItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataItemSettings)).BeginInit();
-            this.grpMyPokemons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataMyPokemons)).BeginInit();
+            this.tabMyPokemons.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridConsole
@@ -138,6 +136,7 @@
             this.Column1,
             this.Column2,
             this.Column3});
+            this.tableLayoutPanel1.SetColumnSpan(this.dataGridConsole, 2);
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -148,7 +147,7 @@
             this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridConsole.GridColor = System.Drawing.Color.Black;
-            this.dataGridConsole.Location = new System.Drawing.Point(3, 3);
+            this.dataGridConsole.Location = new System.Drawing.Point(3, 532);
             this.dataGridConsole.Name = "dataGridConsole";
             this.dataGridConsole.ReadOnly = true;
             this.dataGridConsole.RowHeadersVisible = false;
@@ -157,7 +156,7 @@
             this.dataGridConsole.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
             this.dataGridConsole.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dataGridConsole.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridConsole.Size = new System.Drawing.Size(688, 491);
+            this.dataGridConsole.Size = new System.Drawing.Size(1002, 194);
             this.dataGridConsole.TabIndex = 0;
             // 
             // Column1
@@ -186,10 +185,10 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.dataGridConsole, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.grpPlayer, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tabControlInventory, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tabControlMapSettings, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.grpMyPokemons, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.tabControlMain, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -222,6 +221,16 @@
             this.grpPlayer.TabIndex = 1;
             this.grpPlayer.TabStop = false;
             this.grpPlayer.Text = "Player";
+            // 
+            // cmdStart
+            // 
+            this.cmdStart.Image = global::PoGo.NecroBot.GUI.PoGoImages.play;
+            this.cmdStart.Location = new System.Drawing.Point(223, 15);
+            this.cmdStart.Name = "cmdStart";
+            this.cmdStart.Size = new System.Drawing.Size(65, 46);
+            this.cmdStart.TabIndex = 1;
+            this.cmdStart.UseVisualStyleBackColor = true;
+            this.cmdStart.Click += new System.EventHandler(this.cmdStart_Click);
             // 
             // label4
             // 
@@ -448,29 +457,18 @@
             this.Column14.Name = "Column14";
             this.Column14.ReadOnly = true;
             // 
-            // tabControlMapSettings
+            // tabControlMain
             // 
-            this.tabControlMapSettings.Controls.Add(this.tabConsole);
-            this.tabControlMapSettings.Controls.Add(this.tabMap);
-            this.tabControlMapSettings.Controls.Add(this.tabSettings);
-            this.tabControlMapSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlMapSettings.Location = new System.Drawing.Point(303, 3);
-            this.tabControlMapSettings.Name = "tabControlMapSettings";
-            this.tableLayoutPanel1.SetRowSpan(this.tabControlMapSettings, 2);
-            this.tabControlMapSettings.SelectedIndex = 0;
-            this.tabControlMapSettings.Size = new System.Drawing.Size(702, 523);
-            this.tabControlMapSettings.TabIndex = 1;
-            // 
-            // tabConsole
-            // 
-            this.tabConsole.Controls.Add(this.dataGridConsole);
-            this.tabConsole.Location = new System.Drawing.Point(4, 22);
-            this.tabConsole.Name = "tabConsole";
-            this.tabConsole.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConsole.Size = new System.Drawing.Size(694, 497);
-            this.tabConsole.TabIndex = 2;
-            this.tabConsole.Text = "Console";
-            this.tabConsole.UseVisualStyleBackColor = true;
+            this.tabControlMain.Controls.Add(this.tabMyPokemons);
+            this.tabControlMain.Controls.Add(this.tabMap);
+            this.tabControlMain.Controls.Add(this.tabSettings);
+            this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlMain.Location = new System.Drawing.Point(303, 3);
+            this.tabControlMain.Name = "tabControlMain";
+            this.tableLayoutPanel1.SetRowSpan(this.tabControlMain, 2);
+            this.tabControlMain.SelectedIndex = 0;
+            this.tabControlMain.Size = new System.Drawing.Size(702, 523);
+            this.tabControlMain.TabIndex = 1;
             // 
             // tabMap
             // 
@@ -782,18 +780,6 @@
             this.dataGridViewTextBoxColumn9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn9.Width = 75;
             // 
-            // grpMyPokemons
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.grpMyPokemons, 2);
-            this.grpMyPokemons.Controls.Add(this.dataMyPokemons);
-            this.grpMyPokemons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpMyPokemons.Location = new System.Drawing.Point(3, 532);
-            this.grpMyPokemons.Name = "grpMyPokemons";
-            this.grpMyPokemons.Size = new System.Drawing.Size(1002, 194);
-            this.grpMyPokemons.TabIndex = 4;
-            this.grpMyPokemons.TabStop = false;
-            this.grpMyPokemons.Text = "Pokemons (0/250)";
-            // 
             // dataMyPokemons
             // 
             this.dataMyPokemons.AllowUserToAddRows = false;
@@ -813,12 +799,12 @@
             this.Column10,
             this.Column7});
             this.dataMyPokemons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataMyPokemons.Location = new System.Drawing.Point(3, 16);
+            this.dataMyPokemons.Location = new System.Drawing.Point(3, 3);
             this.dataMyPokemons.Name = "dataMyPokemons";
             this.dataMyPokemons.RowHeadersWidth = 10;
             this.dataMyPokemons.RowTemplate.Height = 40;
             this.dataMyPokemons.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataMyPokemons.Size = new System.Drawing.Size(996, 175);
+            this.dataMyPokemons.Size = new System.Drawing.Size(688, 491);
             this.dataMyPokemons.TabIndex = 11;
             this.dataMyPokemons.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataMyPokemons_CellContentClick);
             // 
@@ -899,16 +885,6 @@
             this.Column7.Name = "Column7";
             this.Column7.Width = 60;
             // 
-            // cmdStart
-            // 
-            this.cmdStart.Image = global::PoGo.NecroBot.GUI.PoGoImages.play;
-            this.cmdStart.Location = new System.Drawing.Point(223, 15);
-            this.cmdStart.Name = "cmdStart";
-            this.cmdStart.Size = new System.Drawing.Size(65, 46);
-            this.cmdStart.TabIndex = 1;
-            this.cmdStart.UseVisualStyleBackColor = true;
-            this.cmdStart.Click += new System.EventHandler(this.cmdStart_Click);
-            // 
             // globalSettingsControl
             // 
             this.globalSettingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -919,6 +895,17 @@
             this.globalSettingsControl.Name = "globalSettingsControl";
             this.globalSettingsControl.Size = new System.Drawing.Size(674, 459);
             this.globalSettingsControl.TabIndex = 36;
+            // 
+            // tabMyPokemons
+            // 
+            this.tabMyPokemons.Controls.Add(this.dataMyPokemons);
+            this.tabMyPokemons.Location = new System.Drawing.Point(4, 22);
+            this.tabMyPokemons.Name = "tabMyPokemons";
+            this.tabMyPokemons.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMyPokemons.Size = new System.Drawing.Size(694, 497);
+            this.tabMyPokemons.TabIndex = 3;
+            this.tabMyPokemons.Text = "Pokemons (0/250)";
+            this.tabMyPokemons.UseVisualStyleBackColor = true;
             // 
             // GUI
             // 
@@ -939,8 +926,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataMyItems)).EndInit();
             this.tabCandies.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataMyCandies)).EndInit();
-            this.tabControlMapSettings.ResumeLayout(false);
-            this.tabConsole.ResumeLayout(false);
+            this.tabControlMain.ResumeLayout(false);
             this.tabMap.ResumeLayout(false);
             this.tabMap.PerformLayout();
             this.tabSettings.ResumeLayout(false);
@@ -950,8 +936,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataPokemonSettings)).EndInit();
             this.tabPageSettingsItems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataItemSettings)).EndInit();
-            this.grpMyPokemons.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataMyPokemons)).EndInit();
+            this.tabMyPokemons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -976,13 +962,11 @@
         private System.Windows.Forms.TabControl tabControlInventory;
         private System.Windows.Forms.TabPage tabItems;
         private System.Windows.Forms.TabPage tabCandies;
-        private System.Windows.Forms.TabControl tabControlMapSettings;
+        private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabMap;
         private System.Windows.Forms.TabPage tabSettings;
-        private System.Windows.Forms.TabPage tabConsole;
         private System.Windows.Forms.DataGridView dataMyItems;
         private System.Windows.Forms.DataGridView dataMyCandies;
-        private System.Windows.Forms.GroupBox grpMyPokemons;
         private System.Windows.Forms.DataGridView dataMyPokemons;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
@@ -1035,6 +1019,7 @@
         private GlobalSettingsControl globalSettingsControl;
         private System.Windows.Forms.Button cmdSaveSettings;
         private System.Windows.Forms.Button cmdStart;
+        private System.Windows.Forms.TabPage tabMyPokemons;
     }
 }
 
