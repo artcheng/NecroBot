@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PoGo.NecroBot.CLI;
 
 namespace PoGo.NecroBot.GUI
 {

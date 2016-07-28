@@ -22,102 +22,102 @@ namespace PoGo.NecroBot.GUI
             _guiItems = items;
         }
 
-        public void HandleEvent(ProfileEvent evt, Context ctx)
+        public void HandleEvent(ProfileEvent evt, Session session)
         {
-            _guiItems.SetItems(ctx.Inventory);
-            _guiItems.Dirty(ctx.Inventory);
+            _guiItems.SetItems(session.Inventory);
+            _guiItems.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(ErrorEvent evt, Context ctx)
-        {
-        }
-
-        public void HandleEvent(NoticeEvent evt, Context ctx)
+        public void HandleEvent(ErrorEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(WarnEvent evt, Context ctx)
+        public void HandleEvent(NoticeEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(UseLuckyEggEvent evt, Context ctx)
+        public void HandleEvent(WarnEvent evt, Session session)
+        {
+        }
+
+        public void HandleEvent(UseLuckyEggEvent evt, Session session)
         {
             _guiItems.UpdateItemByValue(ItemId.ItemLuckyEgg, -1);
-            _guiItems.Dirty(ctx.Inventory);
+            _guiItems.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(PokemonEvolveEvent evt, Context ctx)
+        public void HandleEvent(PokemonEvolveEvent evt, Session session)
         {
-            _guiItems.Dirty(ctx.Inventory);
+            _guiItems.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(TransferPokemonEvent evt, Context ctx)
+        public void HandleEvent(TransferPokemonEvent evt, Session session)
         {
-            _guiItems.UpdateCandyByValue(evt.Id, evt.FamilyCandies, ctx);
-            _guiItems.Dirty(ctx.Inventory);
+            _guiItems.UpdateCandyByValue(evt.Id, evt.FamilyCandies, session);
+            _guiItems.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(ItemRecycledEvent evt, Context ctx)
+        public void HandleEvent(ItemRecycledEvent evt, Session session)
         {
             _guiItems.UpdateItemByValue(evt.Id, evt.Count*-1);
-            _guiItems.Dirty(ctx.Inventory);
+            _guiItems.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(EggIncubatorStatusEvent evt, Context ctx)
+        public void HandleEvent(EggIncubatorStatusEvent evt, Session session)
         {
   
         }
 
-        public void HandleEvent(FortUsedEvent evt, Context ctx)
+        public void HandleEvent(FortUsedEvent evt, Session session)
         {
             _guiItems.UpdateItemByItemsString(evt.Items);
-            _guiItems.Dirty(ctx.Inventory);
+            _guiItems.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(FortFailedEvent evt, Context ctx)
+        public void HandleEvent(FortFailedEvent evt, Session session)
         {
 
         }
 
-        public void HandleEvent(FortTargetEvent evt, Context ctx)
+        public void HandleEvent(FortTargetEvent evt, Session session)
         {
 
         }
 
-        public void HandleEvent(PokemonCaptureEvent evt, Context ctx)
+        public void HandleEvent(PokemonCaptureEvent evt, Session session)
         {
             _guiItems.UpdateItemByValue(evt.Pokeball, -1);
-            _guiItems.UpdateCandyByValue(evt.Id, evt.FamilyCandies, ctx);
-            _guiItems.Dirty(ctx.Inventory);
+            _guiItems.UpdateCandyByValue(evt.Id, evt.FamilyCandies, session);
+            _guiItems.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(NoPokeballEvent evt, Context ctx)
+        public void HandleEvent(NoPokeballEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(UseBerryEvent evt, Context ctx)
+        public void HandleEvent(UseBerryEvent evt, Session session)
         {
             _guiItems.UpdateItemByValue(ItemId.ItemRazzBerry, -1);
-            _guiItems.Dirty(ctx.Inventory);
+            _guiItems.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(DisplayHighestsPokemonEvent evt, Context ctx)
+        public void HandleEvent(DisplayHighestsPokemonEvent evt, Session session)
         {
   
         }
 
-        public void HandleEvent(UpdateEvent evt, Context ctx)
+        public void HandleEvent(UpdateEvent evt, Session session)
         {
  
         }
 
-        public void Listen(IEvent evt, Context ctx)
+        public void Listen(IEvent evt, Session session)
         {
             dynamic eve = evt;
 
             try
             {
-                HandleEvent(eve, ctx);
+                HandleEvent(eve, session);
             }
             // ReSharper disable once EmptyGeneralCatchClause
             catch

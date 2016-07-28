@@ -24,14 +24,14 @@ namespace PoGo.NecroBot.GUI.Util
         public Dictionary<string, FortData> _pokeStops = new Dictionary<string, FortData>();
         public Dictionary<string, FortData> _pokeGyms = new Dictionary<string, FortData>();
 
-        public void Dirty(Context ctx)
+        public void Dirty(Session session)
         {
             DirtyEvent?.Invoke();
         }
 
-        public async void UpdatePokeStopsGyms(Context ctx)
+        public async void UpdatePokeStopsGyms(Session session)
         {
-            var mapObjects = await ctx.Client.Map.GetMapObjects();
+            var mapObjects = await session.Client.Map.GetMapObjects();
 
             var pokeStopsGyms = mapObjects.MapCells.SelectMany(i => i.Forts)
                 .Where(
@@ -43,9 +43,9 @@ namespace PoGo.NecroBot.GUI.Util
             //            i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime() &&
             //            ( // Make sure PokeStop is within 40 meters or else it is pointless to hit it
             //                LocationUtils.CalculateDistanceInMeters(
-            //                    ctx.Client.CurrentLatitude, ctx.Client.CurrentLongitude,
+            //                    session.Client.CurrentLatitude, session.Client.CurrentLongitude,
             //                    i.Latitude, i.Longitude) < 40) ||
-            //            ctx.LogicSettings.MaxTravelDistanceInMeters == 0
+            //            session.LogicSettings.MaxTravelDistanceInMeters == 0
 
             if (pokeStopsGyms != null)
             {

@@ -21,68 +21,68 @@ namespace PoGo.NecroBot.GUI
             _guiStats = stats;
         }
 
-        public void HandleEvent(ProfileEvent evt, Context ctx)
+        public void HandleEvent(ProfileEvent evt, Session session)
         {
             _guiStats.SetProfile(evt.Profile);
-            _guiStats.SetStats(ctx.Inventory);
-            _guiStats.Dirty(ctx.Inventory);
+            _guiStats.SetStats(session.Inventory);
+            _guiStats.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(ErrorEvent evt, Context ctx)
+        public void HandleEvent(ErrorEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(NoticeEvent evt, Context ctx)
+        public void HandleEvent(NoticeEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(WarnEvent evt, Context ctx)
+        public void HandleEvent(WarnEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(UseLuckyEggEvent evt, Context ctx)
+        public void HandleEvent(UseLuckyEggEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(PokemonEvolveEvent evt, Context ctx)
-        {
-            _guiStats._sessionExperience += evt.Exp;
-            _guiStats._playerExperience += evt.Exp;
-            _guiStats.Dirty(ctx.Inventory);
-        }
-
-        public void HandleEvent(TransferPokemonEvent evt, Context ctx)
-        {
-            _guiStats.Dirty(ctx.Inventory);
-        }
-
-        public void HandleEvent(ItemRecycledEvent evt, Context ctx)
-        {
-            _guiStats.Dirty(ctx.Inventory);
-        }
-
-        public void HandleEvent(EggIncubatorStatusEvent evt, Context ctx)
-        {
-
-        }
-
-        public void HandleEvent(FortUsedEvent evt, Context ctx)
+        public void HandleEvent(PokemonEvolveEvent evt, Session session)
         {
             _guiStats._sessionExperience += evt.Exp;
             _guiStats._playerExperience += evt.Exp;
-            _guiStats.Dirty(ctx.Inventory);
+            _guiStats.Dirty(session.Inventory);
         }
 
-        public void HandleEvent(FortFailedEvent evt, Context ctx)
+        public void HandleEvent(TransferPokemonEvent evt, Session session)
+        {
+            _guiStats.Dirty(session.Inventory);
+        }
+
+        public void HandleEvent(ItemRecycledEvent evt, Session session)
+        {
+            _guiStats.Dirty(session.Inventory);
+        }
+
+        public void HandleEvent(EggIncubatorStatusEvent evt, Session session)
+        {
+
+        }
+
+        public void HandleEvent(FortUsedEvent evt, Session session)
+        {
+            _guiStats._sessionExperience += evt.Exp;
+            _guiStats._playerExperience += evt.Exp;
+            _guiStats.Dirty(session.Inventory);
+        }
+
+        public void HandleEvent(FortFailedEvent evt, Session session)
         {
  
         }
 
-        public void HandleEvent(FortTargetEvent evt, Context ctx)
+        public void HandleEvent(FortTargetEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(PokemonCaptureEvent evt, Context ctx)
+        public void HandleEvent(PokemonCaptureEvent evt, Session session)
         {
             if (evt.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
             {
@@ -90,35 +90,35 @@ namespace PoGo.NecroBot.GUI
                 _guiStats._playerExperience += evt.Exp;
                 _guiStats._sessionPokemon += 1;
                 _guiStats._playerStardust = evt.Stardust;
-                _guiStats.Dirty(ctx.Inventory);
+                _guiStats.Dirty(session.Inventory);
             }
         }
 
-        public void HandleEvent(NoPokeballEvent evt, Context ctx)
+        public void HandleEvent(NoPokeballEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(UseBerryEvent evt, Context ctx)
+        public void HandleEvent(UseBerryEvent evt, Session session)
         {
         }
 
-        public void HandleEvent(DisplayHighestsPokemonEvent evt, Context ctx)
+        public void HandleEvent(DisplayHighestsPokemonEvent evt, Session session)
         {
  
         }
 
-        public void HandleEvent(UpdateEvent evt, Context ctx)
+        public void HandleEvent(UpdateEvent evt, Session session)
         {
             
         }
 
-        public void Listen(IEvent evt, Context ctx)
+        public void Listen(IEvent evt, Session session)
         {
             dynamic eve = evt;
 
             try
             {
-                HandleEvent(eve, ctx);
+                HandleEvent(eve, session);
             }
             // ReSharper disable once EmptyGeneralCatchClause
             catch

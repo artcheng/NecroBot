@@ -39,7 +39,7 @@ namespace PoGo.NecroBot.GUI
         private static GUIPokemons _guiPokemons = new GUIPokemons();
         private static GUILiveMap _guiLiveMap = new GUILiveMap();
 
-        private static Context _ctx;
+        private static Session _session;
         private static StateMachine _machine;
 
         private static Dictionary<string, Bitmap> _imagesList = new Dictionary<string, Bitmap>();
@@ -75,6 +75,8 @@ namespace PoGo.NecroBot.GUI
             settings.AutoUpdate = false;
 
             _machine = new StateMachine();
+            _session = new Session(new ClientSettings(settings), new LogicSettings(settings));
+
             _guiItems.DirtyEvent += () => UpdateMyItems();
             _guiPokemons.DirtyEvent += () => UpdateMyPokemons();
             _guiLiveMap.DirtyEvent += () => UpdateLiveMap();
@@ -85,22 +87,20 @@ namespace PoGo.NecroBot.GUI
             var pokemonsAggregator = new GUIPokemonsAggregator(_guiPokemons);
             var livemapAggregator = new GUILiveMapAggregator(_guiLiveMap);
 
-            _machine.EventListener += listener.Listen;
-            _machine.EventListener += statsAggregator.Listen;
-            _machine.EventListener += itemsAggregator.Listen;
-            _machine.EventListener += pokemonsAggregator.Listen;
-            _machine.EventListener += livemapAggregator.Listen;
+            _session.EventDispatcher.EventReceived += (IEvent evt) => listener.Listen(evt, _session);
+            _session.EventDispatcher.EventReceived += (IEvent evt) => statsAggregator.Listen(evt, _session);
+            _session.EventDispatcher.EventReceived += (IEvent evt) => itemsAggregator.Listen(evt, _session);
+            _session.EventDispatcher.EventReceived += (IEvent evt) => pokemonsAggregator.Listen(evt, _session);
+            _session.EventDispatcher.EventReceived += (IEvent evt) => livemapAggregator.Listen(evt, _session);
 
             _machine.SetFailureState(new LoginState());
 
-            _ctx = new Context(new ClientSettings(settings), new LogicSettings(settings));
+            _session.Navigation.UpdatePositionEvent +=
+                (lat, lng) => _session.EventDispatcher.Send(new UpdatePositionEvent { Latitude = lat, Longitude = lng });
 
-            _ctx.Navigation.UpdatePositionEvent +=
-                (lat, lng) => _machine.Fire(new UpdatePositionEvent { Latitude = lat, Longitude = lng });
+            _session.Client.Login.GoogleDeviceCodeEvent += LoginWithGoogle;
 
-            _ctx.Client.Login.GoogleDeviceCodeEvent += LoginWithGoogle;
-
-            _machine.AsyncStart(new VersionCheckState(), _ctx);
+            _machine.AsyncStart(new VersionCheckState(), _session);
 
             _exphrUpdater = new System.Windows.Forms.Timer();
             _exphrUpdater.Interval = 1000;
@@ -129,10 +129,10 @@ namespace PoGo.NecroBot.GUI
 
             Bitmap player = new Bitmap(_imagesList["player"]);
             player.MakeTransparent(Color.White);
-            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(_ctx.Client.CurrentLatitude, _ctx.Client.CurrentLongitude), player);
+            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(_session.Client.CurrentLatitude, _session.Client.CurrentLongitude), player);
             _mapOverlays["player"].Markers.Add(marker);
-            gMap.Position = new PointLatLng(_ctx.Client.CurrentLatitude, _ctx.Client.CurrentLongitude);
-            textCurrentLatLng.Text = _ctx.Client.CurrentLatitude.ToString() + "," + _ctx.Client.CurrentLongitude.ToString();
+            gMap.Position = new PointLatLng(_session.Client.CurrentLatitude, _session.Client.CurrentLongitude);
+            textCurrentLatLng.Text = _session.Client.CurrentLatitude.ToString() + "," + _session.Client.CurrentLongitude.ToString();
         }
 
         private void InitImageList()
@@ -399,9 +399,9 @@ namespace PoGo.NecroBot.GUI
                 {
                     case 10:
                         // Evolve
-                        var evolveResponse = await _ctx.Client.Inventory.EvolvePokemon(selectedPokemon.Id);
+                        var evolveResponse = await _session.Client.Inventory.EvolvePokemon(selectedPokemon.Id);
 
-                        _machine.Fire(new PokemonEvolveEvent
+                        _session.EventDispatcher.Send(new PokemonEvolveEvent
                         {
                             Id = selectedPokemon.PokemonId,
                             Exp = evolveResponse.ExperienceAwarded,
@@ -418,22 +418,22 @@ namespace PoGo.NecroBot.GUI
 
                     case 11:
                         // Transfer
-                        await _ctx.Client.Inventory.TransferPokemon(selectedPokemon.Id);
-                        await _ctx.Inventory.DeletePokemonFromInvById(selectedPokemon.Id);
+                        await _session.Client.Inventory.TransferPokemon(selectedPokemon.Id);
+                        await _session.Inventory.DeletePokemonFromInvById(selectedPokemon.Id);
 
-                        var pokemonSettings = await _ctx.Inventory.GetPokemonSettings();
-                        var pokemonFamilies = await _ctx.Inventory.GetPokemonFamilies();
+                        var pokemonSettings = await _session.Inventory.GetPokemonSettings();
+                        var pokemonFamilies = await _session.Inventory.GetPokemonFamilies();
 
-                        var bestPokemonOfType = (_ctx.LogicSettings.PrioritizeIvOverCp
-                            ? await _ctx.Inventory.GetHighestPokemonOfTypeByIv(selectedPokemon)
-                            : await _ctx.Inventory.GetHighestPokemonOfTypeByCp(selectedPokemon)) ?? selectedPokemon;
+                        var bestPokemonOfType = (_session.LogicSettings.PrioritizeIvOverCp
+                            ? await _session.Inventory.GetHighestPokemonOfTypeByIv(selectedPokemon)
+                            : await _session.Inventory.GetHighestPokemonOfTypeByCp(selectedPokemon)) ?? selectedPokemon;
 
                         var setting = pokemonSettings.Single(q => q.PokemonId == selectedPokemon.PokemonId);
                         var family = pokemonFamilies.First(q => q.FamilyId == setting.FamilyId);
 
                         family.Candy++;
 
-                        _machine.Fire(new TransferPokemonEvent
+                        _session.EventDispatcher.Send(new TransferPokemonEvent
                         {
                             Id = selectedPokemon.PokemonId,
                             Perfection = PokemonInfo.CalculatePokemonPerfection(selectedPokemon),

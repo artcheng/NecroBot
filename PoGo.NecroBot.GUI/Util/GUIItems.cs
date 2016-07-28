@@ -66,10 +66,10 @@ namespace GUI.Utils
                 _items.Add(itemId, count);
         }
 
-        public async void UpdateCandyByValue(PokemonId pokemonid, int value, Context ctx)
+        public async void UpdateCandyByValue(PokemonId pokemonid, int value, Session session)
         {
             if(_pokemonSettings == null)
-                _pokemonSettings = await ctx.Inventory.GetPokemonSettings();
+                _pokemonSettings = await session.Inventory.GetPokemonSettings();
 
             var setting = _pokemonSettings.Single(q => q.PokemonId == pokemonid);
 

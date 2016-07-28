@@ -24,30 +24,30 @@ namespace PoGo.NecroBot.GUI
             _guiLiveMap = livemap;
         }
 
-        public void HandleEvent(ProfileEvent evt, Context ctx)
+        public void HandleEvent(ProfileEvent evt, Session session)
         {
  
         }
 
-        public void HandleEvent(PokeStopListEvent evt, Context ctx)
+        public void HandleEvent(PokeStopListEvent evt, Session session)
         {
-            _guiLiveMap.UpdatePokeStopsGyms(ctx);
-            _guiLiveMap.Dirty(ctx);
+            _guiLiveMap.UpdatePokeStopsGyms(session);
+            _guiLiveMap.Dirty(session);
         }
 
-        public void HandleEvent(UpdatePositionEvent evt, Context ctx)
+        public void HandleEvent(UpdatePositionEvent evt, Session session)
         {
             _guiLiveMap.SetPosition(new PointLatLng(evt.Latitude, evt.Longitude));
-            _guiLiveMap.Dirty(ctx);
+            _guiLiveMap.Dirty(session);
         }
 
-        public void Listen(IEvent evt, Context ctx)
+        public void Listen(IEvent evt, Session session)
         {
             dynamic eve = evt;
 
             try
             {
-                HandleEvent(eve, ctx);
+                HandleEvent(eve, session);
             }
             // ReSharper disable once EmptyGeneralCatchClause
             catch

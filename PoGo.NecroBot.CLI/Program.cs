@@ -57,7 +57,7 @@ namespace PoGo.NecroBot.CLI
 
             service.Run();
             */
-
+            
             var machine = new StateMachine();
             var stats = new Statistics();
             stats.DirtyEvent += () => Console.Title = stats.ToString();
