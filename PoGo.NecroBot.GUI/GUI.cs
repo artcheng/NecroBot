@@ -194,15 +194,17 @@ namespace PoGo.NecroBot.GUI
             {
                 if (currentPokemonList.Where(p => (ulong)p.Cells[0].Value == pokemon.Value.Id).Count() == 0)
                 {
+                    string power = pokemon.Value.IndividualAttack.ToString() + "a/" + pokemon.Value.IndividualDefense.ToString() + "d/" + pokemon.Value.IndividualStamina.ToString() + "s";
+
                     Bitmap evolve = new Bitmap(40, 30);
                     _imagesList.TryGetValue("evolve", out evolve);
                     Bitmap transfer = new Bitmap(40, 30);
                     _imagesList.TryGetValue("transfer", out transfer);
                     Bitmap bmp = new Bitmap(40, 30);
                     if (_imagesList.TryGetValue("pokemon_" + ((int)pokemon.Value.PokemonId).ToString(), out bmp))
-                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, bmp, pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), evolve, transfer)));
+                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, bmp, pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), power, evolve, transfer)));
                     else
-                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, new Bitmap(40, 30), pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), evolve, transfer)));
+                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, new Bitmap(40, 30), pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), power, evolve, transfer)));
                 }
             }
 
@@ -284,7 +286,7 @@ namespace PoGo.NecroBot.GUI
 
                 switch (e.ColumnIndex)
                 {
-                    case 9:
+                    case 10:
                         // Evolve
                         var evolveResponse = await _ctx.Client.Inventory.EvolvePokemon(selectedPokemon.Id);
 
@@ -303,7 +305,7 @@ namespace PoGo.NecroBot.GUI
   
                         break;
 
-                    case 10:
+                    case 11:
                         // Transfer
                         await _ctx.Client.Inventory.TransferPokemon(selectedPokemon.Id);
                         await _ctx.Inventory.DeletePokemonFromInvById(selectedPokemon.Id);
