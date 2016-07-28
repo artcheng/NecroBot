@@ -60,7 +60,7 @@ namespace PoGo.NecroBot.GUI
             var profilePath = "";
 
             GUILogin loadProfile = new GUILogin();
-            var result = loadProfile.ShowDialog();
+            var result = loadProfile.ShowDialog(this);
             if (result == DialogResult.OK)
             {
                 profilePath = loadProfile.ProfileFolder;
