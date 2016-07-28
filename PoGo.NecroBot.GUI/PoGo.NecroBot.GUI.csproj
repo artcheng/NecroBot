@@ -63,6 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GlobalSettingsControl.Designer.cs">
+      <DependentUpon>GlobalSettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     <Compile Include="Util\GUILiveMap.cs" />
     <Compile Include="Util\GUIPokemons.cs" />
     <Compile Include="Util\GUIStats.cs" />
+    <EmbeddedResource Include="GlobalSettingsControl.resx">
+      <DependentUpon>GlobalSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.cs</DependentUpon>
     </EmbeddedResource>

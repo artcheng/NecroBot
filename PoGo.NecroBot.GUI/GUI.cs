@@ -53,13 +53,19 @@ namespace PoGo.NecroBot.GUI
 
         private void GUI_Load(object sender, EventArgs e)
         {
+            //var settingsTest = GlobalSettings.Load("E:\\Nox\\NecroBot\\PoGo.NecroBot.GUI\\bin\\Debug\\config\\profiles\\vorak666");
+            //settingsTest.AutoUpdate = false;
+
+            //_machine = new StateMachine();
+            //_session = new Session(new ClientSettings(settingsTest), new LogicSettings(settingsTest));
+
+            //this.Show();
+            //InitImageList();
+            //LoadGUISettings();
+            //return;
+
             this.Show();
             InitImageList();
-
- 
-
-            //LoadGUISettings();
- 
 
             var subPath = "";
             var profilePath = "";
@@ -71,8 +77,6 @@ namespace PoGo.NecroBot.GUI
                 profilePath = loadProfile.ProfileFolder;
                 subPath = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + loadProfile.ProfileName;
             }
-            //return;
-            
 
             Logger.SetLogger(new GUILogger(LogLevel.Info, this), subPath);
 
@@ -82,21 +86,23 @@ namespace PoGo.NecroBot.GUI
             _machine = new StateMachine();
             _session = new Session(new ClientSettings(settings), new LogicSettings(settings));
 
+            LoadGUISettings();
+
             _guiItems.DirtyEvent += () => UpdateMyItems();
             _guiPokemons.DirtyEvent += () => UpdateMyPokemons();
-            _guiLiveMap.DirtyEvent += () => UpdateLiveMap();
+            //_guiLiveMap.DirtyEvent += () => UpdateLiveMap();
 
             var listener = new GUIEventListener();
             var statsAggregator = new GUIStatsAggregator(_guiStats);
             var itemsAggregator = new GUIItemsAggregator(_guiItems);
             var pokemonsAggregator = new GUIPokemonsAggregator(_guiPokemons);
-            var livemapAggregator = new GUILiveMapAggregator(_guiLiveMap);
+            //var livemapAggregator = new GUILiveMapAggregator(_guiLiveMap);
 
             _session.EventDispatcher.EventReceived += (IEvent evt) => listener.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => statsAggregator.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => itemsAggregator.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => pokemonsAggregator.Listen(evt, _session);
-            _session.EventDispatcher.EventReceived += (IEvent evt) => livemapAggregator.Listen(evt, _session);
+            //_session.EventDispatcher.EventReceived += (IEvent evt) => livemapAggregator.Listen(evt, _session);
 
             _machine.SetFailureState(new LoginState());
 
@@ -476,10 +482,42 @@ namespace PoGo.NecroBot.GUI
 
         private void LoadGUISettings()
         {
+            // GlobalSettings
+            globalSettingsControl.SetSetting("AmountOfPokemonToDisplayOnStart", _session.LogicSettings.AmountOfPokemonToDisplayOnStart.ToString());
+            globalSettingsControl.SetSetting("AutoUpdate", _session.LogicSettings.AutoUpdate.ToString());
+            globalSettingsControl.SetSetting("ConfigPath", _session.LogicSettings.ConfigPath);
+            globalSettingsControl.SetSetting("DefaultAltitude", _session.Settings.DefaultAltitude.ToString(".0"));
+            globalSettingsControl.SetSetting("DefaultLatitude", _session.Settings.DefaultLatitude.ToString());
+            globalSettingsControl.SetSetting("DefaultLongitude", _session.Settings.DefaultLongitude.ToString());
+            globalSettingsControl.SetSetting("DelayBetweenPokemonCatch", _session.LogicSettings.DelayBetweenPokemonCatch.ToString());
+            globalSettingsControl.SetSetting("EvolveAboveIvValue", _session.LogicSettings.EvolveAboveIvValue.ToString(".0"));
+            globalSettingsControl.SetSetting("EvolveAllPokemonAboveIv", _session.LogicSettings.EvolveAllPokemonAboveIv.ToString());
+            globalSettingsControl.SetSetting("EvolveAllPokemonWithEnoughCandy", _session.LogicSettings.EvolveAllPokemonWithEnoughCandy.ToString());
+            globalSettingsControl.SetSetting("GpxFile", _session.LogicSettings.GpxFile);
+            globalSettingsControl.SetSetting("KeepMinCp", _session.LogicSettings.KeepMinCp.ToString(".0"));
+            globalSettingsControl.SetSetting("KeepMinDuplicatePokemon", _session.LogicSettings.KeepMinDuplicatePokemon.ToString());
+            globalSettingsControl.SetSetting("KeepMinIvPercentage", _session.LogicSettings.KeepMinIvPercentage.ToString());
+            globalSettingsControl.SetSetting("KeepPokemonsThatCanEvolve", _session.LogicSettings.KeepPokemonsThatCanEvolve.ToString());
+            globalSettingsControl.SetSetting("MaxTravelDistanceInMeters", _session.LogicSettings.MaxTravelDistanceInMeters.ToString());
+
+            globalSettingsControl.SetSetting("PrioritizeIvOverCp", _session.LogicSettings.PrioritizeIvOverCp.ToString());
+            globalSettingsControl.SetSetting("ProfilePath", _session.LogicSettings.ProfilePath);
+            globalSettingsControl.SetSetting("RenameAboveIv", _session.LogicSettings.RenameAboveIv.ToString());
+            globalSettingsControl.SetSetting("TransferDuplicatePokemon", _session.LogicSettings.TransferDuplicatePokemon.ToString());
+            globalSettingsControl.SetSetting("TranslationLanguageCode", _session.LogicSettings.TranslationLanguageCode);
+            globalSettingsControl.SetSetting("UseEggIncubators", _session.LogicSettings.UseEggIncubators.ToString());
+            globalSettingsControl.SetSetting("UseGpxPathing", _session.LogicSettings.UseGpxPathing.ToString());
+            globalSettingsControl.SetSetting("UseLuckyEggsMinPokemonAmount", _session.LogicSettings.UseLuckyEggsMinPokemonAmount.ToString());
+            globalSettingsControl.SetSetting("UseLuckyEggsWhileEvolving", _session.LogicSettings.UseLuckyEggsWhileEvolving.ToString());
+            globalSettingsControl.SetSetting("UsePokemonToNotCatchFilter", _session.LogicSettings.UsePokemonToNotCatchFilter.ToString());
+            globalSettingsControl.SetSetting("WalkingSpeedInKilometerPerHour", _session.LogicSettings.WalkingSpeedInKilometerPerHour.ToString(".0"));
+            //globalSettingsControl.SetSetting("WebSocketPort", _session.Settings.We.ToString());
+
+            // Pokemon settings
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
             {
                 // Skip pokemon = 0
-                if((int)pokemon > 0)
+                if ((int)pokemon > 0)
                 {
                     // ToNotCatch
                     bool toNotCatch = false;
@@ -496,18 +534,36 @@ namespace PoGo.NecroBot.GUI
                     if (_session.LogicSettings.PokemonsNotToTransfer.Where(p => p == pokemon).ToList().Count > 0)
                         toNotTransfer = true;
 
+                    // TransferFilters
+                    int KeepMinCp = 1500;
+                    double KeepMinIvPercentage = 90.0;
+                    int KeepMinDuplicatePokemon = 1;
+
+                    if (_session.LogicSettings.PokemonsTransferFilter.ContainsKey(pokemon))
+                    {
+                        KeepMinCp = _session.LogicSettings.PokemonsTransferFilter[pokemon].KeepMinCp;
+                        KeepMinIvPercentage = _session.LogicSettings.PokemonsTransferFilter[pokemon].KeepMinIvPercentage;
+                        KeepMinDuplicatePokemon = _session.LogicSettings.PokemonsTransferFilter[pokemon].KeepMinDuplicatePokemon;
+                    }
 
                     Bitmap bmp = new Bitmap(40, 30);
                     _imagesList.TryGetValue("pokemon_" + ((int)pokemon).ToString(), out bmp);
-                    dataPokemonSettings.Invoke(new Action(() => dataPokemonSettings.Rows.Add((int)pokemon, bmp, pokemon, "", "", "", toNotTransfer, toEvolve, toNotCatch)));
-
-                    if (_session.LogicSettings.PokemonsNotToCatch.Where(p => p == pokemon).ToList().Count > 0)
-                    {
-
-                    }
-
-                        //_session.LogicSettings.PokemonsNotToCatch(pokemon =>)
+                    dataPokemonSettings.Invoke(new Action(() => dataPokemonSettings.Rows.Add((int)pokemon, bmp, pokemon, KeepMinCp, KeepMinIvPercentage, KeepMinDuplicatePokemon, toNotTransfer, toEvolve, toNotCatch)));
                 }
+            }
+
+            // Item settings
+            foreach (ItemId item in Enum.GetValues(typeof(ItemId)))
+            {
+                int KeepMax = 10000;
+                var test = (int) _session.LogicSettings.ItemRecycleFilter.Where(i => i.Key == item).FirstOrDefault().Value;
+
+                if (test != null)
+                    KeepMax = test;
+
+                Bitmap bmp = new Bitmap(40, 30);
+                _imagesList.TryGetValue("item_" + ((int)item).ToString(), out bmp);
+                dataItemSettings.Invoke(new Action(() => dataItemSettings.Rows.Add((int)item, bmp, item, KeepMax)));
             }
         }
     }
