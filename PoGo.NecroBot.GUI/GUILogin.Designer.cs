@@ -72,7 +72,7 @@
             this.Controls.Add(this.label1);
             this.Name = "GUILogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "GUILogin";
+            this.Text = "Profile Loader";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUILogin_FormClosing);
             this.Load += new System.EventHandler(this.GUILogin_Load);
             this.ResumeLayout(false);

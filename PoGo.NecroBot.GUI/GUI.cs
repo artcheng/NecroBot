@@ -41,6 +41,7 @@ namespace PoGo.NecroBot.GUI
 
         private void GUI_Load(object sender, EventArgs e)
         {
+            this.Show();
             InitImageList();
 
             var subPath = "";

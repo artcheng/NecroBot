@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridConsole = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -98,14 +98,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridConsole.GridColor = System.Drawing.Color.Black;
             this.dataGridConsole.Location = new System.Drawing.Point(3, 3);
@@ -409,8 +409,8 @@
             // 
             // tabControlMapSettings
             // 
-            this.tabControlMapSettings.Controls.Add(this.tabMap);
             this.tabControlMapSettings.Controls.Add(this.tabConsole);
+            this.tabControlMapSettings.Controls.Add(this.tabMap);
             this.tabControlMapSettings.Controls.Add(this.tabSettings);
             this.tabControlMapSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMapSettings.Location = new System.Drawing.Point(303, 3);
@@ -551,7 +551,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "GUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "NecroBot GUI";
             this.Load += new System.EventHandler(this.GUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
