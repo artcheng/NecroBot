@@ -31,13 +31,13 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(PokeStopListEvent evt, Context ctx)
         {
-
+            _guiLiveMap.UpdatePokeStopsGyms(ctx);
+            _guiLiveMap.Dirty(ctx);
         }
 
         public void HandleEvent(UpdatePositionEvent evt, Context ctx)
         {
             _guiLiveMap.SetPosition(new PointLatLng(evt.Latitude, evt.Longitude));
-            _guiLiveMap.UpdateMapObjects(ctx);
             _guiLiveMap.Dirty(ctx);
         }
 

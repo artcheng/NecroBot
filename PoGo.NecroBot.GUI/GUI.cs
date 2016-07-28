@@ -310,6 +310,7 @@ namespace PoGo.NecroBot.GUI
 
         private void UpdateLiveMap()
         {
+            // Position
             if (_guiLiveMap._positionUpdated)
             {
                 _guiLiveMap._positionUpdated = false;
@@ -327,6 +328,59 @@ namespace PoGo.NecroBot.GUI
                     route.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                     route.Stroke.Width = 2;
                     _mapOverlays["path"].Routes.Add(route);
+                }
+            }
+
+            // PokeStops
+            var currentListPokestop = _mapOverlays["pokestops"].Markers.ToList();
+
+            foreach (var line in currentListPokestop)
+            {
+                if (_guiLiveMap._pokeStops.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
+                {
+                    gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Remove(line)));
+                }
+            }
+
+            Bitmap pokestopImg = new Bitmap(_imagesList["pokestop"], new Size(20, 20));
+            pokestopImg.MakeTransparent(Color.White);
+
+            Bitmap pokestopluredImg = new Bitmap(_imagesList["pokestop_lured"], new Size(20, 20));
+            pokestopluredImg.MakeTransparent(Color.White);
+
+            foreach (var pokestop in _guiLiveMap._pokeStops)
+            {
+                if (currentListPokestop.Where(p => (string)p.Tag == pokestop.Key).Count() == 0)
+                {
+                    GMarkerGoogle marker;
+                    marker = new GMarkerGoogle(new PointLatLng(pokestop.Value.Latitude, pokestop.Value.Longitude), pokestop.Value.LureInfo != null ? pokestopluredImg: pokestopImg);
+                    marker.Tag = pokestop.Value.Id;
+                    gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Add(marker)));
+                }
+            }
+
+            // Pokegyms
+            var currentListPokegyms = _mapOverlays["pokegyms"].Markers.ToList();
+
+            foreach (var line in currentListPokegyms)
+            {
+                if (_guiLiveMap._pokeGyms.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
+                {
+                    gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Remove(line)));
+                }
+            }
+
+            Bitmap pokegymImg = new Bitmap(_imagesList["pokegym"], new Size(20, 20));
+            pokestopImg.MakeTransparent(Color.White);
+ 
+            foreach (var pokegym in _guiLiveMap._pokeGyms)
+            {
+                if (currentListPokegyms.Where(p => (string)p.Tag == pokegym.Key).Count() == 0)
+                {
+                    GMarkerGoogle marker;
+                    marker = new GMarkerGoogle(new PointLatLng(pokegym.Value.Latitude, pokegym.Value.Longitude), pokegymImg);
+                    marker.Tag = pokegym.Value.Id;
+                    gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Add(marker)));
                 }
             }
         }
