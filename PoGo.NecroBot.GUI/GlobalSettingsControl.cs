@@ -28,7 +28,7 @@ namespace PoGo.NecroBot.GUI
                 }
                 if(control[0] is CheckBox)
                 {
-                    ((CheckBox)control[0]).Checked = value == "true" || value == "True" ? true :false;
+                    ((CheckBox)control[0]).Checked = Convert.ToBoolean(value);
                 }
                 
             }
@@ -47,7 +47,7 @@ namespace PoGo.NecroBot.GUI
                 }
                 if (control[0] is CheckBox)
                 {
-                    value = ((CheckBox)control[0]).Checked == true ? "true" : "false";
+                    value = Convert.ToString(((CheckBox)control[0]).Checked);
                 }
 
             }

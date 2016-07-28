@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridConsole = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,6 +72,8 @@
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.tabControlSettings = new System.Windows.Forms.TabControl();
             this.tabPageSettingsGlobal = new System.Windows.Forms.TabPage();
+            this.cmdSaveSettings = new System.Windows.Forms.Button();
+            this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
             this.tabPageSettingsPokemons = new System.Windows.Forms.TabPage();
             this.dataPokemonSettings = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -103,7 +105,6 @@
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -136,14 +137,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridConsole.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridConsole.GridColor = System.Drawing.Color.Black;
             this.dataGridConsole.Location = new System.Drawing.Point(3, 3);
@@ -609,6 +610,7 @@
             // 
             // tabPageSettingsGlobal
             // 
+            this.tabPageSettingsGlobal.Controls.Add(this.cmdSaveSettings);
             this.tabPageSettingsGlobal.Controls.Add(this.globalSettingsControl);
             this.tabPageSettingsGlobal.Location = new System.Drawing.Point(4, 22);
             this.tabPageSettingsGlobal.Name = "tabPageSettingsGlobal";
@@ -617,6 +619,28 @@
             this.tabPageSettingsGlobal.TabIndex = 0;
             this.tabPageSettingsGlobal.Text = "Global";
             this.tabPageSettingsGlobal.UseVisualStyleBackColor = true;
+            // 
+            // cmdSaveSettings
+            // 
+            this.cmdSaveSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdSaveSettings.Location = new System.Drawing.Point(551, 6);
+            this.cmdSaveSettings.Name = "cmdSaveSettings";
+            this.cmdSaveSettings.Size = new System.Drawing.Size(100, 23);
+            this.cmdSaveSettings.TabIndex = 37;
+            this.cmdSaveSettings.Text = "Save Settings";
+            this.cmdSaveSettings.UseVisualStyleBackColor = true;
+            this.cmdSaveSettings.Click += new System.EventHandler(this.cmdSaveSettings_Click);
+            // 
+            // globalSettingsControl
+            // 
+            this.globalSettingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.globalSettingsControl.AutoScroll = true;
+            this.globalSettingsControl.Location = new System.Drawing.Point(3, 3);
+            this.globalSettingsControl.Name = "globalSettingsControl";
+            this.globalSettingsControl.Size = new System.Drawing.Size(674, 459);
+            this.globalSettingsControl.TabIndex = 36;
             // 
             // tabPageSettingsPokemons
             // 
@@ -884,17 +908,6 @@
             this.Column7.Name = "Column7";
             this.Column7.Width = 60;
             // 
-            // globalSettingsControl
-            // 
-            this.globalSettingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.globalSettingsControl.AutoScroll = true;
-            this.globalSettingsControl.Location = new System.Drawing.Point(3, 3);
-            this.globalSettingsControl.Name = "globalSettingsControl";
-            this.globalSettingsControl.Size = new System.Drawing.Size(674, 459);
-            this.globalSettingsControl.TabIndex = 36;
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1008,6 +1021,7 @@
         private System.Windows.Forms.DataGridViewImageColumn Column10;
         private System.Windows.Forms.DataGridViewImageColumn Column7;
         private GlobalSettingsControl globalSettingsControl;
+        private System.Windows.Forms.Button cmdSaveSettings;
     }
 }
 

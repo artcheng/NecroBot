@@ -46,6 +46,9 @@ namespace PoGo.NecroBot.GUI
 
         private static Dictionary<string, GMapOverlay> _mapOverlays;
 
+        private GlobalSettings _settings;
+        private string _profilePath = "";
+
         public GUI()
         {
             InitializeComponent();
@@ -53,11 +56,13 @@ namespace PoGo.NecroBot.GUI
 
         private void GUI_Load(object sender, EventArgs e)
         {
-            //var settingsTest = GlobalSettings.Load("E:\\Nox\\NecroBot\\PoGo.NecroBot.GUI\\bin\\Debug\\config\\profiles\\vorak666");
-            //settingsTest.AutoUpdate = false;
+            // for testing, don't mind this
+            //_profilePath = "E:\\Nox\\NecroBot\\PoGo.NecroBot.GUI\\bin\\Debug\\config\\profiles\\vorak666";
+            //_settings = GlobalSettings.Load(_profilePath);
+            //_settings.AutoUpdate = false;
 
             //_machine = new StateMachine();
-            //_session = new Session(new ClientSettings(settingsTest), new LogicSettings(settingsTest));
+            //_session = new Session(new ClientSettings(_settings), new LogicSettings(_settings));
 
             //this.Show();
             //InitImageList();
@@ -67,24 +72,23 @@ namespace PoGo.NecroBot.GUI
             this.Show();
             InitImageList();
 
-            var subPath = "";
-            var profilePath = "";
+            var subpath = "";
 
             GUILogin loadProfile = new GUILogin();
             var result = loadProfile.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                profilePath = loadProfile.ProfileFolder;
-                subPath = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + loadProfile.ProfileName;
+                _profilePath = loadProfile.ProfileFolder;
+                subpath = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + loadProfile.ProfileName;
             }
 
-            Logger.SetLogger(new GUILogger(LogLevel.Info, this), subPath);
+            Logger.SetLogger(new GUILogger(LogLevel.Info, this), subpath);
 
-            var settings = GlobalSettings.Load(profilePath);
-            settings.AutoUpdate = false;
+            _settings = GlobalSettings.Load(_profilePath);
+            _settings.AutoUpdate = false;
 
             _machine = new StateMachine();
-            _session = new Session(new ClientSettings(settings), new LogicSettings(settings));
+            _session = new Session(new ClientSettings(_settings), new LogicSettings(_settings));
 
             LoadGUISettings();
 
@@ -494,12 +498,11 @@ namespace PoGo.NecroBot.GUI
             globalSettingsControl.SetSetting("EvolveAllPokemonAboveIv", _session.LogicSettings.EvolveAllPokemonAboveIv.ToString());
             globalSettingsControl.SetSetting("EvolveAllPokemonWithEnoughCandy", _session.LogicSettings.EvolveAllPokemonWithEnoughCandy.ToString());
             globalSettingsControl.SetSetting("GpxFile", _session.LogicSettings.GpxFile);
-            globalSettingsControl.SetSetting("KeepMinCp", _session.LogicSettings.KeepMinCp.ToString(".0"));
+            globalSettingsControl.SetSetting("KeepMinCp", _session.LogicSettings.KeepMinCp.ToString());
             globalSettingsControl.SetSetting("KeepMinDuplicatePokemon", _session.LogicSettings.KeepMinDuplicatePokemon.ToString());
             globalSettingsControl.SetSetting("KeepMinIvPercentage", _session.LogicSettings.KeepMinIvPercentage.ToString());
             globalSettingsControl.SetSetting("KeepPokemonsThatCanEvolve", _session.LogicSettings.KeepPokemonsThatCanEvolve.ToString());
             globalSettingsControl.SetSetting("MaxTravelDistanceInMeters", _session.LogicSettings.MaxTravelDistanceInMeters.ToString());
-
             globalSettingsControl.SetSetting("PrioritizeIvOverCp", _session.LogicSettings.PrioritizeIvOverCp.ToString());
             globalSettingsControl.SetSetting("ProfilePath", _session.LogicSettings.ProfilePath);
             globalSettingsControl.SetSetting("RenameAboveIv", _session.LogicSettings.RenameAboveIv.ToString());
@@ -555,15 +558,95 @@ namespace PoGo.NecroBot.GUI
             // Item settings
             foreach (ItemId item in Enum.GetValues(typeof(ItemId)))
             {
-                int KeepMax = 10000;
-                var test = (int) _session.LogicSettings.ItemRecycleFilter.Where(i => i.Key == item).FirstOrDefault().Value;
-
-                if (test != null)
-                    KeepMax = test;
+                int KeepMax = (int)_session.LogicSettings.ItemRecycleFilter.Where(i => i.Key == item).FirstOrDefault().Value;
 
                 Bitmap bmp = new Bitmap(40, 30);
                 _imagesList.TryGetValue("item_" + ((int)item).ToString(), out bmp);
                 dataItemSettings.Invoke(new Action(() => dataItemSettings.Rows.Add((int)item, bmp, item, KeepMax)));
+            }
+        }
+
+        private void cmdSaveSettings_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _settings.AmountOfPokemonToDisplayOnStart = Convert.ToInt16(globalSettingsControl.GetSetting("AmountOfPokemonToDisplayOnStart"));
+
+                _settings.AutoUpdate = Convert.ToBoolean(globalSettingsControl.GetSetting("AutoUpdate"));
+                _settings.ConfigPath = globalSettingsControl.GetSetting("ConfigPath");
+                _settings.DefaultAltitude = Convert.ToDouble(globalSettingsControl.GetSetting("DefaultAltitude"));
+                _settings.DefaultLatitude = Convert.ToDouble(globalSettingsControl.GetSetting("DefaultLatitude"));
+                _settings.DefaultLongitude = Convert.ToDouble(globalSettingsControl.GetSetting("DefaultLongitude"));
+                _settings.DelayBetweenPokemonCatch = Convert.ToInt16(globalSettingsControl.GetSetting("DelayBetweenPokemonCatch"));
+                _settings.EvolveAboveIvValue = Convert.ToSingle(globalSettingsControl.GetSetting("EvolveAboveIvValue"));
+                _settings.EvolveAllPokemonAboveIv = Convert.ToBoolean(globalSettingsControl.GetSetting("EvolveAllPokemonAboveIv"));
+                _settings.EvolveAllPokemonWithEnoughCandy = Convert.ToBoolean(globalSettingsControl.GetSetting("EvolveAllPokemonWithEnoughCandy"));
+                _settings.GpxFile = globalSettingsControl.GetSetting("GpxFile");
+                _settings.KeepMinCp = Convert.ToInt16(globalSettingsControl.GetSetting("KeepMinCp"));
+                _settings.KeepMinDuplicatePokemon = Convert.ToInt16(globalSettingsControl.GetSetting("KeepMinDuplicatePokemon"));
+                _settings.KeepMinIvPercentage = Convert.ToSingle(globalSettingsControl.GetSetting("KeepMinIvPercentage"));
+                _settings.KeepPokemonsThatCanEvolve = Convert.ToBoolean(globalSettingsControl.GetSetting("KeepPokemonsThatCanEvolve"));
+                _settings.MaxTravelDistanceInMeters = Convert.ToInt16(globalSettingsControl.GetSetting("MaxTravelDistanceInMeters"));
+                _settings.PrioritizeIvOverCp = Convert.ToBoolean(globalSettingsControl.GetSetting("PrioritizeIvOverCp"));
+                _settings.ProfilePath = globalSettingsControl.GetSetting("ProfilePath");
+                _settings.RenameAboveIv = Convert.ToBoolean(globalSettingsControl.GetSetting("RenameAboveIv"));
+                _settings.TransferDuplicatePokemon = Convert.ToBoolean(globalSettingsControl.GetSetting("TransferDuplicatePokemon"));
+                _settings.TranslationLanguageCode = globalSettingsControl.GetSetting("TranslationLanguageCode");
+                _settings.UseEggIncubators = Convert.ToBoolean(globalSettingsControl.GetSetting("UseEggIncubators"));
+                _settings.UseGpxPathing = Convert.ToBoolean(globalSettingsControl.GetSetting("UseGpxPathing"));
+                _settings.UseLuckyEggsMinPokemonAmount = Convert.ToInt16(globalSettingsControl.GetSetting("UseLuckyEggsMinPokemonAmount"));
+                _settings.UseLuckyEggsWhileEvolving = Convert.ToBoolean(globalSettingsControl.GetSetting("UseLuckyEggsWhileEvolving"));
+                _settings.UsePokemonToNotCatchFilter = Convert.ToBoolean(globalSettingsControl.GetSetting("UsePokemonToNotCatchFilter"));
+                _settings.WalkingSpeedInKilometerPerHour = Convert.ToDouble(globalSettingsControl.GetSetting("WalkingSpeedInKilometerPerHour"));
+
+                List<PokemonId> PokemonsNotToTransfer = new List<PokemonId>();
+                List<PokemonId> PokemonsToEvolve = new List<PokemonId>();
+                List<PokemonId> PokemonsToIgnore = new List<PokemonId>();
+                Dictionary<PokemonId, TransferFilter> PokemonsTransferFilter = new Dictionary<PokemonId, TransferFilter>();
+
+                foreach (DataGridViewRow row in dataPokemonSettings.Rows)
+                {
+                    // 6 = PokemonsNotToTransfer
+                    if ((bool)row.Cells[6].Value == true)
+                        PokemonsNotToTransfer.Add((PokemonId)row.Cells[0].Value);
+
+                    // 7 = PokemonsToEvolve
+                    if ((bool)row.Cells[7].Value == true)
+                        PokemonsToEvolve.Add((PokemonId)row.Cells[0].Value);
+
+                    // 8 = PokemonsToIgnore
+                    if ((bool)row.Cells[8].Value == true)
+                        PokemonsToIgnore.Add((PokemonId)row.Cells[0].Value);
+
+                    // 3 = KeepMinCp, 4 = KeepMinIV, 5 = KeepMinDuplicate
+                    TransferFilter newFilter = new TransferFilter();
+                    newFilter.KeepMinCp = Convert.ToInt16(row.Cells[3].Value);
+                    newFilter.KeepMinIvPercentage = Convert.ToSingle(row.Cells[4].Value);
+                    newFilter.KeepMinDuplicatePokemon = Convert.ToInt16(row.Cells[5].Value);
+                    PokemonsTransferFilter.Add((PokemonId)row.Cells[0].Value, newFilter);
+                }
+
+                _settings.PokemonsNotToTransfer = PokemonsNotToTransfer;
+                _settings.PokemonsToEvolve = PokemonsToEvolve;
+                _settings.PokemonsToIgnore = PokemonsToIgnore;
+                _settings.PokemonsTransferFilter = PokemonsTransferFilter;
+
+                List<KeyValuePair<ItemId, int>> ItemRecycleFilter = new List<KeyValuePair<ItemId, int>>();
+                foreach (DataGridViewRow row in dataItemSettings.Rows)
+                {
+                    ItemRecycleFilter.Add(new KeyValuePair<ItemId, int>((ItemId)row.Cells[0].Value, Convert.ToInt16(row.Cells[3].Value)));
+                }
+
+                _settings.ItemRecycleFilter = ItemRecycleFilter;
+
+
+                _settings.Save(_profilePath+"\\config.json");
+
+                MessageBox.Show("Profile has been saved, please restart bot to load new profile", "Profile saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch
+            {
+                MessageBox.Show("Error while saving profile, check to make sure values are correct", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
