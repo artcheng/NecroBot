@@ -696,6 +696,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MDIWindowManager.xml" />
+    <None Include="Resources\play.png" />
     <None Include="Resources\transfer.png" />
     <None Include="Resources\evolve.png" />
   </ItemGroup>

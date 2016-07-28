@@ -49,6 +49,8 @@ namespace PoGo.NecroBot.GUI
         private GlobalSettings _settings;
         private string _profilePath = "";
 
+        private bool _isStarted = false;
+
         public GUI()
         {
             InitializeComponent();
@@ -85,12 +87,31 @@ namespace PoGo.NecroBot.GUI
             Logger.SetLogger(new GUILogger(LogLevel.Info, this), subpath);
 
             _settings = GlobalSettings.Load(_profilePath);
-            _settings.AutoUpdate = false;
+
+            if(_settings == null)
+            {
+                MessageBox.Show("Error loading profile, restart bot and try again.", "Erreor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
 
             _machine = new StateMachine();
             _session = new Session(new ClientSettings(_settings), new LogicSettings(_settings));
 
             LoadGUISettings();
+        }
+
+        private void Start()
+        {
+            if (_isStarted == true)
+            {
+                MessageBox.Show("Bot is already running", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Set on first start
+            _isStarted = true;
+
+            _settings.AutoUpdate = false;
 
             _guiItems.DirtyEvent += () => UpdateMyItems();
             _guiPokemons.DirtyEvent += () => UpdateMyPokemons();
@@ -539,8 +560,8 @@ namespace PoGo.NecroBot.GUI
                         toNotTransfer = true;
 
                     // TransferFilters
-                    int KeepMinCp = 1500;
-                    double KeepMinIvPercentage = 90.0;
+                    int KeepMinCp = 0;
+                    double KeepMinIvPercentage = 50.0;
                     int KeepMinDuplicatePokemon = 1;
 
                     if (_session.LogicSettings.PokemonsTransferFilter.ContainsKey(pokemon))
@@ -648,6 +669,11 @@ namespace PoGo.NecroBot.GUI
             {
                 MessageBox.Show("Error while saving profile, check to make sure values are correct", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void cmdStart_Click(object sender, EventArgs e)
+        {
+            Start();
         }
     }
 }

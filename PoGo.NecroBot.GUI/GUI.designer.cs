@@ -73,7 +73,6 @@
             this.tabControlSettings = new System.Windows.Forms.TabControl();
             this.tabPageSettingsGlobal = new System.Windows.Forms.TabPage();
             this.cmdSaveSettings = new System.Windows.Forms.Button();
-            this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
             this.tabPageSettingsPokemons = new System.Windows.Forms.TabPage();
             this.dataPokemonSettings = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -105,6 +104,8 @@
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cmdStart = new System.Windows.Forms.Button();
+            this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -201,6 +202,7 @@
             // 
             // grpPlayer
             // 
+            this.grpPlayer.Controls.Add(this.cmdStart);
             this.grpPlayer.Controls.Add(this.label4);
             this.grpPlayer.Controls.Add(this.textPlayerPokecoins);
             this.grpPlayer.Controls.Add(this.labelPlayerPokeHr);
@@ -631,17 +633,6 @@
             this.cmdSaveSettings.UseVisualStyleBackColor = true;
             this.cmdSaveSettings.Click += new System.EventHandler(this.cmdSaveSettings_Click);
             // 
-            // globalSettingsControl
-            // 
-            this.globalSettingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.globalSettingsControl.AutoScroll = true;
-            this.globalSettingsControl.Location = new System.Drawing.Point(3, 3);
-            this.globalSettingsControl.Name = "globalSettingsControl";
-            this.globalSettingsControl.Size = new System.Drawing.Size(674, 459);
-            this.globalSettingsControl.TabIndex = 36;
-            // 
             // tabPageSettingsPokemons
             // 
             this.tabPageSettingsPokemons.Controls.Add(this.dataPokemonSettings);
@@ -908,6 +899,27 @@
             this.Column7.Name = "Column7";
             this.Column7.Width = 60;
             // 
+            // cmdStart
+            // 
+            this.cmdStart.Image = global::PoGo.NecroBot.GUI.PoGoImages.play;
+            this.cmdStart.Location = new System.Drawing.Point(223, 15);
+            this.cmdStart.Name = "cmdStart";
+            this.cmdStart.Size = new System.Drawing.Size(65, 46);
+            this.cmdStart.TabIndex = 1;
+            this.cmdStart.UseVisualStyleBackColor = true;
+            this.cmdStart.Click += new System.EventHandler(this.cmdStart_Click);
+            // 
+            // globalSettingsControl
+            // 
+            this.globalSettingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.globalSettingsControl.AutoScroll = true;
+            this.globalSettingsControl.Location = new System.Drawing.Point(3, 3);
+            this.globalSettingsControl.Name = "globalSettingsControl";
+            this.globalSettingsControl.Size = new System.Drawing.Size(674, 459);
+            this.globalSettingsControl.TabIndex = 36;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1022,6 +1034,7 @@
         private System.Windows.Forms.DataGridViewImageColumn Column7;
         private GlobalSettingsControl globalSettingsControl;
         private System.Windows.Forms.Button cmdSaveSettings;
+        private System.Windows.Forms.Button cmdStart;
     }
 }
 
