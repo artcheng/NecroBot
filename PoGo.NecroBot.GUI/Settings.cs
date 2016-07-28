@@ -10,6 +10,7 @@ using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Enums;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
+using PoGo.NecroBot.Logic.Common;
 
 #endregion
 
@@ -308,6 +309,34 @@ namespace PoGo.NecroBot.GUI
             }
 
             File.WriteAllText(fullPath, output);
+        }
+
+        public static Translations LoadTranslation(string translationsLanguageCode)
+        {
+            string ProfilePath = Directory.GetCurrentDirectory();
+            string ConfigPath = Path.Combine(ProfilePath, "config", "translations");
+
+            var fullPath = Path.Combine(ConfigPath, "translation." + translationsLanguageCode + ".json");
+
+            Translations translations;
+            if (File.Exists(fullPath))
+            {
+                var input = File.ReadAllText(fullPath);
+
+                var jsonSettings = new JsonSerializerSettings();
+                jsonSettings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
+                jsonSettings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                jsonSettings.DefaultValueHandling = DefaultValueHandling.Populate;
+
+                translations = JsonConvert.DeserializeObject<Translations>(input, jsonSettings);
+                translations.Save(fullPath);
+            }
+            else
+            {
+                translations = new Translations();
+                translations.Save(Path.Combine(ConfigPath, "translation.en.json"));
+            }
+            return translations;
         }
     }
 
