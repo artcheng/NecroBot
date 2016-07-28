@@ -160,14 +160,11 @@ namespace PoGo.NecroBot.GUI
             int max = (int)_guiStats._playerNextLevelXp - (int)_guiStats._playerPrevLevelXp - Statistics.GetXpDiff(_guiStats._playerLevel);
             int current = (int)_guiStats._playerExperience - (int)_guiStats._playerPrevLevelXp - Statistics.GetXpDiff(_guiStats._playerLevel);
 
-            if (current > max)
+            if (current < max)
             {
-                current = current - max;
-                _guiStats._playerLevel++;
+                progressPlayerExpBar.Invoke(new Action(() => progressPlayerExpBar.Maximum = max));
+                progressPlayerExpBar.Invoke(new Action(() => progressPlayerExpBar.Value = current));
             }
-
-            progressPlayerExpBar.Invoke(new Action(() => progressPlayerExpBar.Maximum = max));
-            progressPlayerExpBar.Invoke(new Action(() => progressPlayerExpBar.Value = current));
 
             labelPlayerExpOverLevelExp.Invoke(new Action(() => labelPlayerExpOverLevelExp.Text = progressPlayerExpBar.Value.ToString() + "/" + progressPlayerExpBar.Maximum.ToString()));
 
@@ -195,7 +192,6 @@ namespace PoGo.NecroBot.GUI
                 if (currentPokemonList.Where(p => (ulong)p.Cells[0].Value == pokemon.Value.Id).Count() == 0)
                 {
                     string power = pokemon.Value.IndividualAttack.ToString() + "a/" + pokemon.Value.IndividualDefense.ToString() + "d/" + pokemon.Value.IndividualStamina.ToString() + "s";
-
                     Bitmap evolve = new Bitmap(40, 30);
                     _imagesList.TryGetValue("evolve", out evolve);
                     Bitmap transfer = new Bitmap(40, 30);
