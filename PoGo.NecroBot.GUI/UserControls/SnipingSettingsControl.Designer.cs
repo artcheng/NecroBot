@@ -40,6 +40,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.MinDelayBetweenSnipes = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.MinPokeballsToSnipe = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // SnipeAtPokestops
@@ -147,10 +149,28 @@
             this.label4.TabIndex = 133;
             this.label4.Text = "MinDelayBetweenSnipes";
             // 
+            // MinPokeballsToSnipe
+            // 
+            this.MinPokeballsToSnipe.Location = new System.Drawing.Point(210, 156);
+            this.MinPokeballsToSnipe.Name = "MinPokeballsToSnipe";
+            this.MinPokeballsToSnipe.Size = new System.Drawing.Size(155, 20);
+            this.MinPokeballsToSnipe.TabIndex = 136;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 159);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(110, 13);
+            this.label5.TabIndex = 135;
+            this.label5.Text = "MinPokeballsToSnipe";
+            // 
             // SnipingSettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.MinPokeballsToSnipe);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.MinDelayBetweenSnipes);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.UseTransferIVForSnipe);
@@ -184,5 +204,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox MinDelayBetweenSnipes;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox MinPokeballsToSnipe;
+        private System.Windows.Forms.Label label5;
     }
 }

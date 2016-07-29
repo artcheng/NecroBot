@@ -553,7 +553,7 @@ namespace PoGo.NecroBot.GUI
             snipingSettingsControl.SetSetting("UseSnipeLocationServer", _session.LogicSettings.UseSnipeLocationServer.ToString());
             snipingSettingsControl.SetSetting("UseTransferIVForSnipe", _session.LogicSettings.UseTransferIVForSnipe.ToString());
             snipingSettingsControl.SetSetting("MinDelayBetweenSnipes", _session.LogicSettings.MinDelayBetweenSnipes.ToString());
-
+            snipingSettingsControl.SetSetting("MinPokeballsToSnipe", _session.LogicSettings.MinPokeballsToSnipe.ToString());
 
             // Pokemon settings
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
@@ -642,6 +642,7 @@ namespace PoGo.NecroBot.GUI
                 _settings.UseSnipeLocationServer = Convert.ToBoolean(snipingSettingsControl.GetSetting("UseSnipeLocationServer"));
                 _settings.UseTransferIVForSnipe = Convert.ToBoolean(snipingSettingsControl.GetSetting("UseTransferIVForSnipe"));
                 _settings.MinDelayBetweenSnipes = Convert.ToInt16(snipingSettingsControl.GetSetting("MinDelayBetweenSnipes"));
+                _settings.MinPokeballsToSnipe = Convert.ToInt16(snipingSettingsControl.GetSetting("MinPokeballsToSnipe"));
 
                 List<PokemonId> PokemonsNotToTransfer = new List<PokemonId>();
                 List<PokemonId> PokemonsToEvolve = new List<PokemonId>();
