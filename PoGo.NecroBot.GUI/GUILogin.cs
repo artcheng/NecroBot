@@ -117,6 +117,10 @@ namespace PoGo.NecroBot.GUI
             string profilesFolder = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\config\\auth.json";
             var newProfile = new AuthSettings();
             newProfile.NewProfile(textUsername.Text, textPassword.Text, radioGoogle.Checked ? PokemonGo.RocketAPI.Enums.AuthType.Google : PokemonGo.RocketAPI.Enums.AuthType.Ptc, profilesFolder);
+
+            GlobalSettings settings = new GlobalSettings();
+            settings.Save(Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\config\\config.json");
+
             textUsername.Text = "";
             textPassword.Text = "";
             radioGoogle.Checked = true;
