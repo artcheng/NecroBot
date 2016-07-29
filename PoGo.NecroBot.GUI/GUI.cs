@@ -28,6 +28,8 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms.Markers;
 using PoGo.NecroBot.GUI.Util;
 using PoGo.NecroBot.CLI;
+using PoGo.NecroBot.Logic.Tasks;
+using PoGo.NecroBot.Logic.Common;
 
 namespace PoGo.NecroBot.GUI
 {
@@ -97,6 +99,7 @@ namespace PoGo.NecroBot.GUI
 
             _machine = new StateMachine();
             _session = new Session(new ClientSettings(_settings), new LogicSettings(_settings));
+            _session.Client.ApiFailure = new ApiFailureStrategy(_session);
 
             LoadGUISettings();
         }
@@ -135,9 +138,9 @@ namespace PoGo.NecroBot.GUI
             _session.Navigation.UpdatePositionEvent +=
                 (lat, lng) => _session.EventDispatcher.Send(new UpdatePositionEvent { Latitude = lat, Longitude = lng });
 
-            //_session.Client.Login.GoogleDeviceCodeEvent += LoginWithGoogle;
-
             _machine.AsyncStart(new VersionCheckState(), _session);
+            if (_session.LogicSettings.UseSnipeLocationServer)
+                SnipePokemonTask.AsyncStart(_session);
 
             _exphrUpdater = new System.Windows.Forms.Timer();
             _exphrUpdater.Interval = 1000;
@@ -468,7 +471,7 @@ namespace PoGo.NecroBot.GUI
                         var setting = pokemonSettings.Single(q => q.PokemonId == selectedPokemon.PokemonId);
                         var family = pokemonFamilies.First(q => q.FamilyId == setting.FamilyId);
 
-                        family.Candy++;
+                        family.Candy_++;
 
                         _session.EventDispatcher.Send(new TransferPokemonEvent
                         {
@@ -477,7 +480,7 @@ namespace PoGo.NecroBot.GUI
                             Cp = selectedPokemon.Cp,
                             BestCp = bestPokemonOfType.Cp,
                             BestPerfection = PokemonInfo.CalculatePokemonPerfection(bestPokemonOfType),
-                            FamilyCandies = family.Candy
+                            FamilyCandies = family.Candy_
                         });
                         _guiPokemons.RemovePokemon(pokemonId);
                         UpdateMyPokemons();
@@ -538,7 +541,8 @@ namespace PoGo.NecroBot.GUI
             globalSettingsControl.SetSetting("UsePokemonToNotCatchFilter", _session.LogicSettings.UsePokemonToNotCatchFilter.ToString());
             //globalSettingsControl.SetSetting("WebSocketPort", _session.Settings.We.ToString());
             //globalSettingsControl.SetSetting("StartupWelcomeDelay", _session.SettingsStartupWelcomeDelay.ToString());
-            
+            //globalSettingsControl.SetSetting("SnipeAtPokestops", _session.LogicSettings.SnipeAtPokestops.ToString());
+
 
             // Pokemon settings
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
@@ -621,6 +625,7 @@ namespace PoGo.NecroBot.GUI
                 _settings.TransferDuplicatePokemon = Convert.ToBoolean(globalSettingsControl.GetSetting("TransferDuplicatePokemon"));
                 _settings.TranslationLanguageCode = globalSettingsControl.GetSetting("TranslationLanguageCode");
                 _settings.UsePokemonToNotCatchFilter = Convert.ToBoolean(globalSettingsControl.GetSetting("UsePokemonToNotCatchFilter"));
+                //_settings.SnipeAtPokestops = Convert.ToBoolean(globalSettingsControl.GetSetting("SnipeAtPokestops"));
 
                 List<PokemonId> PokemonsNotToTransfer = new List<PokemonId>();
                 List<PokemonId> PokemonsToEvolve = new List<PokemonId>();

@@ -86,8 +86,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.StartupWelcomeDelay = new System.Windows.Forms.CheckBox();
             this.label28 = new System.Windows.Forms.Label();
-            this.SnipeAtPokestops = new System.Windows.Forms.CheckBox();
-            this.label30 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // KeepPokemonsThatCanEvolve
@@ -597,34 +595,11 @@
             this.label28.Text = "StartupWelcomeDelay";
             this.label28.Visible = false;
             // 
-            // SnipeAtPokestops
-            // 
-            this.SnipeAtPokestops.AutoSize = true;
-            this.SnipeAtPokestops.Location = new System.Drawing.Point(212, 742);
-            this.SnipeAtPokestops.Name = "SnipeAtPokestops";
-            this.SnipeAtPokestops.Size = new System.Drawing.Size(29, 17);
-            this.SnipeAtPokestops.TabIndex = 122;
-            this.SnipeAtPokestops.Text = " ";
-            this.SnipeAtPokestops.UseVisualStyleBackColor = true;
-            this.SnipeAtPokestops.Visible = false;
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(5, 743);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(94, 13);
-            this.label30.TabIndex = 121;
-            this.label30.Text = "SnipeAtPokestops";
-            this.label30.Visible = false;
-            // 
             // GlobalSettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.Controls.Add(this.SnipeAtPokestops);
-            this.Controls.Add(this.label30);
             this.Controls.Add(this.StartupWelcomeDelay);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.DumpPokemonStats);
@@ -750,7 +725,5 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox StartupWelcomeDelay;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.CheckBox SnipeAtPokestops;
-        private System.Windows.Forms.Label label30;
     }
 }

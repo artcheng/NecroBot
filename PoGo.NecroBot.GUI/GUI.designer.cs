@@ -61,6 +61,20 @@
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabMyPokemons = new System.Windows.Forms.TabPage();
+            this.dataMyPokemons = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Move1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Move2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewImageColumn();
             this.tabMap = new System.Windows.Forms.TabPage();
             this.checkShowPath = new System.Windows.Forms.CheckBox();
             this.checkShowPokegyms = new System.Windows.Forms.CheckBox();
@@ -73,6 +87,8 @@
             this.tabControlSettings = new System.Windows.Forms.TabControl();
             this.tabPageSettingsGlobal = new System.Windows.Forms.TabPage();
             this.cmdSaveSettings = new System.Windows.Forms.Button();
+            this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
+            this.tabPageSettingsSniping = new System.Windows.Forms.TabPage();
             this.tabPageSettingsPokemons = new System.Windows.Forms.TabPage();
             this.dataPokemonSettings = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -90,21 +106,7 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataMyPokemons = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Move1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Move2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
-            this.tabMyPokemons = new System.Windows.Forms.TabPage();
+            this.snipingSettingsControl1 = new PoGo.NecroBot.GUI.UserControls.SnipingSettingsControl();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -114,16 +116,17 @@
             this.tabCandies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataMyCandies)).BeginInit();
             this.tabControlMain.SuspendLayout();
+            this.tabMyPokemons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataMyPokemons)).BeginInit();
             this.tabMap.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.tabControlSettings.SuspendLayout();
             this.tabPageSettingsGlobal.SuspendLayout();
+            this.tabPageSettingsSniping.SuspendLayout();
             this.tabPageSettingsPokemons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataPokemonSettings)).BeginInit();
             this.tabPageSettingsItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataItemSettings)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataMyPokemons)).BeginInit();
-            this.tabMyPokemons.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridConsole
@@ -470,6 +473,122 @@
             this.tabControlMain.Size = new System.Drawing.Size(702, 523);
             this.tabControlMain.TabIndex = 1;
             // 
+            // tabMyPokemons
+            // 
+            this.tabMyPokemons.Controls.Add(this.dataMyPokemons);
+            this.tabMyPokemons.Location = new System.Drawing.Point(4, 22);
+            this.tabMyPokemons.Name = "tabMyPokemons";
+            this.tabMyPokemons.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMyPokemons.Size = new System.Drawing.Size(694, 497);
+            this.tabMyPokemons.TabIndex = 3;
+            this.tabMyPokemons.Text = "Pokemons (0/250)";
+            this.tabMyPokemons.UseVisualStyleBackColor = true;
+            // 
+            // dataMyPokemons
+            // 
+            this.dataMyPokemons.AllowUserToAddRows = false;
+            this.dataMyPokemons.AllowUserToDeleteRows = false;
+            this.dataMyPokemons.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataMyPokemons.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewImageColumn1,
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
+            this.Move1,
+            this.Move2,
+            this.Column9,
+            this.Column10,
+            this.Column7});
+            this.dataMyPokemons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataMyPokemons.Location = new System.Drawing.Point(3, 3);
+            this.dataMyPokemons.Name = "dataMyPokemons";
+            this.dataMyPokemons.RowHeadersWidth = 10;
+            this.dataMyPokemons.RowTemplate.Height = 40;
+            this.dataMyPokemons.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataMyPokemons.Size = new System.Drawing.Size(688, 491);
+            this.dataMyPokemons.TabIndex = 11;
+            this.dataMyPokemons.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataMyPokemons_CellContentClick);
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn4.Visible = false;
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
+            this.dataGridViewImageColumn1.Width = 30;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Pokemon";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "CP";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 75;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "Max CP";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "Perfect % (IV)";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.HeaderText = "Level";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // Move1
+            // 
+            this.Move1.HeaderText = "Move1";
+            this.Move1.Name = "Move1";
+            this.Move1.ReadOnly = true;
+            // 
+            // Move2
+            // 
+            this.Move2.HeaderText = "Move2";
+            this.Move2.Name = "Move2";
+            this.Move2.ReadOnly = true;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "Power";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Evolve";
+            this.Column10.Name = "Column10";
+            this.Column10.Width = 60;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Transfer";
+            this.Column7.Name = "Column7";
+            this.Column7.Width = 60;
+            // 
             // tabMap
             // 
             this.tabMap.Controls.Add(this.checkShowPath);
@@ -599,6 +718,7 @@
             // tabControlSettings
             // 
             this.tabControlSettings.Controls.Add(this.tabPageSettingsGlobal);
+            this.tabControlSettings.Controls.Add(this.tabPageSettingsSniping);
             this.tabControlSettings.Controls.Add(this.tabPageSettingsPokemons);
             this.tabControlSettings.Controls.Add(this.tabPageSettingsItems);
             this.tabControlSettings.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -630,6 +750,28 @@
             this.cmdSaveSettings.Text = "Save Settings";
             this.cmdSaveSettings.UseVisualStyleBackColor = true;
             this.cmdSaveSettings.Click += new System.EventHandler(this.cmdSaveSettings_Click);
+            // 
+            // globalSettingsControl
+            // 
+            this.globalSettingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.globalSettingsControl.AutoScroll = true;
+            this.globalSettingsControl.Location = new System.Drawing.Point(3, 3);
+            this.globalSettingsControl.Name = "globalSettingsControl";
+            this.globalSettingsControl.Size = new System.Drawing.Size(674, 459);
+            this.globalSettingsControl.TabIndex = 36;
+            // 
+            // tabPageSettingsSniping
+            // 
+            this.tabPageSettingsSniping.Controls.Add(this.snipingSettingsControl1);
+            this.tabPageSettingsSniping.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSettingsSniping.Name = "tabPageSettingsSniping";
+            this.tabPageSettingsSniping.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSettingsSniping.Size = new System.Drawing.Size(680, 465);
+            this.tabPageSettingsSniping.TabIndex = 3;
+            this.tabPageSettingsSniping.Text = "Sniping";
+            this.tabPageSettingsSniping.UseVisualStyleBackColor = true;
             // 
             // tabPageSettingsPokemons
             // 
@@ -780,132 +922,13 @@
             this.dataGridViewTextBoxColumn9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn9.Width = 75;
             // 
-            // dataMyPokemons
+            // snipingSettingsControl1
             // 
-            this.dataMyPokemons.AllowUserToAddRows = false;
-            this.dataMyPokemons.AllowUserToDeleteRows = false;
-            this.dataMyPokemons.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataMyPokemons.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewImageColumn1,
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.Move1,
-            this.Move2,
-            this.Column9,
-            this.Column10,
-            this.Column7});
-            this.dataMyPokemons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataMyPokemons.Location = new System.Drawing.Point(3, 3);
-            this.dataMyPokemons.Name = "dataMyPokemons";
-            this.dataMyPokemons.RowHeadersWidth = 10;
-            this.dataMyPokemons.RowTemplate.Height = 40;
-            this.dataMyPokemons.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataMyPokemons.Size = new System.Drawing.Size(688, 491);
-            this.dataMyPokemons.TabIndex = 11;
-            this.dataMyPokemons.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataMyPokemons_CellContentClick);
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn4.Visible = false;
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.HeaderText = "";
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.ReadOnly = true;
-            this.dataGridViewImageColumn1.Width = 30;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Pokemon";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "CP";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 75;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "Max CP";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Perfect % (IV)";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "Level";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // Move1
-            // 
-            this.Move1.HeaderText = "Move1";
-            this.Move1.Name = "Move1";
-            this.Move1.ReadOnly = true;
-            // 
-            // Move2
-            // 
-            this.Move2.HeaderText = "Move2";
-            this.Move2.Name = "Move2";
-            this.Move2.ReadOnly = true;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "Power";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Evolve";
-            this.Column10.Name = "Column10";
-            this.Column10.Width = 60;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Transfer";
-            this.Column7.Name = "Column7";
-            this.Column7.Width = 60;
-            // 
-            // globalSettingsControl
-            // 
-            this.globalSettingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.globalSettingsControl.AutoScroll = true;
-            this.globalSettingsControl.Location = new System.Drawing.Point(3, 3);
-            this.globalSettingsControl.Name = "globalSettingsControl";
-            this.globalSettingsControl.Size = new System.Drawing.Size(674, 459);
-            this.globalSettingsControl.TabIndex = 36;
-            // 
-            // tabMyPokemons
-            // 
-            this.tabMyPokemons.Controls.Add(this.dataMyPokemons);
-            this.tabMyPokemons.Location = new System.Drawing.Point(4, 22);
-            this.tabMyPokemons.Name = "tabMyPokemons";
-            this.tabMyPokemons.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMyPokemons.Size = new System.Drawing.Size(694, 497);
-            this.tabMyPokemons.TabIndex = 3;
-            this.tabMyPokemons.Text = "Pokemons (0/250)";
-            this.tabMyPokemons.UseVisualStyleBackColor = true;
+            this.snipingSettingsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.snipingSettingsControl1.Location = new System.Drawing.Point(3, 3);
+            this.snipingSettingsControl1.Name = "snipingSettingsControl1";
+            this.snipingSettingsControl1.Size = new System.Drawing.Size(674, 459);
+            this.snipingSettingsControl1.TabIndex = 0;
             // 
             // GUI
             // 
@@ -927,17 +950,18 @@
             this.tabCandies.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataMyCandies)).EndInit();
             this.tabControlMain.ResumeLayout(false);
+            this.tabMyPokemons.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataMyPokemons)).EndInit();
             this.tabMap.ResumeLayout(false);
             this.tabMap.PerformLayout();
             this.tabSettings.ResumeLayout(false);
             this.tabControlSettings.ResumeLayout(false);
             this.tabPageSettingsGlobal.ResumeLayout(false);
+            this.tabPageSettingsSniping.ResumeLayout(false);
             this.tabPageSettingsPokemons.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataPokemonSettings)).EndInit();
             this.tabPageSettingsItems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataItemSettings)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataMyPokemons)).EndInit();
-            this.tabMyPokemons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1020,6 +1044,8 @@
         private System.Windows.Forms.Button cmdSaveSettings;
         private System.Windows.Forms.Button cmdStart;
         private System.Windows.Forms.TabPage tabMyPokemons;
+        private System.Windows.Forms.TabPage tabPageSettingsSniping;
+        private UserControls.SnipingSettingsControl snipingSettingsControl1;
     }
 }
 

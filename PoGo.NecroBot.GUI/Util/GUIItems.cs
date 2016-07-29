@@ -35,16 +35,15 @@ namespace GUI.Utils
                         _items.Add(item.ItemId, item.Count);
                 }
             }
-
             var candies = inventory.GetPokemonFamilies().Result;
             if(candies != null)
             {
                 foreach (var candy in candies)
                 {
                     if (_candies.ContainsKey(candy.FamilyId))
-                        _candies[candy.FamilyId] = candy.Candy;
+                        _candies[candy.FamilyId] = candy.Candy_;
                     else
-                        _candies.Add(candy.FamilyId, candy.Candy);
+                        _candies.Add(candy.FamilyId, candy.Candy_);
                 }
             }
         }

@@ -48,7 +48,7 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="POGOProtos">
-      <HintPath>..\packages\POGOProtos.1.3.0\lib\net45\POGOProtos.dll</HintPath>
+      <HintPath>..\packages\POGOProtos.1.4.0\lib\net45\POGOProtos.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -94,6 +94,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\SnipingSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SnipingSettingsControl.Designer.cs">
+      <DependentUpon>SnipingSettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util\GUIItems.cs" />
     <Compile Include="Util\GUILiveMap.cs" />
     <Compile Include="Util\GUIPokemons.cs" />
@@ -120,6 +126,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\SnipingSettingsControl.resx">
+      <DependentUpon>SnipingSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
