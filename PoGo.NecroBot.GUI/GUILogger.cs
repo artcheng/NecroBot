@@ -84,7 +84,7 @@ namespace PoGo.NecroBot.GUI
                     break;
             }
 
-            _GUI.UpdateLog(level, message, messageColor);
+            _GUI.UpdateConsole(level, message, messageColor);
         }
 
         public void SetSession(ISession session)

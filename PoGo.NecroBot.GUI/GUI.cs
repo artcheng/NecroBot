@@ -99,6 +99,9 @@ namespace PoGo.NecroBot.GUI
             }
 
             _settings.AutoUpdate = false;
+            _settings.AmountOfPokemonToDisplayOnStart = 0;
+            _settings.StartupWelcomeDelay = false;
+
             if (loadProfile._loginUseGPX)
             {
                 _settings.UseGpxPathing = loadProfile._loginUseGPX;
@@ -112,7 +115,7 @@ namespace PoGo.NecroBot.GUI
             LoadGUISettings();
         }
 
-        private void Start()
+        private void StartBotting()
         {
             if (_isStarted == true)
             {
@@ -199,26 +202,7 @@ namespace PoGo.NecroBot.GUI
             }
         }
 
-        //public static void LoginWithGoogle(string usercode, string uri)
-        //{
-        //    try
-        //    {
-        //        Logger.Write("Google Device Code copied to clipboard");
-        //        Thread.Sleep(2000);
-        //        Process.Start(uri);
-        //        var thread = new Thread(() => Clipboard.SetText(usercode)); //Copy device code
-        //        thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-        //        thread.Start();
-        //        thread.Join();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        Logger.Write("Couldnt copy to clipboard, do it manually", LogLevel.Error);
-        //        Logger.Write($"Goto: {uri} & enter {usercode}", LogLevel.Error);
-        //    }
-        //}
-
-        public void UpdateLog(LogLevel level, string message, Color color)
+        public void UpdateConsole(LogLevel level, string message, Color color)
         {
             DataGridViewRow newRow = new DataGridViewRow();
 
@@ -226,8 +210,6 @@ namespace PoGo.NecroBot.GUI
 
             newRow.DefaultCellStyle.ForeColor = color;
             newRow.DefaultCellStyle.SelectionForeColor = color;
-            //newRow.DefaultCellStyle.BackColor = Color.Black;
-            //newRow.DefaultCellStyle.SelectionBackColor = Color.Black;
 
             dataGridConsole.Invoke(new Action(() => dataGridConsole.Rows.Add(newRow)));
             dataGridConsole.Invoke(new Action(() => dataGridConsole.FirstDisplayedScrollingRowIndex = dataGridConsole.RowCount - 1));
@@ -288,7 +270,6 @@ namespace PoGo.NecroBot.GUI
                 }
             }
 
-            //dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Sort(dataMyPokemons.Columns[2], ListSortDirection.Ascending)));
             tabMyPokemons.Invoke(new Action(() => tabMyPokemons.Text = "Pokemons (" + _guiPokemons._pokemons.Count().ToString() + "/" + _guiStats._playerMaxPokemonSpace.ToString() + ")"));
         }
 
@@ -548,7 +529,7 @@ namespace PoGo.NecroBot.GUI
 
         private void LoadGUISettings()
         {
-            // GlobalSettings
+            // Global
             globalSettingsControl.SetSetting("AmountOfPokemonToDisplayOnStart", _session.LogicSettings.AmountOfPokemonToDisplayOnStart.ToString());
             globalSettingsControl.SetSetting("AutoUpdate", _session.LogicSettings.AutoUpdate.ToString());
             globalSettingsControl.SetSetting("DefaultAltitude", _session.Settings.DefaultAltitude.ToString(".0"));
@@ -556,9 +537,6 @@ namespace PoGo.NecroBot.GUI
             globalSettingsControl.SetSetting("DefaultLongitude", _session.Settings.DefaultLongitude.ToString());
             globalSettingsControl.SetSetting("DelayBetweenPokemonCatch", _session.LogicSettings.DelayBetweenPokemonCatch.ToString());
             globalSettingsControl.SetSetting("DelayBetweenPlayerActions", _session.LogicSettings.DelayBetweenPlayerActions.ToString());
-            globalSettingsControl.SetSetting("EvolveAboveIvValue", _session.LogicSettings.EvolveAboveIvValue.ToString(".0"));
-            globalSettingsControl.SetSetting("EvolveAllPokemonAboveIv", _session.LogicSettings.EvolveAllPokemonAboveIv.ToString());
-            globalSettingsControl.SetSetting("EvolveAllPokemonWithEnoughCandy", _session.LogicSettings.EvolveAllPokemonWithEnoughCandy.ToString());
             globalSettingsControl.SetSetting("UseLuckyEggsMinPokemonAmount", _session.LogicSettings.UseLuckyEggsMinPokemonAmount.ToString());
             globalSettingsControl.SetSetting("UseLuckyEggsWhileEvolving", _session.LogicSettings.UseLuckyEggsWhileEvolving.ToString());
             globalSettingsControl.SetSetting("UseEggIncubators", _session.LogicSettings.UseEggIncubators.ToString());
@@ -567,17 +545,9 @@ namespace PoGo.NecroBot.GUI
             globalSettingsControl.SetSetting("UseGpxPathing", _session.LogicSettings.UseGpxPathing.ToString());
             globalSettingsControl.SetSetting("WalkingSpeedInKilometerPerHour", _session.LogicSettings.WalkingSpeedInKilometerPerHour.ToString(".0"));
             globalSettingsControl.SetSetting("MaxTravelDistanceInMeters", _session.LogicSettings.MaxTravelDistanceInMeters.ToString());
-            globalSettingsControl.SetSetting("KeepMinCp", _session.LogicSettings.KeepMinCp.ToString());
-            globalSettingsControl.SetSetting("KeepMinDuplicatePokemon", _session.LogicSettings.KeepMinDuplicatePokemon.ToString());
-            globalSettingsControl.SetSetting("KeepMinIvPercentage", _session.LogicSettings.KeepMinIvPercentage.ToString());
-            globalSettingsControl.SetSetting("KeepPokemonsThatCanEvolve", _session.LogicSettings.KeepPokemonsThatCanEvolve.ToString());
-            globalSettingsControl.SetSetting("PrioritizeIvOverCp", _session.LogicSettings.PrioritizeIvOverCp.ToString());
-            globalSettingsControl.SetSetting("RenameAboveIv", _session.LogicSettings.RenameAboveIv.ToString());
-            globalSettingsControl.SetSetting("TransferDuplicatePokemon", _session.LogicSettings.TransferDuplicatePokemon.ToString());
             globalSettingsControl.SetSetting("TranslationLanguageCode", _session.LogicSettings.TranslationLanguageCode);
-            globalSettingsControl.SetSetting("UsePokemonToNotCatchFilter", _session.LogicSettings.UsePokemonToNotCatchFilter.ToString());
-            //globalSettingsControl.SetSetting("WebSocketPort", _session.Settings.We.ToString());
-            //globalSettingsControl.SetSetting("StartupWelcomeDelay", _session.SettingsStartupWelcomeDelay.ToString());
+
+            // Sniping
             snipingSettingsControl.SetSetting("SnipeAtPokestops", _session.LogicSettings.SnipeAtPokestops.ToString());
             snipingSettingsControl.SetSetting("SnipeLocationServer", _session.LogicSettings.SnipeLocationServer.ToString());
             snipingSettingsControl.SetSetting("SnipeLocationServerPort", _session.LogicSettings.SnipeLocationServerPort.ToString());
@@ -585,6 +555,22 @@ namespace PoGo.NecroBot.GUI
             snipingSettingsControl.SetSetting("UseTransferIVForSnipe", _session.LogicSettings.UseTransferIVForSnipe.ToString());
             snipingSettingsControl.SetSetting("MinDelayBetweenSnipes", _session.LogicSettings.MinDelayBetweenSnipes.ToString());
             snipingSettingsControl.SetSetting("MinPokeballsToSnipe", _session.LogicSettings.MinPokeballsToSnipe.ToString());
+
+            // Pokemons
+            settingsEvolveAboveIvValue.Text = _session.LogicSettings.EvolveAboveIvValue.ToString();
+            settingsEvolveAllPokemonAboveIv.Checked = _session.LogicSettings.EvolveAllPokemonAboveIv;
+            settingsEvolveAllPokemonWithEnoughCandy.Checked = _session.LogicSettings.EvolveAllPokemonWithEnoughCandy;
+            settingsKeepMinCp.Text = _session.LogicSettings.KeepMinCp.ToString();
+            settingsKeepMinDuplicatePokemon.Text = _session.LogicSettings.KeepMinDuplicatePokemon.ToString();
+            settingsKeepMinIvPercentage.Text = _session.LogicSettings.KeepMinIvPercentage.ToString();
+            settingsKeepPokemonsThatCanEvolve.Checked = _session.LogicSettings.KeepPokemonsThatCanEvolve;
+            settingsPrioritizeIvOverCp.Checked = _session.LogicSettings.PrioritizeIvOverCp;
+            settingsRenameAboveIv.Checked = _session.LogicSettings.RenameAboveIv;
+            settingsTransferDuplicatePokemon.Checked = _session.LogicSettings.TransferDuplicatePokemon;
+            settingsUsePokemonToNotCatchFilter.Checked = _session.LogicSettings.UsePokemonToNotCatchFilter;
+
+            // Items
+
 
             // Pokemon settings
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
@@ -640,6 +626,7 @@ namespace PoGo.NecroBot.GUI
         {
             try
             {
+                // Global
                 _settings.AmountOfPokemonToDisplayOnStart = Convert.ToInt16(globalSettingsControl.GetSetting("AmountOfPokemonToDisplayOnStart"));
                 _settings.AutoUpdate = Convert.ToBoolean(globalSettingsControl.GetSetting("AutoUpdate"));
                 _settings.DefaultAltitude = Convert.ToDouble(globalSettingsControl.GetSetting("DefaultAltitude"));
@@ -647,9 +634,6 @@ namespace PoGo.NecroBot.GUI
                 _settings.DefaultLongitude = Convert.ToDouble(globalSettingsControl.GetSetting("DefaultLongitude"));
                 _settings.DelayBetweenPokemonCatch = Convert.ToInt16(globalSettingsControl.GetSetting("DelayBetweenPokemonCatch"));
                 _settings.DelayBetweenPlayerActions = Convert.ToInt16(globalSettingsControl.GetSetting("DelayBetweenPlayerActions"));
-                _settings.EvolveAboveIvValue = Convert.ToSingle(globalSettingsControl.GetSetting("EvolveAboveIvValue"));
-                _settings.EvolveAllPokemonAboveIv = Convert.ToBoolean(globalSettingsControl.GetSetting("EvolveAllPokemonAboveIv"));
-                _settings.EvolveAllPokemonWithEnoughCandy = Convert.ToBoolean(globalSettingsControl.GetSetting("EvolveAllPokemonWithEnoughCandy"));
                 _settings.UseLuckyEggsMinPokemonAmount = Convert.ToInt16(globalSettingsControl.GetSetting("UseLuckyEggsMinPokemonAmount"));
                 _settings.UseLuckyEggsWhileEvolving = Convert.ToBoolean(globalSettingsControl.GetSetting("UseLuckyEggsWhileEvolving"));
                 _settings.UseEggIncubators = Convert.ToBoolean(globalSettingsControl.GetSetting("UseEggIncubators"));
@@ -658,15 +642,9 @@ namespace PoGo.NecroBot.GUI
                 _settings.UseGpxPathing = Convert.ToBoolean(globalSettingsControl.GetSetting("UseGpxPathing"));
                 _settings.WalkingSpeedInKilometerPerHour = Convert.ToDouble(globalSettingsControl.GetSetting("WalkingSpeedInKilometerPerHour"));
                 _settings.MaxTravelDistanceInMeters = Convert.ToInt16(globalSettingsControl.GetSetting("MaxTravelDistanceInMeters"));
-                _settings.KeepMinCp = Convert.ToInt16(globalSettingsControl.GetSetting("KeepMinCp"));
-                _settings.KeepMinDuplicatePokemon = Convert.ToInt16(globalSettingsControl.GetSetting("KeepMinDuplicatePokemon"));
-                _settings.KeepMinIvPercentage = Convert.ToSingle(globalSettingsControl.GetSetting("KeepMinIvPercentage"));
-                _settings.KeepPokemonsThatCanEvolve = Convert.ToBoolean(globalSettingsControl.GetSetting("KeepPokemonsThatCanEvolve"));
-                _settings.PrioritizeIvOverCp = Convert.ToBoolean(globalSettingsControl.GetSetting("PrioritizeIvOverCp"));
-                _settings.RenameAboveIv = Convert.ToBoolean(globalSettingsControl.GetSetting("RenameAboveIv"));
-                _settings.TransferDuplicatePokemon = Convert.ToBoolean(globalSettingsControl.GetSetting("TransferDuplicatePokemon"));
                 _settings.TranslationLanguageCode = globalSettingsControl.GetSetting("TranslationLanguageCode");
-                _settings.UsePokemonToNotCatchFilter = Convert.ToBoolean(globalSettingsControl.GetSetting("UsePokemonToNotCatchFilter"));
+
+                // Sniping
                 _settings.SnipeAtPokestops = Convert.ToBoolean(snipingSettingsControl.GetSetting("SnipeAtPokestops"));
                 _settings.SnipeLocationServer = snipingSettingsControl.GetSetting("SnipeLocationServer");
                 _settings.SnipeLocationServerPort = Convert.ToInt16(snipingSettingsControl.GetSetting("SnipeLocationServerPort"));
@@ -675,12 +653,27 @@ namespace PoGo.NecroBot.GUI
                 _settings.MinDelayBetweenSnipes = Convert.ToInt16(snipingSettingsControl.GetSetting("MinDelayBetweenSnipes"));
                 _settings.MinPokeballsToSnipe = Convert.ToInt16(snipingSettingsControl.GetSetting("MinPokeballsToSnipe"));
 
+                // Pokemon
+                _settings.EvolveAboveIvValue = Convert.ToSingle(settingsEvolveAboveIvValue.Text);
+                _settings.EvolveAllPokemonAboveIv = settingsEvolveAllPokemonAboveIv.Checked;
+                _settings.EvolveAllPokemonWithEnoughCandy = settingsEvolveAllPokemonWithEnoughCandy.Checked;
+                _settings.KeepMinCp = Convert.ToInt16(settingsKeepMinCp.Text);
+                _settings.KeepMinDuplicatePokemon = Convert.ToInt16(settingsKeepMinDuplicatePokemon.Text);
+                _settings.KeepMinIvPercentage = Convert.ToSingle(settingsKeepMinIvPercentage.Text);
+                _settings.KeepPokemonsThatCanEvolve = settingsKeepPokemonsThatCanEvolve.Checked;
+                _settings.PrioritizeIvOverCp = settingsPrioritizeIvOverCp.Checked;
+                _settings.RenameAboveIv = settingsRenameAboveIv.Checked;
+                _settings.TransferDuplicatePokemon = settingsTransferDuplicatePokemon.Checked;
+                _settings.UsePokemonToNotCatchFilter = settingsUsePokemonToNotCatchFilter.Checked;
+
+                // Items
+
                 List<PokemonId> PokemonsNotToTransfer = new List<PokemonId>();
                 List<PokemonId> PokemonsToEvolve = new List<PokemonId>();
                 List<PokemonId> PokemonsToIgnore = new List<PokemonId>();
                 Dictionary<PokemonId, TransferFilter> PokemonsTransferFilter = new Dictionary<PokemonId, TransferFilter>();
 
-                foreach (DataGridViewRow row in dataPokemonSettings.Rows)
+                foreach (DataGridViewRow row in  dataPokemonSettings.Rows)
                 {
                     // 6 = PokemonsNotToTransfer
                     if ((bool)row.Cells[6].Value == true)
@@ -728,7 +721,23 @@ namespace PoGo.NecroBot.GUI
 
         private void cmdStart_Click(object sender, EventArgs e)
         {
-            Start();
+            StartBotting();
+        }
+
+        private void cmdSnipeList_Click(object sender, EventArgs e)
+        {
+            Dictionary<PokemonId, PointLatLng> pokemonToSnipe = new Dictionary<PokemonId, PointLatLng>();
+
+            foreach(var line in textPokemonSnipeList.Lines)
+            {
+                string[] split = line.Split(' ');
+                string name = split[1];
+                string[] coords = split[0].Split(',');
+
+                //pokemonToSnipe.Add((PokemonId)name, new PointLatLng(Convert.ToDouble(coords[0]), Convert.ToDouble(coords[1])));
+            }
+
+            //private static async Task snipe(ISession session, IEnumerable<PokemonId> pokemonIds, double latitude, double longitude, CancellationToken cancellationToken)
         }
     }
 }
