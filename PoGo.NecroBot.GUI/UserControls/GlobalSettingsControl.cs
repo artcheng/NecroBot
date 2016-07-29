@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PoGo.NecroBot.GUI
+namespace PoGo.NecroBot.GUI.UserControls
 {
     public partial class GlobalSettingsControl : UserControl
     {

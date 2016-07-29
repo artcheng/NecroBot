@@ -28,7 +28,7 @@ namespace GUI.Utils
                     var pokemons = inventory.GetPokemons().Result;
                     if (pokemons != null)
                     {
-                        foreach (var pokemonToRemove in _pokemons)
+                        foreach (var pokemonToRemove in _pokemons.ToList())
                         {
                             if (pokemons.Where(p => p.Id == pokemonToRemove.Key).ToList().Count == 0)
                             {
@@ -36,7 +36,7 @@ namespace GUI.Utils
                             }
                         }
 
-                        foreach (var pokemon in pokemons)
+                        foreach (var pokemon in pokemons.ToList())
                         {
                             if (_pokemons.ContainsKey(pokemon.Id))
                                 _pokemons[pokemon.Id] = pokemon;

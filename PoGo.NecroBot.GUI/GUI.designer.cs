@@ -1,4 +1,6 @@
-﻿namespace PoGo.NecroBot.GUI
+﻿using PoGo.NecroBot.GUI.UserControls;
+
+namespace PoGo.NecroBot.GUI
 {
     partial class GUI
     {
@@ -87,7 +89,7 @@
             this.tabControlSettings = new System.Windows.Forms.TabControl();
             this.tabPageSettingsGlobal = new System.Windows.Forms.TabPage();
             this.cmdSaveSettings = new System.Windows.Forms.Button();
-            this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
+            this.globalSettingsControl = new PoGo.NecroBot.GUI.UserControls.GlobalSettingsControl();
             this.tabPageSettingsSniping = new System.Windows.Forms.TabPage();
             this.snipingSettingsControl = new PoGo.NecroBot.GUI.UserControls.SnipingSettingsControl();
             this.tabPageSettingsPokemons = new System.Windows.Forms.TabPage();
@@ -228,9 +230,9 @@
             // cmdStart
             // 
             this.cmdStart.Image = global::PoGo.NecroBot.GUI.PoGoImages.play;
-            this.cmdStart.Location = new System.Drawing.Point(223, 15);
+            this.cmdStart.Location = new System.Drawing.Point(215, 19);
             this.cmdStart.Name = "cmdStart";
-            this.cmdStart.Size = new System.Drawing.Size(65, 46);
+            this.cmdStart.Size = new System.Drawing.Size(72, 57);
             this.cmdStart.TabIndex = 1;
             this.cmdStart.UseVisualStyleBackColor = true;
             this.cmdStart.Click += new System.EventHandler(this.cmdStart_Click);
@@ -532,44 +534,48 @@
             this.dataGridViewTextBoxColumn1.HeaderText = "Pokemon";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 150;
             // 
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.HeaderText = "CP";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 75;
+            this.dataGridViewTextBoxColumn2.Width = 50;
             // 
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.HeaderText = "Max CP";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Width = 50;
             // 
             // dataGridViewTextBoxColumn5
             // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Perfect % (IV)";
+            this.dataGridViewTextBoxColumn5.HeaderText = "IV";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 50;
             // 
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.HeaderText = "Level";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            this.dataGridViewTextBoxColumn6.Width = 50;
             // 
             // Move1
             // 
             this.Move1.HeaderText = "Move1";
             this.Move1.Name = "Move1";
             this.Move1.ReadOnly = true;
+            this.Move1.Width = 65;
             // 
             // Move2
             // 
             this.Move2.HeaderText = "Move2";
             this.Move2.Name = "Move2";
             this.Move2.ReadOnly = true;
+            this.Move2.Width = 65;
             // 
             // Column9
             // 
@@ -581,13 +587,13 @@
             // 
             this.Column10.HeaderText = "Evolve";
             this.Column10.Name = "Column10";
-            this.Column10.Width = 60;
+            this.Column10.Width = 50;
             // 
             // Column7
             // 
             this.Column7.HeaderText = "Transfer";
             this.Column7.Name = "Column7";
-            this.Column7.Width = 60;
+            this.Column7.Width = 50;
             // 
             // tabMap
             // 
@@ -1028,6 +1034,12 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private GlobalSettingsControl globalSettingsControl;
+        private System.Windows.Forms.Button cmdSaveSettings;
+        private System.Windows.Forms.Button cmdStart;
+        private System.Windows.Forms.TabPage tabMyPokemons;
+        private System.Windows.Forms.TabPage tabPageSettingsSniping;
+        private UserControls.SnipingSettingsControl snipingSettingsControl;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -1040,12 +1052,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewImageColumn Column10;
         private System.Windows.Forms.DataGridViewImageColumn Column7;
-        private GlobalSettingsControl globalSettingsControl;
-        private System.Windows.Forms.Button cmdSaveSettings;
-        private System.Windows.Forms.Button cmdStart;
-        private System.Windows.Forms.TabPage tabMyPokemons;
-        private System.Windows.Forms.TabPage tabPageSettingsSniping;
-        private UserControls.SnipingSettingsControl snipingSettingsControl;
     }
 }
 

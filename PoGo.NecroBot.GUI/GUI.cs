@@ -125,19 +125,19 @@ namespace PoGo.NecroBot.GUI
 
             _guiItems.DirtyEvent += () => UpdateMyItems();
             _guiPokemons.DirtyEvent += () => UpdateMyPokemons();
-            //_guiLiveMap.DirtyEvent += () => UpdateLiveMap();
+            _guiLiveMap.DirtyEvent += () => UpdateLiveMap();
 
             var listener = new GUIEventListener();
             var statsAggregator = new GUIStatsAggregator(_guiStats);
             var itemsAggregator = new GUIItemsAggregator(_guiItems);
             var pokemonsAggregator = new GUIPokemonsAggregator(_guiPokemons);
-            //var livemapAggregator = new GUILiveMapAggregator(_guiLiveMap);
+            var livemapAggregator = new GUILiveMapAggregator(_guiLiveMap);
 
             _session.EventDispatcher.EventReceived += (IEvent evt) => listener.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => statsAggregator.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => itemsAggregator.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => pokemonsAggregator.Listen(evt, _session);
-            //_session.EventDispatcher.EventReceived += (IEvent evt) => livemapAggregator.Listen(evt, _session);
+            _session.EventDispatcher.EventReceived += (IEvent evt) => livemapAggregator.Listen(evt, _session);
 
             _machine.SetFailureState(new LoginState());
 
@@ -356,78 +356,109 @@ namespace PoGo.NecroBot.GUI
 
         private void UpdateLiveMap()
         {
-            // Position
-            if (_guiLiveMap._positionUpdated)
-            {
-                _guiLiveMap._positionUpdated = false;
-                gMap.Invoke(new Action(() => gMap.Position = _guiLiveMap._currentPosition));
-                textCurrentLatLng.Invoke(new Action(() => textCurrentLatLng.Text = _guiLiveMap._currentPosition.Lat.ToString() + "," + _guiLiveMap._currentPosition.Lng.ToString()));
-                _mapOverlays["player"].Markers[0].Position = _guiLiveMap._currentPosition;
-
-                if (_guiLiveMap._lastPosition != null && (_guiLiveMap._lastPosition.Lat != 0 && _guiLiveMap._lastPosition.Lng != 0))
+            try {
+                // Position
+                if (_guiLiveMap._positionUpdated)
                 {
-                    List<PointLatLng> polygon = new List<PointLatLng>();
-                    polygon.Add(new PointLatLng(_guiLiveMap._lastPosition.Lat, _guiLiveMap._lastPosition.Lng));
-                    polygon.Add(new PointLatLng(_guiLiveMap._currentPosition.Lat, _guiLiveMap._currentPosition.Lng));
-                    GMapRoute route = new GMapRoute(polygon, "route");
+                    _guiLiveMap._positionUpdated = false;
+                    gMap.Invoke(new Action(() => gMap.Position = _guiLiveMap._currentPosition));
+                    textCurrentLatLng.Invoke(new Action(() => textCurrentLatLng.Text = _guiLiveMap._currentPosition.Lat.ToString() + "," + _guiLiveMap._currentPosition.Lng.ToString()));
+                    _mapOverlays["player"].Markers[0].Position = _guiLiveMap._currentPosition;
 
-                    route.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-                    route.Stroke.Width = 2;
-                    _mapOverlays["path"].Routes.Add(route);
+                    if (_guiLiveMap._lastPosition != null && (_guiLiveMap._lastPosition.Lat != 0 && _guiLiveMap._lastPosition.Lng != 0))
+                    {
+                        List<PointLatLng> polygon = new List<PointLatLng>();
+                        polygon.Add(new PointLatLng(_guiLiveMap._lastPosition.Lat, _guiLiveMap._lastPosition.Lng));
+                        polygon.Add(new PointLatLng(_guiLiveMap._currentPosition.Lat, _guiLiveMap._currentPosition.Lng));
+                        GMapRoute route = new GMapRoute(polygon, "route");
+
+                        route.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                        route.Stroke.Width = 2;
+                        _mapOverlays["path"].Routes.Add(route);
+                    }
+                }
+
+                // PokeStops
+                var currentListPokestop = _mapOverlays["pokestops"].Markers.ToList();
+
+                foreach (var line in currentListPokestop)
+                {
+                    if (_guiLiveMap._pokeStops.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
+                    {
+                        gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Remove(line)));
+                    }
+                }
+
+                Bitmap pokestopImg = new Bitmap(_imagesList["pokestop"], new Size(20, 20));
+                pokestopImg.MakeTransparent(Color.White);
+
+                Bitmap pokestopluredImg = new Bitmap(_imagesList["pokestop_lured"], new Size(20, 20));
+                pokestopluredImg.MakeTransparent(Color.White);
+
+                foreach (var pokestop in _guiLiveMap._pokeStops)
+                {
+                    if (currentListPokestop.Where(p => (string)p.Tag == pokestop.Key).Count() == 0)
+                    {
+                        GMarkerGoogle marker;
+                        marker = new GMarkerGoogle(new PointLatLng(pokestop.Value.Latitude, pokestop.Value.Longitude), pokestop.Value.LureInfo != null ? pokestopluredImg : pokestopImg);
+                        marker.Tag = pokestop.Value.Id;
+                        gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Add(marker)));
+                    }
+                }
+
+                // Pokegyms
+                var currentListPokegyms = _mapOverlays["pokegyms"].Markers.ToList();
+
+                foreach (var line in currentListPokegyms)
+                {
+                    if (_guiLiveMap._pokeGyms.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
+                    {
+                        gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Remove(line)));
+                    }
+                }
+
+                Bitmap pokegymImg = new Bitmap(_imagesList["pokegym"], new Size(20, 20));
+                pokestopImg.MakeTransparent(Color.White);
+
+                foreach (var pokegym in _guiLiveMap._pokeGyms)
+                {
+                    if (currentListPokegyms.Where(p => (string)p.Tag == pokegym.Key).Count() == 0)
+                    {
+                        GMarkerGoogle marker;
+                        marker = new GMarkerGoogle(new PointLatLng(pokegym.Value.Latitude, pokegym.Value.Longitude), pokegymImg);
+                        marker.Tag = pokegym.Value.Id;
+                        gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Add(marker)));
+                    }
+                }
+
+                // Pokemons
+                var currentListPokemons = _mapOverlays["pokemons"].Markers.ToList();
+
+                foreach (var line in currentListPokemons)
+                {
+                    if (_guiLiveMap._mapPokemons.Where(p => p.Key == (ulong)line.Tag).ToList().Count == 0)
+                    {
+                        gMap.Invoke(new Action(() => _mapOverlays["pokemons"].Markers.Remove(line)));
+                    }
+                }
+
+                foreach (var pokemon in _guiLiveMap._mapPokemons)
+                {
+                    if (currentListPokemons.Where(p => (ulong)p.Tag == pokemon.Key).Count() == 0)
+                    {
+                        Bitmap pokemonImg = new Bitmap(40, 30);
+                        _imagesList.TryGetValue("pokemon_" + ((int)pokemon.Value.PokemonId).ToString(), out pokemonImg);
+
+                        GMarkerGoogle marker;
+                        marker = new GMarkerGoogle(new PointLatLng(pokemon.Value.Latitude, pokemon.Value.Longitude), pokemonImg);
+                        marker.Tag = pokemon.Value.EncounterId;
+                        gMap.Invoke(new Action(() => _mapOverlays["pokemons"].Markers.Add(marker)));
+                    }
                 }
             }
-
-            // PokeStops
-            var currentListPokestop = _mapOverlays["pokestops"].Markers.ToList();
-
-            foreach (var line in currentListPokestop)
+            catch
             {
-                if (_guiLiveMap._pokeStops.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
-                {
-                    gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Remove(line)));
-                }
-            }
-
-            Bitmap pokestopImg = new Bitmap(_imagesList["pokestop"], new Size(20, 20));
-            pokestopImg.MakeTransparent(Color.White);
-
-            Bitmap pokestopluredImg = new Bitmap(_imagesList["pokestop_lured"], new Size(20, 20));
-            pokestopluredImg.MakeTransparent(Color.White);
-
-            foreach (var pokestop in _guiLiveMap._pokeStops)
-            {
-                if (currentListPokestop.Where(p => (string)p.Tag == pokestop.Key).Count() == 0)
-                {
-                    GMarkerGoogle marker;
-                    marker = new GMarkerGoogle(new PointLatLng(pokestop.Value.Latitude, pokestop.Value.Longitude), pokestop.Value.LureInfo != null ? pokestopluredImg: pokestopImg);
-                    marker.Tag = pokestop.Value.Id;
-                    gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Add(marker)));
-                }
-            }
-
-            // Pokegyms
-            var currentListPokegyms = _mapOverlays["pokegyms"].Markers.ToList();
-
-            foreach (var line in currentListPokegyms)
-            {
-                if (_guiLiveMap._pokeGyms.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
-                {
-                    gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Remove(line)));
-                }
-            }
-
-            Bitmap pokegymImg = new Bitmap(_imagesList["pokegym"], new Size(20, 20));
-            pokestopImg.MakeTransparent(Color.White);
- 
-            foreach (var pokegym in _guiLiveMap._pokeGyms)
-            {
-                if (currentListPokegyms.Where(p => (string)p.Tag == pokegym.Key).Count() == 0)
-                {
-                    GMarkerGoogle marker;
-                    marker = new GMarkerGoogle(new PointLatLng(pokegym.Value.Latitude, pokegym.Value.Longitude), pokegymImg);
-                    marker.Tag = pokegym.Value.Id;
-                    gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Add(marker)));
-                }
+                // error with livemap
             }
         }
 

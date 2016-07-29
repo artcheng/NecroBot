@@ -27,7 +27,7 @@ namespace GUI.Utils
             var items = inventory.GetItems().Result;
             if(items != null)
             {
-                foreach (var item in items)
+                foreach (var item in items.ToList())
                 {
                     if (_items.ContainsKey(item.ItemId))
                         _items[item.ItemId] = item.Count;
@@ -38,7 +38,7 @@ namespace GUI.Utils
             var candies = inventory.GetPokemonFamilies().Result;
             if(candies != null)
             {
-                foreach (var candy in candies)
+                foreach (var candy in candies.ToList())
                 {
                     if (_candies.ContainsKey(candy.FamilyId))
                         _candies[candy.FamilyId] = candy.Candy_;

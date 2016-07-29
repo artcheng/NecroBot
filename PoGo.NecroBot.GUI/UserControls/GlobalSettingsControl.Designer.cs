@@ -1,4 +1,4 @@
-﻿namespace PoGo.NecroBot.GUI
+﻿namespace PoGo.NecroBot.GUI.UserControls
 {
     partial class GlobalSettingsControl
     {
