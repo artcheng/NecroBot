@@ -193,24 +193,24 @@ namespace PoGo.NecroBot.GUI
             }
         }
 
-        public static void LoginWithGoogle(string usercode, string uri)
-        {
-            try
-            {
-                Logger.Write("Google Device Code copied to clipboard");
-                Thread.Sleep(2000);
-                Process.Start(uri);
-                var thread = new Thread(() => Clipboard.SetText(usercode)); //Copy device code
-                thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-                thread.Start();
-                thread.Join();
-            }
-            catch (Exception)
-            {
-                Logger.Write("Couldnt copy to clipboard, do it manually", LogLevel.Error);
-                Logger.Write($"Goto: {uri} & enter {usercode}", LogLevel.Error);
-            }
-        }
+        //public static void LoginWithGoogle(string usercode, string uri)
+        //{
+        //    try
+        //    {
+        //        Logger.Write("Google Device Code copied to clipboard");
+        //        Thread.Sleep(2000);
+        //        Process.Start(uri);
+        //        var thread = new Thread(() => Clipboard.SetText(usercode)); //Copy device code
+        //        thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+        //        thread.Start();
+        //        thread.Join();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Logger.Write("Couldnt copy to clipboard, do it manually", LogLevel.Error);
+        //        Logger.Write($"Goto: {uri} & enter {usercode}", LogLevel.Error);
+        //    }
+        //}
 
         public void UpdateLog(LogLevel level, string message, Color color)
         {
@@ -541,7 +541,12 @@ namespace PoGo.NecroBot.GUI
             globalSettingsControl.SetSetting("UsePokemonToNotCatchFilter", _session.LogicSettings.UsePokemonToNotCatchFilter.ToString());
             //globalSettingsControl.SetSetting("WebSocketPort", _session.Settings.We.ToString());
             //globalSettingsControl.SetSetting("StartupWelcomeDelay", _session.SettingsStartupWelcomeDelay.ToString());
-            //globalSettingsControl.SetSetting("SnipeAtPokestops", _session.LogicSettings.SnipeAtPokestops.ToString());
+            snipingSettingsControl.SetSetting("SnipeAtPokestops", _session.LogicSettings.SnipeAtPokestops.ToString());
+            snipingSettingsControl.SetSetting("SnipeLocationServer", _session.LogicSettings.SnipeLocationServer.ToString());
+            snipingSettingsControl.SetSetting("SnipeLocationServerPort", _session.LogicSettings.SnipeLocationServerPort.ToString());
+            snipingSettingsControl.SetSetting("UseSnipeLocationServer", _session.LogicSettings.UseSnipeLocationServer.ToString());
+            snipingSettingsControl.SetSetting("UseTransferIVForSnipe", _session.LogicSettings.UseTransferIVForSnipe.ToString());
+            snipingSettingsControl.SetSetting("MinDelayBetweenSnipes", _session.LogicSettings.MinDelayBetweenSnipes.ToString());
 
 
             // Pokemon settings
@@ -625,7 +630,12 @@ namespace PoGo.NecroBot.GUI
                 _settings.TransferDuplicatePokemon = Convert.ToBoolean(globalSettingsControl.GetSetting("TransferDuplicatePokemon"));
                 _settings.TranslationLanguageCode = globalSettingsControl.GetSetting("TranslationLanguageCode");
                 _settings.UsePokemonToNotCatchFilter = Convert.ToBoolean(globalSettingsControl.GetSetting("UsePokemonToNotCatchFilter"));
-                //_settings.SnipeAtPokestops = Convert.ToBoolean(globalSettingsControl.GetSetting("SnipeAtPokestops"));
+                _settings.SnipeAtPokestops = Convert.ToBoolean(snipingSettingsControl.GetSetting("SnipeAtPokestops"));
+                _settings.SnipeLocationServer = snipingSettingsControl.GetSetting("SnipeLocationServer");
+                _settings.SnipeLocationServerPort = Convert.ToInt16(snipingSettingsControl.GetSetting("SnipeLocationServerPort"));
+                _settings.UseSnipeLocationServer = Convert.ToBoolean(snipingSettingsControl.GetSetting("UseSnipeLocationServer"));
+                _settings.UseTransferIVForSnipe = Convert.ToBoolean(snipingSettingsControl.GetSetting("UseTransferIVForSnipe"));
+                _settings.MinDelayBetweenSnipes = Convert.ToInt16(snipingSettingsControl.GetSetting("MinDelayBetweenSnipes"));
 
                 List<PokemonId> PokemonsNotToTransfer = new List<PokemonId>();
                 List<PokemonId> PokemonsToEvolve = new List<PokemonId>();

@@ -89,6 +89,7 @@
             this.cmdSaveSettings = new System.Windows.Forms.Button();
             this.globalSettingsControl = new PoGo.NecroBot.GUI.GlobalSettingsControl();
             this.tabPageSettingsSniping = new System.Windows.Forms.TabPage();
+            this.snipingSettingsControl = new PoGo.NecroBot.GUI.UserControls.SnipingSettingsControl();
             this.tabPageSettingsPokemons = new System.Windows.Forms.TabPage();
             this.dataPokemonSettings = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -106,7 +107,6 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.snipingSettingsControl1 = new PoGo.NecroBot.GUI.UserControls.SnipingSettingsControl();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -764,7 +764,7 @@
             // 
             // tabPageSettingsSniping
             // 
-            this.tabPageSettingsSniping.Controls.Add(this.snipingSettingsControl1);
+            this.tabPageSettingsSniping.Controls.Add(this.snipingSettingsControl);
             this.tabPageSettingsSniping.Location = new System.Drawing.Point(4, 22);
             this.tabPageSettingsSniping.Name = "tabPageSettingsSniping";
             this.tabPageSettingsSniping.Padding = new System.Windows.Forms.Padding(3);
@@ -772,6 +772,14 @@
             this.tabPageSettingsSniping.TabIndex = 3;
             this.tabPageSettingsSniping.Text = "Sniping";
             this.tabPageSettingsSniping.UseVisualStyleBackColor = true;
+            // 
+            // snipingSettingsControl
+            // 
+            this.snipingSettingsControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.snipingSettingsControl.Location = new System.Drawing.Point(3, 3);
+            this.snipingSettingsControl.Name = "snipingSettingsControl";
+            this.snipingSettingsControl.Size = new System.Drawing.Size(674, 459);
+            this.snipingSettingsControl.TabIndex = 0;
             // 
             // tabPageSettingsPokemons
             // 
@@ -922,14 +930,6 @@
             this.dataGridViewTextBoxColumn9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn9.Width = 75;
             // 
-            // snipingSettingsControl1
-            // 
-            this.snipingSettingsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.snipingSettingsControl1.Location = new System.Drawing.Point(3, 3);
-            this.snipingSettingsControl1.Name = "snipingSettingsControl1";
-            this.snipingSettingsControl1.Size = new System.Drawing.Size(674, 459);
-            this.snipingSettingsControl1.TabIndex = 0;
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1045,7 +1045,7 @@
         private System.Windows.Forms.Button cmdStart;
         private System.Windows.Forms.TabPage tabMyPokemons;
         private System.Windows.Forms.TabPage tabPageSettingsSniping;
-        private UserControls.SnipingSettingsControl snipingSettingsControl1;
+        private UserControls.SnipingSettingsControl snipingSettingsControl;
     }
 }
 

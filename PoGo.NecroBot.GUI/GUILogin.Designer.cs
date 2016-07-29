@@ -36,9 +36,9 @@
             this.textPassword = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioGoogle = new System.Windows.Forms.RadioButton();
-            this.radioPtc = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
+            this.radioPtc = new System.Windows.Forms.RadioButton();
+            this.radioGoogle = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,6 +91,7 @@
             // 
             this.textPassword.Location = new System.Drawing.Point(67, 73);
             this.textPassword.Name = "textPassword";
+            this.textPassword.PasswordChar = '*';
             this.textPassword.Size = new System.Drawing.Size(220, 20);
             this.textPassword.TabIndex = 6;
             // 
@@ -119,17 +120,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "New profile";
             // 
-            // radioGoogle
+            // button1
             // 
-            this.radioGoogle.AutoSize = true;
-            this.radioGoogle.Checked = true;
-            this.radioGoogle.Location = new System.Drawing.Point(9, 20);
-            this.radioGoogle.Name = "radioGoogle";
-            this.radioGoogle.Size = new System.Drawing.Size(59, 17);
-            this.radioGoogle.TabIndex = 7;
-            this.radioGoogle.TabStop = true;
-            this.radioGoogle.Text = "Google";
-            this.radioGoogle.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(296, 70);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "New Profile";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // radioPtc
             // 
@@ -141,15 +140,17 @@
             this.radioPtc.Text = "PTC";
             this.radioPtc.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // radioGoogle
             // 
-            this.button1.Location = new System.Drawing.Point(296, 70);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "New Profile";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.radioGoogle.AutoSize = true;
+            this.radioGoogle.Checked = true;
+            this.radioGoogle.Location = new System.Drawing.Point(9, 20);
+            this.radioGoogle.Name = "radioGoogle";
+            this.radioGoogle.Size = new System.Drawing.Size(59, 17);
+            this.radioGoogle.TabIndex = 7;
+            this.radioGoogle.TabStop = true;
+            this.radioGoogle.Text = "Google";
+            this.radioGoogle.UseVisualStyleBackColor = true;
             // 
             // GUILogin
             // 
