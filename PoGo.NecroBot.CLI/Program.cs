@@ -13,6 +13,7 @@ using PoGo.NecroBot.Logic.Utils;
 using PoGo.NecroBot.Logic.Localization;
 using PoGo.NecroBot.Logic.Service;
 using PoGo.NecroBot.Logic.Tasks;
+using PoGo.NecroBot.Logic.Common;
 
 #endregion
 
@@ -40,6 +41,7 @@ namespace PoGo.NecroBot.CLI
                 return;
             }
             var session = new Session(new ClientSettings(settings), new LogicSettings(settings));
+            session.Client.ApiFailure = new ApiFailureStrategy(session);
 
 
             /*SimpleSession session = new SimpleSession
@@ -65,7 +67,7 @@ namespace PoGo.NecroBot.CLI
 
             var aggregator = new StatisticsAggregator(stats);
             var listener = new ConsoleEventListener();
-            var websocket = new WebSocketInterface(settings.WebSocketPort, session.Translation);
+            var websocket = new WebSocketInterface(settings.WebSocketPort, session);
 
             session.EventDispatcher.EventReceived += (IEvent evt) => listener.Listen(evt, session);
             session.EventDispatcher.EventReceived += (IEvent evt) => aggregator.Listen(evt, session);
@@ -79,6 +81,8 @@ namespace PoGo.NecroBot.CLI
                 (lat, lng) => session.EventDispatcher.Send(new UpdatePositionEvent {Latitude = lat, Longitude = lng});
 
             machine.AsyncStart(new VersionCheckState(), session);
+            if(session.LogicSettings.UseSnipeLocationServer)
+                SnipePokemonTask.AsyncStart(session);
 
             //Non-blocking key reader
             //This will allow to process console key presses in another code parts

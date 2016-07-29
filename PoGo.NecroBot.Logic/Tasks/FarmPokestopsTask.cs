@@ -124,6 +124,7 @@ namespace PoGo.NecroBot.Logic.Tasks
                     } else {
                         session.EventDispatcher.Send(new FortUsedEvent
                         {
+                            Id = pokeStop.Id,
                             Name = fortInfo.Name,
                             Exp = fortSearch.ExperienceAwarded,
                             Gems = fortSearch.GemsAwarded,
@@ -161,6 +162,11 @@ namespace PoGo.NecroBot.Logic.Tasks
                     {
                         await RenamePokemonTask.Execute(session);
                     }
+                }
+
+                if (session.LogicSettings.SnipeAtPokestops)
+                {
+                    await SnipePokemonTask.Execute(session);
                 }
             }
         }
