@@ -23,26 +23,32 @@ namespace GUI.Utils
         {
             if(inventory != null)
             {
-                var pokemons = inventory.GetPokemons().Result;
-                if (pokemons != null)
+                try
                 {
-                    foreach (var pokemonToRemove in _pokemons)
+                    var pokemons = inventory.GetPokemons().Result;
+                    if (pokemons != null)
                     {
-                        if (pokemons.Where(p => p.Id == pokemonToRemove.Key).ToList().Count == 0)
+                        foreach (var pokemonToRemove in _pokemons)
                         {
-                            _pokemons.Remove(pokemonToRemove.Key);
+                            if (pokemons.Where(p => p.Id == pokemonToRemove.Key).ToList().Count == 0)
+                            {
+                                _pokemons.Remove(pokemonToRemove.Key);
+                            }
+                        }
+
+                        foreach (var pokemon in pokemons)
+                        {
+                            if (_pokemons.ContainsKey(pokemon.Id))
+                                _pokemons[pokemon.Id] = pokemon;
+                            else
+                                _pokemons.Add(pokemon.Id, pokemon);
                         }
                     }
-
-                    foreach (var pokemon in pokemons)
-                    {
-                        if (_pokemons.ContainsKey(pokemon.Id))
-                            _pokemons[pokemon.Id] = pokemon;
-                        else
-                            _pokemons.Add(pokemon.Id, pokemon);
-                    }
                 }
-
+                catch
+                {
+                    // not loaded yet
+                }
             }
         }
 

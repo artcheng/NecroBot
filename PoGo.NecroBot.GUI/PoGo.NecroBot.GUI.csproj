@@ -87,12 +87,6 @@
     </Compile>
     <Compile Include="GUIPokemonsAggregator.cs" />
     <Compile Include="GUIStatsAggregator.cs" />
-    <Compile Include="MDI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MDI.Designer.cs">
-      <DependentUpon>MDI.cs</DependentUpon>
-    </Compile>
     <Compile Include="PoGoImages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,7 +94,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="Util\GUIItems.cs" />
     <Compile Include="Util\GUILiveMap.cs" />
     <Compile Include="Util\GUIPokemons.cs" />
@@ -113,9 +106,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUILogin.resx">
       <DependentUpon>GUILogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MDI.resx">
-      <DependentUpon>MDI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PoGoImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -695,7 +685,6 @@
     <None Include="Resources\Valor.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MDIWindowManager.xml" />
     <None Include="Resources\play.png" />
     <None Include="Resources\transfer.png" />
     <None Include="Resources\evolve.png" />

@@ -54,10 +54,5 @@ namespace PoGo.NecroBot.GUI
 
             return value;
         }
-
-        private void checkBox6_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

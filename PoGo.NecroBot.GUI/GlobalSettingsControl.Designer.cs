@@ -86,6 +86,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.StartupWelcomeDelay = new System.Windows.Forms.CheckBox();
             this.label28 = new System.Windows.Forms.Label();
+            this.SnipeAtPokestops = new System.Windows.Forms.CheckBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // KeepPokemonsThatCanEvolve
@@ -119,7 +121,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(3, 524);
+            this.label19.Location = new System.Drawing.Point(5, 524);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(113, 13);
             this.label19.TabIndex = 62;
@@ -128,7 +130,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(3, 498);
+            this.label18.Location = new System.Drawing.Point(5, 498);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(139, 13);
             this.label18.TabIndex = 60;
@@ -137,7 +139,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 476);
+            this.label17.Location = new System.Drawing.Point(5, 472);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(62, 13);
             this.label17.TabIndex = 58;
@@ -145,7 +147,7 @@
             // 
             // GpxFile
             // 
-            this.GpxFile.Location = new System.Drawing.Point(210, 364);
+            this.GpxFile.Location = new System.Drawing.Point(212, 364);
             this.GpxFile.Name = "GpxFile";
             this.GpxFile.Size = new System.Drawing.Size(155, 20);
             this.GpxFile.TabIndex = 57;
@@ -153,7 +155,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 367);
+            this.label16.Location = new System.Drawing.Point(5, 367);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(42, 13);
             this.label16.TabIndex = 56;
@@ -162,7 +164,7 @@
             // EvolveAllPokemonAboveIv
             // 
             this.EvolveAllPokemonAboveIv.AutoSize = true;
-            this.EvolveAllPokemonAboveIv.Location = new System.Drawing.Point(210, 216);
+            this.EvolveAllPokemonAboveIv.Location = new System.Drawing.Point(212, 216);
             this.EvolveAllPokemonAboveIv.Name = "EvolveAllPokemonAboveIv";
             this.EvolveAllPokemonAboveIv.Size = new System.Drawing.Size(29, 17);
             this.EvolveAllPokemonAboveIv.TabIndex = 55;
@@ -172,7 +174,7 @@
             // AutoUpdate
             // 
             this.AutoUpdate.AutoSize = true;
-            this.AutoUpdate.Location = new System.Drawing.Point(210, 34);
+            this.AutoUpdate.Location = new System.Drawing.Point(212, 34);
             this.AutoUpdate.Name = "AutoUpdate";
             this.AutoUpdate.Size = new System.Drawing.Size(29, 17);
             this.AutoUpdate.TabIndex = 53;
@@ -182,7 +184,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(3, 243);
+            this.label11.Location = new System.Drawing.Point(5, 243);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(185, 13);
             this.label11.TabIndex = 51;
@@ -191,7 +193,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 217);
+            this.label12.Location = new System.Drawing.Point(5, 217);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(136, 13);
             this.label12.TabIndex = 50;
@@ -200,7 +202,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 191);
+            this.label13.Location = new System.Drawing.Point(5, 191);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(107, 13);
             this.label13.TabIndex = 49;
@@ -209,7 +211,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(3, 139);
+            this.label14.Location = new System.Drawing.Point(5, 139);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(149, 13);
             this.label14.TabIndex = 47;
@@ -218,7 +220,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 113);
+            this.label15.Location = new System.Drawing.Point(5, 113);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(88, 13);
             this.label15.TabIndex = 45;
@@ -227,7 +229,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 87);
+            this.label10.Location = new System.Drawing.Point(5, 87);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(79, 13);
             this.label10.TabIndex = 43;
@@ -236,7 +238,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 61);
+            this.label9.Location = new System.Drawing.Point(5, 61);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(76, 13);
             this.label9.TabIndex = 41;
@@ -245,7 +247,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 35);
+            this.label7.Location = new System.Drawing.Point(5, 35);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(64, 13);
             this.label7.TabIndex = 38;
@@ -254,7 +256,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 9);
+            this.label6.Location = new System.Drawing.Point(5, 9);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(168, 13);
             this.label6.TabIndex = 36;
@@ -297,7 +299,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 320);
+            this.label5.Location = new System.Drawing.Point(5, 320);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 13);
             this.label5.TabIndex = 76;
@@ -315,7 +317,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(3, 268);
+            this.label23.Location = new System.Drawing.Point(5, 268);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(177, 13);
             this.label23.TabIndex = 80;
@@ -324,7 +326,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(3, 296);
+            this.label24.Location = new System.Drawing.Point(5, 296);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(147, 13);
             this.label24.TabIndex = 82;
@@ -351,7 +353,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(8, 694);
+            this.label27.Location = new System.Drawing.Point(5, 694);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(83, 13);
             this.label27.TabIndex = 88;
@@ -386,7 +388,6 @@
             this.RenameAboveIv.TabIndex = 95;
             this.RenameAboveIv.Text = " ";
             this.RenameAboveIv.UseVisualStyleBackColor = true;
-            this.RenameAboveIv.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
             // 
             // TransferDuplicatePokemon
             // 
@@ -401,7 +402,7 @@
             // UseEggIncubators
             // 
             this.UseEggIncubators.AutoSize = true;
-            this.UseEggIncubators.Location = new System.Drawing.Point(210, 319);
+            this.UseEggIncubators.Location = new System.Drawing.Point(212, 319);
             this.UseEggIncubators.Name = "UseEggIncubators";
             this.UseEggIncubators.Size = new System.Drawing.Size(29, 17);
             this.UseEggIncubators.TabIndex = 97;
@@ -421,7 +422,7 @@
             // UseLuckyEggsWhileEvolving
             // 
             this.UseLuckyEggsWhileEvolving.AutoSize = true;
-            this.UseLuckyEggsWhileEvolving.Location = new System.Drawing.Point(210, 295);
+            this.UseLuckyEggsWhileEvolving.Location = new System.Drawing.Point(212, 295);
             this.UseLuckyEggsWhileEvolving.Name = "UseLuckyEggsWhileEvolving";
             this.UseLuckyEggsWhileEvolving.Size = new System.Drawing.Size(29, 17);
             this.UseLuckyEggsWhileEvolving.TabIndex = 99;
@@ -440,21 +441,21 @@
             // 
             // UseLuckyEggsMinPokemonAmount
             // 
-            this.UseLuckyEggsMinPokemonAmount.Location = new System.Drawing.Point(210, 265);
+            this.UseLuckyEggsMinPokemonAmount.Location = new System.Drawing.Point(212, 265);
             this.UseLuckyEggsMinPokemonAmount.Name = "UseLuckyEggsMinPokemonAmount";
             this.UseLuckyEggsMinPokemonAmount.Size = new System.Drawing.Size(155, 20);
             this.UseLuckyEggsMinPokemonAmount.TabIndex = 101;
             // 
             // WalkingSpeedInKilometerPerHour
             // 
-            this.WalkingSpeedInKilometerPerHour.Location = new System.Drawing.Point(210, 416);
+            this.WalkingSpeedInKilometerPerHour.Location = new System.Drawing.Point(212, 416);
             this.WalkingSpeedInKilometerPerHour.Name = "WalkingSpeedInKilometerPerHour";
             this.WalkingSpeedInKilometerPerHour.Size = new System.Drawing.Size(155, 20);
             this.WalkingSpeedInKilometerPerHour.TabIndex = 102;
             // 
             // WebSocketPort
             // 
-            this.WebSocketPort.Location = new System.Drawing.Point(210, 691);
+            this.WebSocketPort.Location = new System.Drawing.Point(212, 691);
             this.WebSocketPort.Name = "WebSocketPort";
             this.WebSocketPort.Size = new System.Drawing.Size(155, 20);
             this.WebSocketPort.TabIndex = 103;
@@ -462,70 +463,70 @@
             // 
             // MaxTravelDistanceInMeters
             // 
-            this.MaxTravelDistanceInMeters.Location = new System.Drawing.Point(210, 443);
+            this.MaxTravelDistanceInMeters.Location = new System.Drawing.Point(212, 443);
             this.MaxTravelDistanceInMeters.Name = "MaxTravelDistanceInMeters";
             this.MaxTravelDistanceInMeters.Size = new System.Drawing.Size(155, 20);
             this.MaxTravelDistanceInMeters.TabIndex = 104;
             // 
             // KeepMinIvPercentage
             // 
-            this.KeepMinIvPercentage.Location = new System.Drawing.Point(210, 521);
+            this.KeepMinIvPercentage.Location = new System.Drawing.Point(212, 521);
             this.KeepMinIvPercentage.Name = "KeepMinIvPercentage";
             this.KeepMinIvPercentage.Size = new System.Drawing.Size(155, 20);
             this.KeepMinIvPercentage.TabIndex = 105;
             // 
             // KeepMinDuplicatePokemon
             // 
-            this.KeepMinDuplicatePokemon.Location = new System.Drawing.Point(210, 495);
+            this.KeepMinDuplicatePokemon.Location = new System.Drawing.Point(212, 495);
             this.KeepMinDuplicatePokemon.Name = "KeepMinDuplicatePokemon";
             this.KeepMinDuplicatePokemon.Size = new System.Drawing.Size(155, 20);
             this.KeepMinDuplicatePokemon.TabIndex = 106;
             // 
             // KeepMinCp
             // 
-            this.KeepMinCp.Location = new System.Drawing.Point(210, 469);
+            this.KeepMinCp.Location = new System.Drawing.Point(212, 469);
             this.KeepMinCp.Name = "KeepMinCp";
             this.KeepMinCp.Size = new System.Drawing.Size(155, 20);
             this.KeepMinCp.TabIndex = 107;
             // 
             // DelayBetweenPokemonCatch
             // 
-            this.DelayBetweenPokemonCatch.Location = new System.Drawing.Point(210, 136);
+            this.DelayBetweenPokemonCatch.Location = new System.Drawing.Point(212, 136);
             this.DelayBetweenPokemonCatch.Name = "DelayBetweenPokemonCatch";
             this.DelayBetweenPokemonCatch.Size = new System.Drawing.Size(155, 20);
             this.DelayBetweenPokemonCatch.TabIndex = 108;
             // 
             // DefaultLongitude
             // 
-            this.DefaultLongitude.Location = new System.Drawing.Point(210, 110);
+            this.DefaultLongitude.Location = new System.Drawing.Point(212, 110);
             this.DefaultLongitude.Name = "DefaultLongitude";
             this.DefaultLongitude.Size = new System.Drawing.Size(155, 20);
             this.DefaultLongitude.TabIndex = 109;
             // 
             // DefaultLatitude
             // 
-            this.DefaultLatitude.Location = new System.Drawing.Point(210, 84);
+            this.DefaultLatitude.Location = new System.Drawing.Point(212, 84);
             this.DefaultLatitude.Name = "DefaultLatitude";
             this.DefaultLatitude.Size = new System.Drawing.Size(155, 20);
             this.DefaultLatitude.TabIndex = 110;
             // 
             // DefaultAltitude
             // 
-            this.DefaultAltitude.Location = new System.Drawing.Point(210, 58);
+            this.DefaultAltitude.Location = new System.Drawing.Point(212, 58);
             this.DefaultAltitude.Name = "DefaultAltitude";
             this.DefaultAltitude.Size = new System.Drawing.Size(155, 20);
             this.DefaultAltitude.TabIndex = 111;
             // 
             // AmountOfPokemonToDisplayOnStart
             // 
-            this.AmountOfPokemonToDisplayOnStart.Location = new System.Drawing.Point(210, 6);
+            this.AmountOfPokemonToDisplayOnStart.Location = new System.Drawing.Point(212, 6);
             this.AmountOfPokemonToDisplayOnStart.Name = "AmountOfPokemonToDisplayOnStart";
             this.AmountOfPokemonToDisplayOnStart.Size = new System.Drawing.Size(155, 20);
             this.AmountOfPokemonToDisplayOnStart.TabIndex = 112;
             // 
             // EvolveAboveIvValue
             // 
-            this.EvolveAboveIvValue.Location = new System.Drawing.Point(210, 188);
+            this.EvolveAboveIvValue.Location = new System.Drawing.Point(212, 188);
             this.EvolveAboveIvValue.Name = "EvolveAboveIvValue";
             this.EvolveAboveIvValue.Size = new System.Drawing.Size(155, 20);
             this.EvolveAboveIvValue.TabIndex = 113;
@@ -533,7 +534,7 @@
             // EvolveAllPokemonWithEnoughCandy
             // 
             this.EvolveAllPokemonWithEnoughCandy.AutoSize = true;
-            this.EvolveAllPokemonWithEnoughCandy.Location = new System.Drawing.Point(210, 242);
+            this.EvolveAllPokemonWithEnoughCandy.Location = new System.Drawing.Point(212, 242);
             this.EvolveAllPokemonWithEnoughCandy.Name = "EvolveAllPokemonWithEnoughCandy";
             this.EvolveAllPokemonWithEnoughCandy.Size = new System.Drawing.Size(29, 17);
             this.EvolveAllPokemonWithEnoughCandy.TabIndex = 114;
@@ -542,7 +543,7 @@
             // 
             // DelayBetweenPlayerActions
             // 
-            this.DelayBetweenPlayerActions.Location = new System.Drawing.Point(210, 162);
+            this.DelayBetweenPlayerActions.Location = new System.Drawing.Point(212, 162);
             this.DelayBetweenPlayerActions.Name = "DelayBetweenPlayerActions";
             this.DelayBetweenPlayerActions.Size = new System.Drawing.Size(155, 20);
             this.DelayBetweenPlayerActions.TabIndex = 116;
@@ -550,7 +551,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 165);
+            this.label1.Location = new System.Drawing.Point(5, 165);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(140, 13);
             this.label1.TabIndex = 115;
@@ -559,7 +560,7 @@
             // DumpPokemonStats
             // 
             this.DumpPokemonStats.AutoSize = true;
-            this.DumpPokemonStats.Location = new System.Drawing.Point(210, 341);
+            this.DumpPokemonStats.Location = new System.Drawing.Point(212, 341);
             this.DumpPokemonStats.Name = "DumpPokemonStats";
             this.DumpPokemonStats.Size = new System.Drawing.Size(29, 17);
             this.DumpPokemonStats.TabIndex = 118;
@@ -569,7 +570,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 342);
+            this.label8.Location = new System.Drawing.Point(5, 342);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(104, 13);
             this.label8.TabIndex = 117;
@@ -596,11 +597,34 @@
             this.label28.Text = "StartupWelcomeDelay";
             this.label28.Visible = false;
             // 
+            // SnipeAtPokestops
+            // 
+            this.SnipeAtPokestops.AutoSize = true;
+            this.SnipeAtPokestops.Location = new System.Drawing.Point(212, 742);
+            this.SnipeAtPokestops.Name = "SnipeAtPokestops";
+            this.SnipeAtPokestops.Size = new System.Drawing.Size(29, 17);
+            this.SnipeAtPokestops.TabIndex = 122;
+            this.SnipeAtPokestops.Text = " ";
+            this.SnipeAtPokestops.UseVisualStyleBackColor = true;
+            this.SnipeAtPokestops.Visible = false;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(5, 743);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(94, 13);
+            this.label30.TabIndex = 121;
+            this.label30.Text = "SnipeAtPokestops";
+            this.label30.Visible = false;
+            // 
             // GlobalSettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+            this.Controls.Add(this.SnipeAtPokestops);
+            this.Controls.Add(this.label30);
             this.Controls.Add(this.StartupWelcomeDelay);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.DumpPokemonStats);
@@ -660,7 +684,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Name = "GlobalSettingsControl";
-            this.Size = new System.Drawing.Size(566, 732);
+            this.Size = new System.Drawing.Size(549, 789);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -726,5 +750,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox StartupWelcomeDelay;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.CheckBox SnipeAtPokestops;
+        private System.Windows.Forms.Label label30;
     }
 }

@@ -42,6 +42,15 @@ namespace PoGo.NecroBot.GUI
                 DirectoryInfo[] directories = directory.GetDirectories();
                 foreach (DirectoryInfo profile in directories)
                 {
+                    if (File.Exists(profilesFolder + profile.Name + "\\auth.json") && File.Exists(profilesFolder + profile.Name + "\\config.json"))
+                    {
+                        if (!Directory.Exists(profilesFolder + profile.Name + "\\config"))
+                            Directory.CreateDirectory(profilesFolder + profile.Name + "\\config");
+
+                        File.Move(profilesFolder + profile.Name + "\\auth.json", profilesFolder + profile.Name + "\\config\\auth.json");
+                        File.Move(profilesFolder + profile.Name + "\\config.json", profilesFolder + profile.Name + "\\config\\config.json");
+                    }
+
                     _profilesList.Add(profile.Name, profile.FullName);
                     cboProfiles.Items.Add(profile.Name);
                 }
@@ -81,7 +90,7 @@ namespace PoGo.NecroBot.GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string profilesFolder = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\auth.json";
+            string profilesFolder = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\config\\auth.json";
             var newProfile = new AuthSettings();
             newProfile.NewProfile(textUsername.Text, textPassword.Text, radioGoogle.Checked ? PokemonGo.RocketAPI.Enums.AuthType.Google : PokemonGo.RocketAPI.Enums.AuthType.Ptc, profilesFolder);
             textUsername.Text = "";

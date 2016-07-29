@@ -15,7 +15,7 @@ using POGOProtos.Inventory.Item;
 
 namespace PoGo.NecroBot.CLI
 {
-    internal class AuthSettings
+    public class AuthSettings
     {
         public AuthType AuthType;
 
@@ -68,6 +68,23 @@ namespace PoGo.NecroBot.CLI
             {
                 Save(_filePath);
             }
+        }
+
+        public void NewProfile(string username, string password, AuthType type, string path)
+        {
+            AuthType = type;
+            if (type == AuthType.Ptc)
+            {
+                PtcUsername = username;
+                PtcPassword = password;
+            }
+            else
+            {
+                GoogleUsername = username;
+                GooglePassword = password;
+            }
+
+            Save(path);
         }
     }
 

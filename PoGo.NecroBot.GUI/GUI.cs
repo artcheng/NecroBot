@@ -27,6 +27,7 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms.Markers;
 using PoGo.NecroBot.GUI.Util;
+using PoGo.NecroBot.CLI;
 
 namespace PoGo.NecroBot.GUI
 {
@@ -537,6 +538,7 @@ namespace PoGo.NecroBot.GUI
             globalSettingsControl.SetSetting("UsePokemonToNotCatchFilter", _session.LogicSettings.UsePokemonToNotCatchFilter.ToString());
             //globalSettingsControl.SetSetting("WebSocketPort", _session.Settings.We.ToString());
             //globalSettingsControl.SetSetting("StartupWelcomeDelay", _session.SettingsStartupWelcomeDelay.ToString());
+            
 
             // Pokemon settings
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
