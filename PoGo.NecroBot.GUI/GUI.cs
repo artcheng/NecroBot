@@ -678,7 +678,7 @@ namespace PoGo.NecroBot.GUI
                 _settings.ItemRecycleFilter = ItemRecycleFilter;
 
 
-                _settings.Save(_profilePath+"\\config.json");
+                _settings.Save(_profilePath+"\\config\\config.json");
 
                 MessageBox.Show("Profile has been saved, please restart bot to load new profile", "Profile saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
