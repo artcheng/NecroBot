@@ -117,7 +117,8 @@
       "Value": "Bonbons: {0}"
     },
     {
-      "Key": "unhandledGpxData",
+      "Key": "unhandled
+        Data",
       "Value": "Unerwartete Daten in GPX Datei, versuche zu überspringen."
     },
     {

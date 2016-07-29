@@ -11,21 +11,21 @@ using POGOProtos.Networking.Responses;
 using GUI.Utils;
 using POGOProtos.Enums;
 
-namespace PoGo.NecroBot.GUI
+namespace PoGo.NecroBot.GUI.Aggregators
 {
-    class GUIItemsAggregator
+    class GUIPokemonsAggregator
     {
-        private readonly GUIItems _guiItems;
+        private readonly GUIPokemons _guiPokemons;
 
-        public GUIItemsAggregator(GUIItems items)
+        public GUIPokemonsAggregator(GUIPokemons pokemons)
         {
-            _guiItems = items;
+            _guiPokemons = pokemons;
         }
 
         public void HandleEvent(ProfileEvent evt, Session session)
         {
-            _guiItems.SetItems(session.Inventory);
-            _guiItems.Dirty(session.Inventory);
+            _guiPokemons.SetPokemons(session.Inventory);
+            _guiPokemons.Dirty(session.Inventory);
         }
 
         public void HandleEvent(ErrorEvent evt, Session session)
@@ -42,36 +42,33 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(UseLuckyEggEvent evt, Session session)
         {
-            _guiItems.UpdateItemByValue(ItemId.ItemLuckyEgg, -1);
-            _guiItems.Dirty(session.Inventory);
+
         }
 
         public void HandleEvent(PokemonEvolveEvent evt, Session session)
         {
-            _guiItems.Dirty(session.Inventory);
+            _guiPokemons.SetPokemons(session.Inventory);
+            _guiPokemons.Dirty(session.Inventory);
         }
 
         public void HandleEvent(TransferPokemonEvent evt, Session session)
         {
-            _guiItems.UpdateCandyByValue(evt.Id, evt.FamilyCandies, session);
-            _guiItems.Dirty(session.Inventory);
+            _guiPokemons.SetPokemons(session.Inventory);
+            _guiPokemons.Dirty(session.Inventory);
         }
 
         public void HandleEvent(ItemRecycledEvent evt, Session session)
         {
-            _guiItems.UpdateItemByValue(evt.Id, evt.Count*-1);
-            _guiItems.Dirty(session.Inventory);
+ 
         }
 
         public void HandleEvent(EggIncubatorStatusEvent evt, Session session)
         {
-  
+
         }
 
         public void HandleEvent(FortUsedEvent evt, Session session)
         {
-            _guiItems.UpdateItemByItemsString(evt.Items);
-            _guiItems.Dirty(session.Inventory);
         }
 
         public void HandleEvent(FortFailedEvent evt, Session session)
@@ -86,9 +83,11 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(PokemonCaptureEvent evt, Session session)
         {
-            _guiItems.UpdateItemByValue(evt.Pokeball, -1);
-            _guiItems.UpdateCandyByValue(evt.Id, evt.FamilyCandies, session);
-            _guiItems.Dirty(session.Inventory);
+            if (evt.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
+            {
+                _guiPokemons.SetPokemons(session.Inventory);
+                _guiPokemons.Dirty(session.Inventory);
+            }
         }
 
         public void HandleEvent(NoPokeballEvent evt, Session session)
@@ -97,18 +96,15 @@ namespace PoGo.NecroBot.GUI
 
         public void HandleEvent(UseBerryEvent evt, Session session)
         {
-            _guiItems.UpdateItemByValue(ItemId.ItemRazzBerry, -1);
-            _guiItems.Dirty(session.Inventory);
         }
 
         public void HandleEvent(DisplayHighestsPokemonEvent evt, Session session)
         {
-  
+
         }
 
         public void HandleEvent(UpdateEvent evt, Session session)
         {
- 
         }
 
         public void Listen(IEvent evt, Session session)
@@ -124,5 +120,6 @@ namespace PoGo.NecroBot.GUI
             {
             }
         }
+
     }
 }

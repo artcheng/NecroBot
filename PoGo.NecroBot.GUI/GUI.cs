@@ -30,6 +30,7 @@ using PoGo.NecroBot.GUI.Util;
 using PoGo.NecroBot.CLI;
 using PoGo.NecroBot.Logic.Tasks;
 using PoGo.NecroBot.Logic.Common;
+using PoGo.NecroBot.GUI.Aggregators;
 
 namespace PoGo.NecroBot.GUI
 {
@@ -83,8 +84,8 @@ namespace PoGo.NecroBot.GUI
             var result = loadProfile.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                _profilePath = loadProfile.ProfileFolder;
-                subpath = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + loadProfile.ProfileName;
+                _profilePath = loadProfile._loginProfileFolder;
+                subpath = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + loadProfile._loginProfileName;
             }
 
             Logger.SetLogger(new GUILogger(LogLevel.Info, this), subpath);
@@ -95,6 +96,13 @@ namespace PoGo.NecroBot.GUI
             {
                 MessageBox.Show("Error loading profile, restart bot and try again.", "Erreor", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
+            }
+
+            _settings.AutoUpdate = false;
+            if (loadProfile._loginUseGPX)
+            {
+                _settings.UseGpxPathing = loadProfile._loginUseGPX;
+                _settings.GpxFile = loadProfile._loginGPXFile;
             }
 
             _machine = new StateMachine();
@@ -114,8 +122,6 @@ namespace PoGo.NecroBot.GUI
 
             // Set on first start
             _isStarted = true;
-
-            _settings.AutoUpdate = false;
 
             _guiItems.DirtyEvent += () => UpdateMyItems();
             _guiPokemons.DirtyEvent += () => UpdateMyPokemons();

@@ -76,8 +76,8 @@
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUIEventListener.cs" />
-    <Compile Include="GUIItemsAggregator.cs" />
-    <Compile Include="GUILiveMapAggregator.cs" />
+    <Compile Include="Aggregators\GUIItemsAggregator.cs" />
+    <Compile Include="Aggregators\GUILiveMapAggregator.cs" />
     <Compile Include="GUILogger.cs" />
     <Compile Include="GUILogin.cs">
       <SubType>Form</SubType>
@@ -85,8 +85,8 @@
     <Compile Include="GUILogin.Designer.cs">
       <DependentUpon>GUILogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUIPokemonsAggregator.cs" />
-    <Compile Include="GUIStatsAggregator.cs" />
+    <Compile Include="Aggregators\GUIPokemonsAggregator.cs" />
+    <Compile Include="Aggregators\GUIStatsAggregator.cs" />
     <Compile Include="PoGoImages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

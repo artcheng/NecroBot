@@ -13,7 +13,7 @@ using POGOProtos.Enums;
 using PoGo.NecroBot.GUI.Util;
 using GMap.NET;
 
-namespace PoGo.NecroBot.GUI
+namespace PoGo.NecroBot.GUI.Aggregators
 {
     class GUILiveMapAggregator
     {

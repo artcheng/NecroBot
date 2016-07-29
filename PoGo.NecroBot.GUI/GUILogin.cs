@@ -14,8 +14,10 @@ namespace PoGo.NecroBot.GUI
 {
     public partial class GUILogin : Form
     {
-        public string ProfileFolder { get; set; }
-        public string ProfileName { get; set; }
+        public string _loginProfileFolder { get; set; }
+        public string _loginProfileName { get; set; }
+        public bool _loginUseGPX { get; set; }
+        public string _loginGPXFile { get; set; }
 
         private Dictionary<string, string> _profilesList = new Dictionary<string, string>();
         private bool _close = false;
@@ -27,12 +29,13 @@ namespace PoGo.NecroBot.GUI
 
         private void GUILogin_Load(object sender, EventArgs e)
         {
-            UpdateCombo();
+            UpdateProfilesCombo();
+            UpdateGPXCombo();
         }
 
-        private void UpdateCombo()
+        private void UpdateProfilesCombo()
         {
-            cboProfiles.Items.Clear();
+            comboProfiles.Items.Clear();
             _profilesList.Clear();
             string profilesFolder = Directory.GetCurrentDirectory() + "\\config\\profiles\\";
 
@@ -52,7 +55,7 @@ namespace PoGo.NecroBot.GUI
                     }
 
                     _profilesList.Add(profile.Name, profile.FullName);
-                    cboProfiles.Items.Add(profile.Name);
+                    comboProfiles.Items.Add(profile.Name);
                 }
             }
             else
@@ -61,9 +64,36 @@ namespace PoGo.NecroBot.GUI
             }
         }
 
+        private void UpdateGPXCombo()
+        {
+            comboGPXFiles.Items.Clear();
+            string gpxFolder = Directory.GetCurrentDirectory() + "\\config\\GPX\\";
+
+            if (Directory.Exists(gpxFolder))
+            {
+                string[] files = Directory.GetFiles(gpxFolder);
+
+                foreach (string file in files)
+                {
+                    
+                    comboGPXFiles.Items.Add(Path.GetFileName(file));
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(gpxFolder);
+            }
+        }
+
         private void cmdLoadProfile_Click(object sender, EventArgs e)
         {
-            if(String.IsNullOrEmpty(cboProfiles.Text))
+            _loginProfileFolder = _profilesList[comboProfiles.Text];
+            _loginProfileName = comboProfiles.Text;
+
+            _loginUseGPX = checkGPX.Checked;
+            _loginGPXFile = Directory.GetCurrentDirectory() + "\\config\\GPX\\" + comboGPXFiles.Text;
+
+            if (String.IsNullOrEmpty(comboProfiles.Text))
             {
                 MessageBox.Show("Pick a profile");
             }
@@ -73,12 +103,6 @@ namespace PoGo.NecroBot.GUI
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
-        }
-
-        private void cboProfiles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.ProfileFolder = _profilesList[cboProfiles.Text];
-            this.ProfileName = cboProfiles.Text;
         }
 
         private void GUILogin_FormClosing(object sender, FormClosingEventArgs e)
@@ -96,7 +120,12 @@ namespace PoGo.NecroBot.GUI
             textUsername.Text = "";
             textPassword.Text = "";
             radioGoogle.Checked = true;
-            UpdateCombo();
+            UpdateProfilesCombo();
+        }
+
+        private void checkGPX_CheckedChanged(object sender, EventArgs e)
+        {
+            comboGPXFiles.Enabled = checkGPX.Checked;
         }
     }
 }

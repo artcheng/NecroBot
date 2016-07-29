@@ -88,7 +88,8 @@
       "Value": "Конфет: {0}"
     },
     {
-      "Key": "unhandledGPXData",
+      "Key": "unhandled
+        Data",
       "Value": "Неизвестные данные в GPX файле, пробуем пропустить."
     },
     {
