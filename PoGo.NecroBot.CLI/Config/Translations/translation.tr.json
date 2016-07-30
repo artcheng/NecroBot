@@ -242,6 +242,10 @@
       "Value": "Paket açıldı."
     },
     {
+      "Key": "FinishedTransferringConfig",
+      "Value": "Yeni sürüme yapılandırma aktarılması bitirdi..."
+    },
+    {
       "Key": "updateFinished",
       "Value": "Güncelleme tamamlandı, bu pencereyi kapatabilirsin."
     },
