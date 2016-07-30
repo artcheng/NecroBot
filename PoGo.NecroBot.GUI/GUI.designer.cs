@@ -134,7 +134,6 @@ namespace PoGo.NecroBot.GUI
             this.cmdSnipeList = new System.Windows.Forms.Button();
             this.textPokemonSnipeList = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.globalSettingsControl = new PoGo.NecroBot.GUI.UserControls.GlobalSettingsControl();
             this.snipingSettingsControl = new PoGo.NecroBot.GUI.UserControls.SnipingSettingsControl();
@@ -236,7 +235,6 @@ namespace PoGo.NecroBot.GUI
             // 
             // grpPlayer
             // 
-            this.grpPlayer.Controls.Add(this.button1);
             this.grpPlayer.Controls.Add(this.cmdStart);
             this.grpPlayer.Controls.Add(this.label4);
             this.grpPlayer.Controls.Add(this.textPlayerPokecoins);
@@ -497,8 +495,8 @@ namespace PoGo.NecroBot.GUI
             // 
             this.tabControlMain.Controls.Add(this.tabMyPokemons);
             this.tabControlMain.Controls.Add(this.tabMap);
-            this.tabControlMain.Controls.Add(this.tabSettings);
             this.tabControlMain.Controls.Add(this.tabManualSniping);
+            this.tabControlMain.Controls.Add(this.tabSettings);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.Location = new System.Drawing.Point(303, 3);
             this.tabControlMain.Name = "tabControlMain";
@@ -1190,7 +1188,7 @@ namespace PoGo.NecroBot.GUI
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(301, 38);
+            this.label9.Location = new System.Drawing.Point(370, 38);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(318, 31);
             this.label9.TabIndex = 3;
@@ -1225,16 +1223,6 @@ namespace PoGo.NecroBot.GUI
             this.label8.Size = new System.Drawing.Size(333, 13);
             this.label8.TabIndex = 0;
             this.label8.Text = "Add sniping location and pokemon in the following format (1 per line): ";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(234, 93);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 27;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label10
             // 
@@ -1411,7 +1399,6 @@ namespace PoGo.NecroBot.GUI
         private System.Windows.Forms.Button cmdSnipeList;
         private System.Windows.Forms.TextBox textPokemonSnipeList;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label10;
     }
 }

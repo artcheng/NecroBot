@@ -15,6 +15,7 @@ using System.Net.Sockets;
 using System.Threading;
 using PoGo.NecroBot.Logic.Tasks;
 using PoGo.NecroBot.Logic;
+using GMap.NET;
 
 namespace PoGo.NecroBot.GUI.Tasks
 {
@@ -69,83 +70,96 @@ namespace PoGo.NecroBot.GUI.Tasks
             //    }
             //}
 
-            public static Task AsyncStart(ISession session, PokemonId pokemonId, double latitude, double longitude, CancellationToken cancellationToken)
+            public static Task AsyncStart(ISession session, Dictionary<PokemonId, PointLatLng> pokemonIdList, CancellationToken cancellationToken)
             {
-                return Task.Run(() => snipe(session, pokemonId, latitude, longitude, cancellationToken));
+                return Task.Run(() => snipe(session, pokemonIdList, cancellationToken));
             }
 
-            private static async Task snipe(ISession session, PokemonId pokemonId, double latitude, double longitude, CancellationToken cancellationToken)
+            private static async Task snipe(ISession session, Dictionary<PokemonId, PointLatLng> pokemonIdList, CancellationToken cancellationToken)
             {
                 var currentLatitude = session.Client.CurrentLatitude;
                 var currentLongitude = session.Client.CurrentLongitude;
 
-                await
-                    session.Client.Player.UpdatePlayerLocation(latitude,
-                        longitude, session.Client.CurrentAltitude);
+                int snipingCount = 0;
 
-                session.EventDispatcher.Send(new UpdatePositionEvent()
+                foreach(var pokemonToSnipe in pokemonIdList)
                 {
-                    Longitude = longitude,
-                    Latitude = latitude
-                });
+                    session.EventDispatcher.Send(new SnipeScanEvent() { Bounds = new Location(pokemonToSnipe.Value.Lat, pokemonToSnipe.Value.Lng) });
 
-                var mapObjects = session.Client.Map.GetMapObjects().Result;
-                var catchablePokemon =
-                    mapObjects.MapCells.SelectMany(q => q.CatchablePokemons)
-                        .Where(q => pokemonId == q.PokemonId)
-                        .ToList();
+                    await
+                        session.Client.Player.UpdatePlayerLocation(pokemonToSnipe.Value.Lat,
+                            pokemonToSnipe.Value.Lng, session.Client.CurrentAltitude);
 
-                await session.Client.Player.UpdatePlayerLocation(currentLatitude, currentLongitude,
-                            session.Client.CurrentAltitude);
-
-                foreach (var pokemon in catchablePokemon)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    await session.Client.Player.UpdatePlayerLocation(latitude, longitude, session.Client.CurrentAltitude);
-
-                    var encounter = session.Client.Encounter.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnPointId).Result;
-
-                    await session.Client.Player.UpdatePlayerLocation(currentLatitude, currentLongitude, session.Client.CurrentAltitude);
-
-                    if (encounter.Status == EncounterResponse.Types.Status.EncounterSuccess)
+                    session.EventDispatcher.Send(new UpdatePositionEvent()
                     {
-                        session.EventDispatcher.Send(new UpdatePositionEvent()
+                        Longitude = pokemonToSnipe.Value.Lat,
+                        Latitude = pokemonToSnipe.Value.Lng
+                    });
+
+                    var mapObjects = session.Client.Map.GetMapObjects().Result;
+                    var catchablePokemon =
+                        mapObjects.MapCells.SelectMany(q => q.CatchablePokemons)
+                            .Where(q => pokemonToSnipe.Key == q.PokemonId)
+                            .ToList();
+
+                    await session.Client.Player.UpdatePlayerLocation(currentLatitude, currentLongitude,
+                                session.Client.CurrentAltitude);
+
+                    snipingCount++;
+                    session.EventDispatcher.Send(new WarnEvent
+                    {
+                        Message = "Sniping pokemon: " + snipingCount.ToString() + "/" + pokemonIdList.Count.ToString() + "(" + pokemonToSnipe.Key.ToString() + ")"
+                    });
+
+                    foreach (var pokemon in catchablePokemon)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        await session.Client.Player.UpdatePlayerLocation(pokemonToSnipe.Value.Lat, pokemonToSnipe.Value.Lng, session.Client.CurrentAltitude);
+
+                        var encounter = session.Client.Encounter.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnPointId).Result;
+
+                        await session.Client.Player.UpdatePlayerLocation(currentLatitude, currentLongitude, session.Client.CurrentAltitude);
+
+                        if (encounter.Status == EncounterResponse.Types.Status.EncounterSuccess)
                         {
-                            Latitude = currentLatitude,
-                            Longitude = currentLongitude
-                        });
+                            session.EventDispatcher.Send(new UpdatePositionEvent()
+                            {
+                                Latitude = currentLatitude,
+                                Longitude = currentLongitude
+                            });
 
-                        await CatchPokemonTask.Execute(session, encounter, pokemon);
-                    }
-                    else if (encounter.Status == EncounterResponse.Types.Status.PokemonInventoryFull)
-                    {
-                        session.EventDispatcher.Send(new WarnEvent
+                            await CatchPokemonTask.Execute(session, encounter, pokemon);
+                        }
+                        else if (encounter.Status == EncounterResponse.Types.Status.PokemonInventoryFull)
                         {
-                            Message =
-                                session.Translation.GetTranslation(
-                                    Logic.Common.TranslationString.InvFullTransferManually)
-                        });
-                    }
-                    else
-                    {
-                        session.EventDispatcher.Send(new WarnEvent
+                            session.EventDispatcher.Send(new WarnEvent
+                            {
+                                Message =
+                                    session.Translation.GetTranslation(
+                                        Logic.Common.TranslationString.InvFullTransferManually)
+                            });
+                        }
+                        else
                         {
-                            Message =
-                                session.Translation.GetTranslation(
-                                    Logic.Common.TranslationString.EncounterProblem, encounter.Status)
-                        });
+                            session.EventDispatcher.Send(new WarnEvent
+                            {
+                                Message =
+                                    session.Translation.GetTranslation(
+                                        Logic.Common.TranslationString.EncounterProblem, encounter.Status)
+                            });
+                        }
+
+                        if (
+                            !Equals(catchablePokemon.ElementAtOrDefault(catchablePokemon.Count() - 1),
+                                pokemon))
+                        {
+                            await Task.Delay(session.LogicSettings.DelayBetweenPokemonCatch, cancellationToken);
+                        }
                     }
 
-                    if (
-                        !Equals(catchablePokemon.ElementAtOrDefault(catchablePokemon.Count() - 1),
-                            pokemon))
-                    {
-                        await Task.Delay(session.LogicSettings.DelayBetweenPokemonCatch, cancellationToken);
-                    }
+                    await Task.Delay(5000, cancellationToken);
                 }
-
-                await Task.Delay(5000, cancellationToken);
             }
 
             //public static async Task Execute(ISession session, CancellationToken cancellationToken)

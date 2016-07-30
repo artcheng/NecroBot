@@ -734,27 +734,59 @@ namespace PoGo.NecroBot.GUI
         private async void cmdSnipeList_Click(object sender, EventArgs e)
         {
             _currentlySniping = true;
+            Dictionary<PokemonId, PointLatLng> snipeList = new Dictionary<PokemonId, PointLatLng>();
             foreach (var line in textPokemonSnipeList.Lines)
             {
-                //[320 seconds remaining] 58% IV - Jolteon at 19.430827769051,-99.132601089311 [Moveset: ThunderShockFast/Discharge]
+                try
+                {
 
-                List<string> splitString = line.Split(' ').Select(s => s.Trim()).ToList();
-                List<string> coords = splitString[8].Split(',').Select(s => s.Trim()).ToList();
-                double lat = Convert.ToDouble(coords[0]);
-                double lng = Convert.ToDouble(coords[1]);
-                string name = splitString[6];
+                    List<string> splitString = line.Split(' ').Select(s => s.Trim()).ToList();
+                    double lat = 0.00;
+                    double lng = 0.00;
+                    string name = "";
+                    int IV = 0;
+                    List<string> coords = new List<string>();
 
-                _session.EventDispatcher.Send(new SnipeScanEvent() { Bounds = new Location(lat, lng) });
-                await ManualSnipePokemon.SnipePokemonTask.AsyncStart(_session, (PokemonId)Enum.Parse(typeof(PokemonId), name), lat, lng, default(CancellationToken));
+                    switch (splitString.Count)
+                    {
+                        case 4:
+                            //35.6897618668263,139.73255932331085 Dratini 95% IV
+                            coords = splitString[0].Split(',').Select(s => s.Trim()).ToList();
+                            lat = Convert.ToDouble(coords[0]);
+                            lng = Convert.ToDouble(coords[1]);
+                            name = splitString[1];
+                            IV = Convert.ToInt16(splitString[2].Replace('%',' '));
+                            break;
+
+                        case 13:
+                            //[668 seconds remaining] 72% IV - Vaporeon at 28.416483312498,-16.542801388924 [ Moveset: WaterGunFast/AquaTail ]
+                            coords = splitString[8].Split(',').Select(s => s.Trim()).ToList();
+                            lat = Convert.ToDouble(coords[0]);
+                            lng = Convert.ToDouble(coords[1]);
+                            name = splitString[6];
+                            IV = Convert.ToInt16(splitString[3].Replace('%', ' '));
+                            break;
+ 
+                        default:
+                            continue;
+                    }
+
+                    snipeList.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                }
+                catch {
+                    continue;
+                }
             }
+
+            if(snipeList.Count > 0 && _isStarted)
+            {
+                await ManualSnipePokemon.SnipePokemonTask.AsyncStart(_session, snipeList, default(CancellationToken));
+            }
+
             _currentlySniping = false;
 
             textPokemonSnipeList.Text = "";
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this._currentlySniping = false;
-        }
-    }
+     }
 }
