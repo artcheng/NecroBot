@@ -69,7 +69,12 @@ namespace PoGo.NecroBot.GUI.Tasks
             //    }
             //}
 
-            public static async Task snipe(ISession session, PokemonId pokemonId, double latitude, double longitude, CancellationToken cancellationToken)
+            public static Task AsyncStart(ISession session, PokemonId pokemonId, double latitude, double longitude, CancellationToken cancellationToken)
+            {
+                return Task.Run(() => snipe(session, pokemonId, latitude, longitude, cancellationToken));
+            }
+
+            private static async Task snipe(ISession session, PokemonId pokemonId, double latitude, double longitude, CancellationToken cancellationToken)
             {
                 var currentLatitude = session.Client.CurrentLatitude;
                 var currentLongitude = session.Client.CurrentLongitude;
@@ -140,7 +145,7 @@ namespace PoGo.NecroBot.GUI.Tasks
                     }
                 }
 
-                await Task.Delay(session.LogicSettings.DelayBetweenPlayerActions, cancellationToken);
+                await Task.Delay(5000, cancellationToken);
             }
 
             //public static async Task Execute(ISession session, CancellationToken cancellationToken)

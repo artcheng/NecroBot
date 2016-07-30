@@ -56,6 +56,8 @@ namespace PoGo.NecroBot.GUI
 
         private bool _isStarted = false;
 
+        private bool _currentlySniping = false;
+
         public GUI()
         {
             InitializeComponent();
@@ -338,109 +340,113 @@ namespace PoGo.NecroBot.GUI
 
         private void UpdateLiveMap()
         {
-            try {
-                // Position
-                if (_guiLiveMap._positionUpdated)
-                {
-                    _guiLiveMap._positionUpdated = false;
-                    gMap.Invoke(new Action(() => gMap.Position = _guiLiveMap._currentPosition));
-                    textCurrentLatLng.Invoke(new Action(() => textCurrentLatLng.Text = _guiLiveMap._currentPosition.Lat.ToString() + "," + _guiLiveMap._currentPosition.Lng.ToString()));
-                    _mapOverlays["player"].Markers[0].Position = _guiLiveMap._currentPosition;
-
-                    if (_guiLiveMap._lastPosition != null && (_guiLiveMap._lastPosition.Lat != 0 && _guiLiveMap._lastPosition.Lng != 0))
-                    {
-                        List<PointLatLng> polygon = new List<PointLatLng>();
-                        polygon.Add(new PointLatLng(_guiLiveMap._lastPosition.Lat, _guiLiveMap._lastPosition.Lng));
-                        polygon.Add(new PointLatLng(_guiLiveMap._currentPosition.Lat, _guiLiveMap._currentPosition.Lng));
-                        GMapRoute route = new GMapRoute(polygon, "route");
-
-                        route.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-                        route.Stroke.Width = 2;
-                        _mapOverlays["path"].Routes.Add(route);
-                    }
-                }
-
-                // PokeStops
-                var currentListPokestop = _mapOverlays["pokestops"].Markers.ToList();
-
-                foreach (var line in currentListPokestop)
-                {
-                    if (_guiLiveMap._pokeStops.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
-                    {
-                        gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Remove(line)));
-                    }
-                }
-
-                Bitmap pokestopImg = new Bitmap(_imagesList["pokestop"], new Size(20, 20));
-                pokestopImg.MakeTransparent(Color.White);
-
-                Bitmap pokestopluredImg = new Bitmap(_imagesList["pokestop_lured"], new Size(20, 20));
-                pokestopluredImg.MakeTransparent(Color.White);
-
-                foreach (var pokestop in _guiLiveMap._pokeStops)
-                {
-                    if (currentListPokestop.Where(p => (string)p.Tag == pokestop.Key).Count() == 0)
-                    {
-                        GMarkerGoogle marker;
-                        marker = new GMarkerGoogle(new PointLatLng(pokestop.Value.Latitude, pokestop.Value.Longitude), pokestop.Value.LureInfo != null ? pokestopluredImg : pokestopImg);
-                        marker.Tag = pokestop.Value.Id;
-                        gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Add(marker)));
-                    }
-                }
-
-                // Pokegyms
-                var currentListPokegyms = _mapOverlays["pokegyms"].Markers.ToList();
-
-                foreach (var line in currentListPokegyms)
-                {
-                    if (_guiLiveMap._pokeGyms.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
-                    {
-                        gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Remove(line)));
-                    }
-                }
-
-                Bitmap pokegymImg = new Bitmap(_imagesList["pokegym"], new Size(20, 20));
-                pokestopImg.MakeTransparent(Color.White);
-
-                foreach (var pokegym in _guiLiveMap._pokeGyms)
-                {
-                    if (currentListPokegyms.Where(p => (string)p.Tag == pokegym.Key).Count() == 0)
-                    {
-                        GMarkerGoogle marker;
-                        marker = new GMarkerGoogle(new PointLatLng(pokegym.Value.Latitude, pokegym.Value.Longitude), pokegymImg);
-                        marker.Tag = pokegym.Value.Id;
-                        gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Add(marker)));
-                    }
-                }
-
-                // Pokemons
-                var currentListPokemons = _mapOverlays["pokemons"].Markers.ToList();
-
-                foreach (var line in currentListPokemons)
-                {
-                    if (_guiLiveMap._mapPokemons.Where(p => p.Key == (ulong)line.Tag).ToList().Count == 0)
-                    {
-                        gMap.Invoke(new Action(() => _mapOverlays["pokemons"].Markers.Remove(line)));
-                    }
-                }
-
-                foreach (var pokemon in _guiLiveMap._mapPokemons)
-                {
-                    if (currentListPokemons.Where(p => (ulong)p.Tag == pokemon.Key).Count() == 0)
-                    {
-                        Bitmap pokemonImg = new Bitmap(40, 30);
-                        _imagesList.TryGetValue("pokemon_" + ((int)pokemon.Value.PokemonId).ToString(), out pokemonImg);
-
-                        GMarkerGoogle marker;
-                        marker = new GMarkerGoogle(new PointLatLng(pokemon.Value.Latitude, pokemon.Value.Longitude), pokemonImg);
-                        marker.Tag = pokemon.Value.EncounterId;
-                        gMap.Invoke(new Action(() => _mapOverlays["pokemons"].Markers.Add(marker)));
-                    }
-                }
-            }
-            catch
+            if (!_currentlySniping)
             {
-                // error with livemap
+                try
+                {
+                    // Position
+                    if (_guiLiveMap._positionUpdated)
+                    {
+                        _guiLiveMap._positionUpdated = false;
+                        gMap.Invoke(new Action(() => gMap.Position = _guiLiveMap._currentPosition));
+                        textCurrentLatLng.Invoke(new Action(() => textCurrentLatLng.Text = _guiLiveMap._currentPosition.Lat.ToString() + "," + _guiLiveMap._currentPosition.Lng.ToString()));
+                        _mapOverlays["player"].Markers[0].Position = _guiLiveMap._currentPosition;
+
+                        if (_guiLiveMap._lastPosition != null && (_guiLiveMap._lastPosition.Lat != 0 && _guiLiveMap._lastPosition.Lng != 0) && LocationUtils.CalculateDistanceInMeters(_guiLiveMap._currentPosition.Lat, _guiLiveMap._currentPosition.Lng, _guiLiveMap._lastPosition.Lat, _guiLiveMap._lastPosition.Lng) < 2000)
+                        {
+                            List<PointLatLng> polygon = new List<PointLatLng>();
+                            polygon.Add(new PointLatLng(_guiLiveMap._lastPosition.Lat, _guiLiveMap._lastPosition.Lng));
+                            polygon.Add(new PointLatLng(_guiLiveMap._currentPosition.Lat, _guiLiveMap._currentPosition.Lng));
+                            GMapRoute route = new GMapRoute(polygon, "route");
+
+                            route.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                            route.Stroke.Width = 2;
+                            _mapOverlays["path"].Routes.Add(route);
+                        }
+                    }
+
+                    // PokeStops
+                    var currentListPokestop = _mapOverlays["pokestops"].Markers.ToList();
+
+                    foreach (var line in currentListPokestop)
+                    {
+                        if (_guiLiveMap._pokeStops.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
+                        {
+                            gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Remove(line)));
+                        }
+                    }
+
+                    Bitmap pokestopImg = new Bitmap(_imagesList["pokestop"], new Size(20, 20));
+                    pokestopImg.MakeTransparent(Color.White);
+
+                    Bitmap pokestopluredImg = new Bitmap(_imagesList["pokestop_lured"], new Size(20, 20));
+                    pokestopluredImg.MakeTransparent(Color.White);
+
+                    foreach (var pokestop in _guiLiveMap._pokeStops)
+                    {
+                        if (currentListPokestop.Where(p => (string)p.Tag == pokestop.Key).Count() == 0)
+                        {
+                            GMarkerGoogle marker;
+                            marker = new GMarkerGoogle(new PointLatLng(pokestop.Value.Latitude, pokestop.Value.Longitude), pokestop.Value.LureInfo != null ? pokestopluredImg : pokestopImg);
+                            marker.Tag = pokestop.Value.Id;
+                            gMap.Invoke(new Action(() => _mapOverlays["pokestops"].Markers.Add(marker)));
+                        }
+                    }
+
+                    // Pokegyms
+                    var currentListPokegyms = _mapOverlays["pokegyms"].Markers.ToList();
+
+                    foreach (var line in currentListPokegyms)
+                    {
+                        if (_guiLiveMap._pokeGyms.Where(p => p.Key == (string)line.Tag).ToList().Count == 0)
+                        {
+                            gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Remove(line)));
+                        }
+                    }
+
+                    Bitmap pokegymImg = new Bitmap(_imagesList["pokegym"], new Size(20, 20));
+                    pokestopImg.MakeTransparent(Color.White);
+
+                    foreach (var pokegym in _guiLiveMap._pokeGyms)
+                    {
+                        if (currentListPokegyms.Where(p => (string)p.Tag == pokegym.Key).Count() == 0)
+                        {
+                            GMarkerGoogle marker;
+                            marker = new GMarkerGoogle(new PointLatLng(pokegym.Value.Latitude, pokegym.Value.Longitude), pokegymImg);
+                            marker.Tag = pokegym.Value.Id;
+                            gMap.Invoke(new Action(() => _mapOverlays["pokegyms"].Markers.Add(marker)));
+                        }
+                    }
+
+                    // Pokemons
+                    var currentListPokemons = _mapOverlays["pokemons"].Markers.ToList();
+
+                    foreach (var line in currentListPokemons)
+                    {
+                        if (_guiLiveMap._mapPokemons.Where(p => p.Key == (ulong)line.Tag).ToList().Count == 0)
+                        {
+                            gMap.Invoke(new Action(() => _mapOverlays["pokemons"].Markers.Remove(line)));
+                        }
+                    }
+
+                    foreach (var pokemon in _guiLiveMap._mapPokemons)
+                    {
+                        if (currentListPokemons.Where(p => (ulong)p.Tag == pokemon.Key).Count() == 0)
+                        {
+                            Bitmap pokemonImg = new Bitmap(40, 30);
+                            _imagesList.TryGetValue("pokemon_" + ((int)pokemon.Value.PokemonId).ToString(), out pokemonImg);
+
+                            GMarkerGoogle marker;
+                            marker = new GMarkerGoogle(new PointLatLng(pokemon.Value.Latitude, pokemon.Value.Longitude), pokemonImg);
+                            marker.Tag = pokemon.Value.EncounterId;
+                            gMap.Invoke(new Action(() => _mapOverlays["pokemons"].Markers.Add(marker)));
+                        }
+                    }
+                }
+                catch
+                {
+                    // error with livemap
+                }
             }
         }
 
@@ -727,36 +733,26 @@ namespace PoGo.NecroBot.GUI
 
         private async void cmdSnipeList_Click(object sender, EventArgs e)
         {
-            bool useSnipeLocationServer = _session.LogicSettings.UseSnipeLocationServer;
-
-
-            //Dictionary<PokemonId, PointLatLng> pokemonToSnipe = new Dictionary<PokemonId, PointLatLng>();
-
+            _currentlySniping = true;
             foreach (var line in textPokemonSnipeList.Lines)
             {
-                List<string> splitString1 = line.Split(',').Select(s => s.Trim()).ToList();
-                double lat = Convert.ToDouble(splitString1[0]);
-                List<string> splitString2 = splitString1[1].Split(' ').Select(s => s.Trim()).ToList();
-                double lng = Convert.ToDouble(splitString2[0]);
-                string name = splitString2[1];
+                //[320 seconds remaining] 58% IV - Jolteon at 19.430827769051,-99.132601089311 [Moveset: ThunderShockFast/Discharge]
 
-                //pokemonToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                List<string> splitString = line.Split(' ').Select(s => s.Trim()).ToList();
+                List<string> coords = splitString[8].Split(',').Select(s => s.Trim()).ToList();
+                double lat = Convert.ToDouble(coords[0]);
+                double lng = Convert.ToDouble(coords[1]);
+                string name = splitString[6];
+
                 _session.EventDispatcher.Send(new SnipeScanEvent() { Bounds = new Location(lat, lng) });
-
-                //                    await snipe(session, pokemonIds, location.latitude, location.longitude, cancellationToken);
-                await ManualSnipePokemon.SnipePokemonTask.snipe(_session, (PokemonId)Enum.Parse(typeof(PokemonId), name), lat, lng, new CancellationToken());
+                await ManualSnipePokemon.SnipePokemonTask.AsyncStart(_session, (PokemonId)Enum.Parse(typeof(PokemonId), name), lat, lng, default(CancellationToken));
             }
+            _currentlySniping = false;
+        }
 
-
-            //SnipeSettings PokemonToSnipe = new SnipeSettings();
-
-            //_session.LogicSettings.PokemonToSnipe
-
-            //SnipeSettings set = new SnipeSettings();
-
-            //_session.EventDispatcher.Send(new UpdatePositionEvent { Latitude = lat, Longitude = lng });
-            //SnipePokemonTask.Execute(_session, cancellationToken).Wait(); 
-            //private static async Task snipe(ISession session, IEnumerable<PokemonId> pokemonIds, double latitude, double longitude, CancellationToken cancellationToken)
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this._currentlySniping = false;
         }
     }
 }
