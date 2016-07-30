@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="Aggregators\GUIPokemonsAggregator.cs" />
     <Compile Include="Aggregators\GUIStatsAggregator.cs" />
+    <Compile Include="GUISettings.cs" />
     <Compile Include="PoGoImages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

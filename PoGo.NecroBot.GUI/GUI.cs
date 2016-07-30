@@ -32,6 +32,7 @@ using PoGo.NecroBot.Logic.Tasks;
 using PoGo.NecroBot.Logic.Common;
 using PoGo.NecroBot.GUI.Aggregators;
 using PoGo.NecroBot.GUI.Tasks;
+using static PoGo.NecroBot.GUI.GUISettings;
 
 namespace PoGo.NecroBot.GUI
 {
@@ -52,6 +53,8 @@ namespace PoGo.NecroBot.GUI
         private static Dictionary<string, GMapOverlay> _mapOverlays;
 
         private GlobalSettings _settings;
+        private ProfileSettings _profileSettings;
+
         private string _profilePath = "";
 
         private bool _isStarted = false;
@@ -89,6 +92,7 @@ namespace PoGo.NecroBot.GUI
             {
                 _profilePath = loadProfile._loginProfileFolder;
                 subpath = Directory.GetCurrentDirectory() + "\\config\\profiles\\" + loadProfile._loginProfileName;
+                _profileSettings = loadProfile._profileSettings;
             }
 
             Logger.SetLogger(new GUILogger(LogLevel.Info, this), subpath);
@@ -109,6 +113,12 @@ namespace PoGo.NecroBot.GUI
             {
                 _settings.UseGpxPathing = loadProfile._loginUseGPX;
                 _settings.GpxFile = loadProfile._loginGPXFile;
+            }
+
+            if(loadProfile._loginUseLastCoords)
+            {
+                _settings.DefaultLatitude = loadProfile._loginLastLat;
+                _settings.DefaultLongitude = loadProfile._loginLastLng;
             }
 
             _machine = new StateMachine();
@@ -137,13 +147,17 @@ namespace PoGo.NecroBot.GUI
             var statsAggregator = new GUIStatsAggregator(_guiStats);
             var itemsAggregator = new GUIItemsAggregator(_guiItems);
             var pokemonsAggregator = new GUIPokemonsAggregator(_guiPokemons);
-            var livemapAggregator = new GUILiveMapAggregator(_guiLiveMap);
 
             _session.EventDispatcher.EventReceived += (IEvent evt) => listener.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => statsAggregator.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => itemsAggregator.Listen(evt, _session);
             _session.EventDispatcher.EventReceived += (IEvent evt) => pokemonsAggregator.Listen(evt, _session);
-            _session.EventDispatcher.EventReceived += (IEvent evt) => livemapAggregator.Listen(evt, _session);
+
+            if (_profileSettings.UseLiveMap)
+            {
+                var livemapAggregator = new GUILiveMapAggregator(_guiLiveMap);
+                _session.EventDispatcher.EventReceived += (IEvent evt) => livemapAggregator.Listen(evt, _session);
+            }
 
             _machine.SetFailureState(new LoginState());
 

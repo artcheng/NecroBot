@@ -41,9 +41,13 @@
             this.radioGoogle = new System.Windows.Forms.RadioButton();
             this.tabProfiles = new System.Windows.Forms.TabControl();
             this.tabLoad = new System.Windows.Forms.TabPage();
-            this.tabPageCreate = new System.Windows.Forms.TabPage();
-            this.checkGPX = new System.Windows.Forms.CheckBox();
             this.comboGPXFiles = new System.Windows.Forms.ComboBox();
+            this.checkGPX = new System.Windows.Forms.CheckBox();
+            this.tabPageCreate = new System.Windows.Forms.TabPage();
+            this.checkUseLastCoords = new System.Windows.Forms.CheckBox();
+            this.checkLiveMap = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboCopyConfig = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.tabProfiles.SuspendLayout();
             this.tabLoad.SuspendLayout();
@@ -67,10 +71,11 @@
             this.comboProfiles.Name = "comboProfiles";
             this.comboProfiles.Size = new System.Drawing.Size(324, 21);
             this.comboProfiles.TabIndex = 1;
+            this.comboProfiles.SelectedIndexChanged += new System.EventHandler(this.comboProfiles_SelectedIndexChanged);
             // 
             // cmdLoadProfile
             // 
-            this.cmdLoadProfile.Location = new System.Drawing.Point(303, 81);
+            this.cmdLoadProfile.Location = new System.Drawing.Point(303, 108);
             this.cmdLoadProfile.Name = "cmdLoadProfile";
             this.cmdLoadProfile.Size = new System.Drawing.Size(75, 23);
             this.cmdLoadProfile.TabIndex = 2;
@@ -113,6 +118,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboCopyConfig);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.cmdNewProfile);
             this.groupBox1.Controls.Add(this.radioPtc);
             this.groupBox1.Controls.Add(this.radioGoogle);
@@ -123,14 +130,14 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(378, 106);
+            this.groupBox1.Size = new System.Drawing.Size(378, 129);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "New profile";
             // 
             // cmdNewProfile
             // 
-            this.cmdNewProfile.Location = new System.Drawing.Point(296, 70);
+            this.cmdNewProfile.Location = new System.Drawing.Point(297, 99);
             this.cmdNewProfile.Name = "cmdNewProfile";
             this.cmdNewProfile.Size = new System.Drawing.Size(75, 23);
             this.cmdNewProfile.TabIndex = 9;
@@ -168,11 +175,13 @@
             this.tabProfiles.Location = new System.Drawing.Point(0, 0);
             this.tabProfiles.Name = "tabProfiles";
             this.tabProfiles.SelectedIndex = 0;
-            this.tabProfiles.Size = new System.Drawing.Size(392, 138);
+            this.tabProfiles.Size = new System.Drawing.Size(392, 161);
             this.tabProfiles.TabIndex = 8;
             // 
             // tabLoad
             // 
+            this.tabLoad.Controls.Add(this.checkLiveMap);
+            this.tabLoad.Controls.Add(this.checkUseLastCoords);
             this.tabLoad.Controls.Add(this.comboGPXFiles);
             this.tabLoad.Controls.Add(this.checkGPX);
             this.tabLoad.Controls.Add(this.comboProfiles);
@@ -181,21 +190,20 @@
             this.tabLoad.Location = new System.Drawing.Point(4, 22);
             this.tabLoad.Name = "tabLoad";
             this.tabLoad.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLoad.Size = new System.Drawing.Size(384, 112);
+            this.tabLoad.Size = new System.Drawing.Size(384, 135);
             this.tabLoad.TabIndex = 0;
             this.tabLoad.Text = "Load profile";
             this.tabLoad.UseVisualStyleBackColor = true;
             // 
-            // tabPageCreate
+            // comboGPXFiles
             // 
-            this.tabPageCreate.Controls.Add(this.groupBox1);
-            this.tabPageCreate.Location = new System.Drawing.Point(4, 22);
-            this.tabPageCreate.Name = "tabPageCreate";
-            this.tabPageCreate.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCreate.Size = new System.Drawing.Size(384, 112);
-            this.tabPageCreate.TabIndex = 1;
-            this.tabPageCreate.Text = "Create new profile";
-            this.tabPageCreate.UseVisualStyleBackColor = true;
+            this.comboGPXFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboGPXFiles.Enabled = false;
+            this.comboGPXFiles.FormattingEnabled = true;
+            this.comboGPXFiles.Location = new System.Drawing.Point(105, 33);
+            this.comboGPXFiles.Name = "comboGPXFiles";
+            this.comboGPXFiles.Size = new System.Drawing.Size(271, 21);
+            this.comboGPXFiles.TabIndex = 4;
             // 
             // checkGPX
             // 
@@ -208,21 +216,62 @@
             this.checkGPX.UseVisualStyleBackColor = true;
             this.checkGPX.CheckedChanged += new System.EventHandler(this.checkGPX_CheckedChanged);
             // 
-            // comboGPXFiles
+            // tabPageCreate
             // 
-            this.comboGPXFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboGPXFiles.Enabled = false;
-            this.comboGPXFiles.FormattingEnabled = true;
-            this.comboGPXFiles.Location = new System.Drawing.Point(105, 33);
-            this.comboGPXFiles.Name = "comboGPXFiles";
-            this.comboGPXFiles.Size = new System.Drawing.Size(271, 21);
-            this.comboGPXFiles.TabIndex = 4;
+            this.tabPageCreate.Controls.Add(this.groupBox1);
+            this.tabPageCreate.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCreate.Name = "tabPageCreate";
+            this.tabPageCreate.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCreate.Size = new System.Drawing.Size(384, 135);
+            this.tabPageCreate.TabIndex = 1;
+            this.tabPageCreate.Text = "Create new profile";
+            this.tabPageCreate.UseVisualStyleBackColor = true;
+            // 
+            // checkUseLastCoords
+            // 
+            this.checkUseLastCoords.AutoSize = true;
+            this.checkUseLastCoords.Location = new System.Drawing.Point(13, 58);
+            this.checkUseLastCoords.Name = "checkUseLastCoords";
+            this.checkUseLastCoords.Size = new System.Drawing.Size(99, 17);
+            this.checkUseLastCoords.TabIndex = 5;
+            this.checkUseLastCoords.Text = "Use last coords";
+            this.checkUseLastCoords.UseVisualStyleBackColor = true;
+            this.checkUseLastCoords.Visible = false;
+            this.checkUseLastCoords.CheckedChanged += new System.EventHandler(this.checkUseLastCoords_CheckedChanged);
+            // 
+            // checkLiveMap
+            // 
+            this.checkLiveMap.AutoSize = true;
+            this.checkLiveMap.Location = new System.Drawing.Point(13, 81);
+            this.checkLiveMap.Name = "checkLiveMap";
+            this.checkLiveMap.Size = new System.Drawing.Size(84, 17);
+            this.checkLiveMap.TabIndex = 6;
+            this.checkLiveMap.Text = "Use livemap";
+            this.checkLiveMap.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 102);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(108, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Copy config.json from";
+            // 
+            // comboCopyConfig
+            // 
+            this.comboCopyConfig.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboCopyConfig.FormattingEnabled = true;
+            this.comboCopyConfig.Location = new System.Drawing.Point(123, 99);
+            this.comboCopyConfig.Name = "comboCopyConfig";
+            this.comboCopyConfig.Size = new System.Drawing.Size(164, 21);
+            this.comboCopyConfig.TabIndex = 11;
             // 
             // GUILogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 138);
+            this.ClientSize = new System.Drawing.Size(392, 161);
             this.Controls.Add(this.tabProfiles);
             this.Name = "GUILogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -257,5 +306,9 @@
         private System.Windows.Forms.TabPage tabPageCreate;
         private System.Windows.Forms.ComboBox comboGPXFiles;
         private System.Windows.Forms.CheckBox checkGPX;
+        private System.Windows.Forms.CheckBox checkLiveMap;
+        private System.Windows.Forms.CheckBox checkUseLastCoords;
+        private System.Windows.Forms.ComboBox comboCopyConfig;
+        private System.Windows.Forms.Label label4;
     }
 }

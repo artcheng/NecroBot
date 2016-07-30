@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PoGo.NecroBot.CLI;
+using static PoGo.NecroBot.GUI.GUISettings;
 
 namespace PoGo.NecroBot.GUI
 {
@@ -18,9 +19,15 @@ namespace PoGo.NecroBot.GUI
         public string _loginProfileName { get; set; }
         public bool _loginUseGPX { get; set; }
         public string _loginGPXFile { get; set; }
+        public bool _loginUseLastCoords { get; set; }
+        public double _loginLastLat { get; set; }
+        public double _loginLastLng { get; set; }
+        public ProfileSettings _profileSettings { get; set; }
 
         private Dictionary<string, string> _profilesList = new Dictionary<string, string>();
         private bool _close = false;
+
+        public Dictionary<string,ProfileSettings> guiSettingsList = new Dictionary<string, ProfileSettings>();
 
         public GUILogin()
         {
@@ -35,8 +42,11 @@ namespace PoGo.NecroBot.GUI
 
         private void UpdateProfilesCombo()
         {
+            string lastProfileLoaded = "";
             comboProfiles.Items.Clear();
+            comboCopyConfig.Items.Clear();
             _profilesList.Clear();
+            comboCopyConfig.Items.Add("");
             string profilesFolder = Directory.GetCurrentDirectory() + "\\config\\profiles\\";
 
             if (Directory.Exists(profilesFolder))
@@ -56,7 +66,22 @@ namespace PoGo.NecroBot.GUI
 
                     _profilesList.Add(profile.Name, profile.FullName);
                     comboProfiles.Items.Add(profile.Name);
+                    comboCopyConfig.Items.Add(profile.Name);
+
+                    if (guiSettingsList.ContainsKey(profile.Name))
+                    {
+                        guiSettingsList[profile.Name] = ProfileSettings.Load(profilesFolder + profile.Name + "\\");
+                    }
+                    else
+                    {
+                        guiSettingsList.Add(profile.Name, ProfileSettings.Load(profilesFolder + profile.Name + "\\"));
+                    }
+
+                    if (guiSettingsList[profile.Name].IsLastProfile)
+                        lastProfileLoaded = profile.Name;
                 }
+
+                comboProfiles.Text = lastProfileLoaded;
             }
             else
             {
@@ -87,18 +112,28 @@ namespace PoGo.NecroBot.GUI
 
         private void cmdLoadProfile_Click(object sender, EventArgs e)
         {
-            _loginProfileFolder = _profilesList[comboProfiles.Text];
-            _loginProfileName = comboProfiles.Text;
-
-            _loginUseGPX = checkGPX.Checked;
-            _loginGPXFile = Directory.GetCurrentDirectory() + "\\config\\GPX\\" + comboGPXFiles.Text;
-
             if (String.IsNullOrEmpty(comboProfiles.Text))
             {
                 MessageBox.Show("Pick a profile");
             }
             else
             {
+                _loginProfileFolder = _profilesList[comboProfiles.Text];
+                _loginProfileName = comboProfiles.Text;
+
+                _loginUseGPX = checkGPX.Checked;
+                _loginGPXFile = Directory.GetCurrentDirectory() + "\\config\\GPX\\" + comboGPXFiles.Text;
+
+                _loginUseLastCoords = checkUseLastCoords.Checked;
+                _loginLastLat = guiSettingsList[comboProfiles.Text].LastLat;
+                _loginLastLng = guiSettingsList[comboProfiles.Text].LastLng;
+
+                guiSettingsList[comboProfiles.Text].IsLastProfile = true;
+                guiSettingsList[comboProfiles.Text].UseLiveMap = checkLiveMap.Checked;
+                guiSettingsList[comboProfiles.Text].Save();
+
+                _profileSettings = guiSettingsList[comboProfiles.Text];
+
                 _close = true;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -118,18 +153,45 @@ namespace PoGo.NecroBot.GUI
             var newProfile = new AuthSettings();
             newProfile.NewProfile(textUsername.Text, textPassword.Text, radioGoogle.Checked ? PokemonGo.RocketAPI.Enums.AuthType.Google : PokemonGo.RocketAPI.Enums.AuthType.Ptc, profilesFolder);
 
-            GlobalSettings settings = new GlobalSettings();
-            settings.Save(Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\config\\config.json");
+            if(String.IsNullOrEmpty(comboCopyConfig.Text))
+            {
+                GlobalSettings settings = new GlobalSettings();
+                settings.Save(Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\config\\config.json");
+            }
+            else
+            {
+                if (File.Exists(Directory.GetCurrentDirectory() + "\\config\\profiles\\" + comboCopyConfig.Text + "\\config\\config.json"))
+                {
+                    if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\config"))
+                        Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\config");
 
+                    File.Copy(Directory.GetCurrentDirectory() + "\\config\\profiles\\" + comboCopyConfig.Text + "\\config\\config.json", Directory.GetCurrentDirectory() + "\\config\\profiles\\" + textUsername.Text + "\\config\\config.json");
+                }
+            }
+
+            UpdateProfilesCombo();
+            tabProfiles.SelectedIndex = 0;
+            comboProfiles.Text = textUsername.Text;
             textUsername.Text = "";
             textPassword.Text = "";
             radioGoogle.Checked = true;
-            UpdateProfilesCombo();
         }
 
         private void checkGPX_CheckedChanged(object sender, EventArgs e)
         {
             comboGPXFiles.Enabled = checkGPX.Checked;
+            checkUseLastCoords.Checked = !checkGPX.Checked;
+        }
+
+        private void comboProfiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            checkUseLastCoords.Checked = guiSettingsList[comboProfiles.Text].UseLiveMap;
+            checkUseLastCoords.Text = "Use last coords: " + guiSettingsList[comboProfiles.Text].LastLat.ToString() + "," + guiSettingsList[comboProfiles.Text].LastLng.ToString();
+        }
+
+        private void checkUseLastCoords_CheckedChanged(object sender, EventArgs e)
+        {
+            checkGPX.Checked = !checkUseLastCoords.Checked;
         }
     }
 }
