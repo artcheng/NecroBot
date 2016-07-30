@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GMap.NET;
+using PoGo.NecroBot.Logic;
 
 namespace PoGo.NecroBot.GUI.UserControls
 {
@@ -53,6 +55,33 @@ namespace PoGo.NecroBot.GUI.UserControls
             }
 
             return value;
+        }
+
+        public void SetLocations(List<Location> locations)
+        {
+            foreach(var location in locations)
+            {
+                dataLocations.Rows.Add(location.Latitude, location.Longitude);
+            }
+        }
+
+        public List<Location> GetLocations()
+        {
+            List<Location> locationsList = new List<Location>();
+
+            foreach (DataGridViewRow row in dataLocations.Rows)
+            {
+                try
+                {
+                    double lat = Convert.ToDouble(row.Cells[0].Value.ToString());
+                    double lng = Convert.ToDouble(row.Cells[1].Value.ToString());
+
+                    locationsList.Add(new Location(lat, lng));
+                }
+                catch { }
+            }
+
+            return locationsList;
         }
     }
 }

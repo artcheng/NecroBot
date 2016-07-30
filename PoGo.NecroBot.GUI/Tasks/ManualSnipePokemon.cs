@@ -23,53 +23,6 @@ namespace PoGo.NecroBot.GUI.Tasks
     {
         public static class SnipePokemonTask
         {
-            //public static List<PokemonLocation> locsVisited = new List<PokemonLocation>();
-            //private static List<SniperInfo> snipeLocations = new List<SniperInfo>();
-            //private static DateTime lastSnipe = DateTime.Now;
-
-            //public static async Task Start(Session session, CancellationToken cancellationToken)
-            //{
-            //    while (true)
-            //    {
-            //        cancellationToken.ThrowIfCancellationRequested();
-            //        try
-            //        {
-            //            TcpClient lClient = new TcpClient();
-            //            lClient.Connect(session.LogicSettings.SnipeLocationServer, session.LogicSettings.SnipeLocationServerPort);
-
-            //            var sr = new StreamReader(lClient.GetStream());
-
-            //            while (lClient.Connected)
-            //            {
-            //                var line = sr.ReadLine();
-            //                if (line == null)
-            //                    throw new Exception("Unable to ReadLine from sniper socket");
-
-            //                var info = JsonConvert.DeserializeObject<SniperInfo>(line);
-
-            //                if (snipeLocations.Any(x =>
-            //                        Math.Abs(x.latitude - info.latitude) < 0.0001 &&
-            //                        Math.Abs(x.longitude - info.longitude) < 0.0001)) // we might have different precisions from other sources
-            //                    continue;
-
-            //                snipeLocations.RemoveAll(x => DateTime.Now > x.timeStampAdded.AddMinutes(15));
-            //                snipeLocations.Add(info);
-            //            }
-            //        }
-            //        catch (SocketException)
-            //        {
-            //            // this is spammed to often. Maybe add it to debug log later
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            // most likely System.IO.IOException
-            //            session.EventDispatcher.Send(new ErrorEvent { Message = ex.ToString() });
-            //        }
-
-            //        await Task.Delay(5000, cancellationToken);
-            //    }
-            //}
-
             public static Task AsyncStart(ISession session, Dictionary<PokemonId, PointLatLng> pokemonIdList, CancellationToken cancellationToken)
             {
                 return Task.Run(() => snipe(session, pokemonIdList, cancellationToken));
@@ -161,85 +114,6 @@ namespace PoGo.NecroBot.GUI.Tasks
                     await Task.Delay(5000, cancellationToken);
                 }
             }
-
-            //public static async Task Execute(ISession session, CancellationToken cancellationToken)
-            //{
-            //    if (lastSnipe.AddMilliseconds(session.LogicSettings.MinDelayBetweenSnipes) > DateTime.Now)
-            //        return;
-
-            //    if (session.LogicSettings.PokemonToSnipe != null)
-            //    {
-            //        DateTime st = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            //        TimeSpan t = (DateTime.Now.ToUniversalTime() - st);
-            //        var currentTimestamp = t.TotalMilliseconds;
-
-            //        var pokemonIds = session.LogicSettings.PokemonToSnipe.Pokemon;
-
-            //        if (session.LogicSettings.UseSnipeLocationServer)
-            //        {
-            //            var locationsToSnipe = snipeLocations == null ? new List<SniperInfo>() : snipeLocations.Where(q =>
-            //                // when UseTransferIVForSnipe=true skip pokemons with unknown iv or if they don't match the TransferFilter/default MinIV
-            //                (!session.LogicSettings.UseTransferIVForSnipe || (q.iv > 0 && q.iv < session.Inventory.GetPokemonTransferFilter(q.id).KeepMinIvPercentage)) &&
-            //                !locsVisited.Contains(new PokemonLocation(q.latitude, q.longitude))
-            //                && !(q.timeStamp != default(DateTime) &&
-            //                        q.timeStamp > new DateTime(2016) && // make absolutely sure that the server sent a correct datetime
-            //                        q.timeStamp < DateTime.Now) && (q.id == PokemonId.Missingno || pokemonIds.Contains(q.id))).ToList();
-
-            //            if (locationsToSnipe.Any())
-            //            {
-            //                lastSnipe = DateTime.Now;
-            //                foreach (var location in locationsToSnipe)
-            //                {
-            //                    session.EventDispatcher.Send(new SnipeScanEvent() { Bounds = new Location(location.latitude, location.longitude) });
-
-            //                    await snipe(session, pokemonIds, location.latitude, location.longitude, cancellationToken);
-            //                    locsVisited.Add(new PokemonLocation(location.latitude, location.longitude));
-            //                }
-            //            }
-            //        }
-            //        else
-
-            //            foreach (var location in session.LogicSettings.PokemonToSnipe.Locations)
-            //            {
-            //                session.EventDispatcher.Send(new SnipeScanEvent() { Bounds = location });
-
-            //                var scanResult = SnipeScanForPokemon(location);
-
-            //                var locationsToSnipe = scanResult.pokemon == null ? new List<PokemonLocation>() : scanResult.pokemon.Where(q =>
-            //                    pokemonIds.Contains((PokemonId)q.pokemonId)
-            //                    && !locsVisited.Contains(q)
-            //                    && q.expiration_time < currentTimestamp
-            //                    && q.is_alive).ToList();
-
-            //                if (locationsToSnipe.Any())
-            //                {
-            //                    lastSnipe = DateTime.Now;
-            //                    foreach (var pokemonLocation in locationsToSnipe)
-            //                    {
-            //                        var pokeBallsCount = await session.Inventory.GetItemAmountByType(POGOProtos.Inventory.Item.ItemId.ItemPokeBall);
-            //                        var greatBallsCount = await session.Inventory.GetItemAmountByType(POGOProtos.Inventory.Item.ItemId.ItemGreatBall);
-            //                        var ultraBallsCount = await session.Inventory.GetItemAmountByType(POGOProtos.Inventory.Item.ItemId.ItemUltraBall);
-            //                        var masterBallsCount = await session.Inventory.GetItemAmountByType(POGOProtos.Inventory.Item.ItemId.ItemMasterBall);
-
-            //                        if (pokeBallsCount + greatBallsCount + ultraBallsCount + masterBallsCount < session.LogicSettings.MinPokeballsToSnipe)
-            //                            return;
-
-            //                        locsVisited.Add(pokemonLocation);
-
-            //                        await snipe(session, pokemonIds, pokemonLocation.latitude, pokemonLocation.longitude, cancellationToken);
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    session.EventDispatcher.Send(new NoticeEvent()
-            //                    {
-            //                        Message = session.Translation.GetTranslation(Logic.Common.TranslationString.NoPokemonToSnipe)
-            //                    });
-            //                }
-            //            }
-            //    }
-
-            //}
 
             private static ScanResult SnipeScanForPokemon(Location location)
             {

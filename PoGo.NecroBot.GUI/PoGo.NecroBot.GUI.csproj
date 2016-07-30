@@ -89,7 +89,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasks\ManualEvovlePokemon.cs" />
     <Compile Include="Tasks\ManualSnipePokemon.cs" />
+    <Compile Include="Tasks\ManualTransferPokemon.cs" />
     <Compile Include="UserControls\GlobalSettingsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

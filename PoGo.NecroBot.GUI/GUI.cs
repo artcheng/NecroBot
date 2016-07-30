@@ -281,9 +281,9 @@ namespace PoGo.NecroBot.GUI
                     _imagesList.TryGetValue("transfer", out transfer);
                     Bitmap bmp = new Bitmap(40, 30);
                     if (_imagesList.TryGetValue("pokemon_" + ((int)pokemon.Value.PokemonId).ToString(), out bmp))
-                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, bmp, pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), power, evolve, transfer)));
+                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, bmp, pokemon.Value.PokemonId.ToString(), (int)pokemon.Value.PokemonId, pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), power)));
                     else
-                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, new Bitmap(40, 30), pokemon.Value.PokemonId.ToString(), pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), power, evolve, transfer)));
+                        dataMyPokemons.Invoke(new Action(() => dataMyPokemons.Rows.Add(pokemon.Value.Id, new Bitmap(40, 30), pokemon.Value.PokemonId.ToString(), (int)pokemon.Value.PokemonId, pokemon.Value.Cp, PokemonInfo.CalculateMaxCp(pokemon.Value), Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon.Value), 1), PokemonInfo.GetLevel(pokemon.Value), pokemon.Value.Move1.ToString(), pokemon.Value.Move2.ToString(), power)));
                 }
             }
 
@@ -464,70 +464,6 @@ namespace PoGo.NecroBot.GUI
             }
         }
 
-        private async void dataMyPokemons_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var senderGrid = (DataGridView)sender;
-
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewImageColumn && 
-                e.RowIndex >= 0)
-            {
-                ulong pokemonId = (ulong)dataMyPokemons.Rows[dataMyPokemons.CurrentCell.RowIndex].Cells[0].Value;
-                PokemonData selectedPokemon = _guiPokemons._pokemons[pokemonId];
-
-                switch (e.ColumnIndex)
-                {
-                    case 10:
-                        // Evolve
-                        var evolveResponse = await _session.Client.Inventory.EvolvePokemon(selectedPokemon.Id);
-
-                        _session.EventDispatcher.Send(new PokemonEvolveEvent
-                        {
-                            Id = selectedPokemon.PokemonId,
-                            Exp = evolveResponse.ExperienceAwarded,
-                            Result = evolveResponse.Result
-                        });
-                        if(evolveResponse.Result == POGOProtos.Networking.Responses.EvolvePokemonResponse.Types.Result.Success)
-                        {
-                            _guiPokemons.RemovePokemon(selectedPokemon.Id);
-                            _guiPokemons.AddPokemon(evolveResponse.EvolvedPokemonData);
-                            UpdateMyPokemons();
-                        }
-  
-                        break;
-
-                    case 11:
-                        // Transfer
-                        await _session.Client.Inventory.TransferPokemon(selectedPokemon.Id);
-                        await _session.Inventory.DeletePokemonFromInvById(selectedPokemon.Id);
-
-                        var pokemonSettings = await _session.Inventory.GetPokemonSettings();
-                        var pokemonFamilies = await _session.Inventory.GetPokemonFamilies();
-
-                        var bestPokemonOfType = (_session.LogicSettings.PrioritizeIvOverCp
-                            ? await _session.Inventory.GetHighestPokemonOfTypeByIv(selectedPokemon)
-                            : await _session.Inventory.GetHighestPokemonOfTypeByCp(selectedPokemon)) ?? selectedPokemon;
-
-                        var setting = pokemonSettings.Single(q => q.PokemonId == selectedPokemon.PokemonId);
-                        var family = pokemonFamilies.First(q => q.FamilyId == setting.FamilyId);
-
-                        family.Candy_++;
-
-                        _session.EventDispatcher.Send(new TransferPokemonEvent
-                        {
-                            Id = selectedPokemon.PokemonId,
-                            Perfection = PokemonInfo.CalculatePokemonPerfection(selectedPokemon),
-                            Cp = selectedPokemon.Cp,
-                            BestCp = bestPokemonOfType.Cp,
-                            BestPerfection = PokemonInfo.CalculatePokemonPerfection(bestPokemonOfType),
-                            FamilyCandies = family.Candy_
-                        });
-                        _guiPokemons.RemovePokemon(pokemonId);
-                        UpdateMyPokemons();
-                        break;
-                }
-            }
-        }
-
         private void checkShowPokemons_CheckedChanged(object sender, EventArgs e)
         {
             _mapOverlays["pokemons"].IsVisibile = checkShowPokemons.Checked ? true : false;
@@ -576,6 +512,7 @@ namespace PoGo.NecroBot.GUI
             snipingSettingsControl.SetSetting("UseTransferIVForSnipe", _session.LogicSettings.UseTransferIVForSnipe.ToString());
             snipingSettingsControl.SetSetting("MinDelayBetweenSnipes", _session.LogicSettings.MinDelayBetweenSnipes.ToString());
             snipingSettingsControl.SetSetting("MinPokeballsToSnipe", _session.LogicSettings.MinPokeballsToSnipe.ToString());
+            snipingSettingsControl.SetLocations(_session.LogicSettings.PokemonToSnipe.Locations.ToList());
 
             // Pokemons
             settingsEvolveAboveIvValue.Text = _session.LogicSettings.EvolveAboveIvValue.ToString();
@@ -614,6 +551,11 @@ namespace PoGo.NecroBot.GUI
                     if (_session.LogicSettings.PokemonsNotToTransfer.Where(p => p == pokemon).ToList().Count > 0)
                         toNotTransfer = true;
 
+                    // ToSnipe
+                    bool toSnipe = false;
+                    if (_session.LogicSettings.PokemonToSnipe.Pokemon.Where(p => p == pokemon).ToList().Count > 0)
+                        toSnipe = true;
+
                     // TransferFilters
                     int KeepMinCp = 0;
                     double KeepMinIvPercentage = 50.0;
@@ -628,7 +570,7 @@ namespace PoGo.NecroBot.GUI
 
                     Bitmap bmp = new Bitmap(40, 30);
                     _imagesList.TryGetValue("pokemon_" + ((int)pokemon).ToString(), out bmp);
-                    dataPokemonSettings.Invoke(new Action(() => dataPokemonSettings.Rows.Add((int)pokemon, bmp, pokemon, KeepMinCp, KeepMinIvPercentage, KeepMinDuplicatePokemon, toNotTransfer, toEvolve, toNotCatch)));
+                    dataPokemonSettings.Invoke(new Action(() => dataPokemonSettings.Rows.Add((int)pokemon, bmp, pokemon, KeepMinCp, KeepMinIvPercentage, KeepMinDuplicatePokemon, toNotTransfer, toEvolve, toNotCatch, toSnipe)));
                 }
             }
 
@@ -673,6 +615,7 @@ namespace PoGo.NecroBot.GUI
                 _settings.UseTransferIVForSnipe = Convert.ToBoolean(snipingSettingsControl.GetSetting("UseTransferIVForSnipe"));
                 _settings.MinDelayBetweenSnipes = Convert.ToInt16(snipingSettingsControl.GetSetting("MinDelayBetweenSnipes"));
                 _settings.MinPokeballsToSnipe = Convert.ToInt16(snipingSettingsControl.GetSetting("MinPokeballsToSnipe"));
+                _settings.PokemonToSnipe.Locations = snipingSettingsControl.GetLocations();
 
                 // Pokemon
                 _settings.EvolveAboveIvValue = Convert.ToSingle(settingsEvolveAboveIvValue.Text);
@@ -693,6 +636,7 @@ namespace PoGo.NecroBot.GUI
                 List<PokemonId> PokemonsToEvolve = new List<PokemonId>();
                 List<PokemonId> PokemonsToIgnore = new List<PokemonId>();
                 Dictionary<PokemonId, TransferFilter> PokemonsTransferFilter = new Dictionary<PokemonId, TransferFilter>();
+                List<PokemonId> PokemonsToSnipe = new List<PokemonId>();
 
                 foreach (DataGridViewRow row in  dataPokemonSettings.Rows)
                 {
@@ -708,6 +652,10 @@ namespace PoGo.NecroBot.GUI
                     if ((bool)row.Cells[8].Value == true)
                         PokemonsToIgnore.Add((PokemonId)row.Cells[0].Value);
 
+                    // 9 = PokemonToSnipe
+                    if ((bool)row.Cells[9].Value == true)
+                        PokemonsToSnipe.Add((PokemonId)row.Cells[0].Value);
+
                     // 3 = KeepMinCp, 4 = KeepMinIV, 5 = KeepMinDuplicate
                     TransferFilter newFilter = new TransferFilter();
                     newFilter.KeepMinCp = Convert.ToInt16(row.Cells[3].Value);
@@ -720,6 +668,7 @@ namespace PoGo.NecroBot.GUI
                 _settings.PokemonsToEvolve = PokemonsToEvolve;
                 _settings.PokemonsToIgnore = PokemonsToIgnore;
                 _settings.PokemonsTransferFilter = PokemonsTransferFilter;
+                _settings.PokemonToSnipe.Pokemon = PokemonsToSnipe;
 
                 List<KeyValuePair<ItemId, int>> ItemRecycleFilter = new List<KeyValuePair<ItemId, int>>();
                 foreach (DataGridViewRow row in dataItemSettings.Rows)
@@ -729,10 +678,19 @@ namespace PoGo.NecroBot.GUI
 
                 _settings.ItemRecycleFilter = ItemRecycleFilter;
 
-
                 _settings.Save(_profilePath+"\\config\\config.json");
 
-                MessageBox.Show("Profile has been saved, please restart bot to load new profile", "Profile saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if(_isStarted)
+                {
+                    MessageBox.Show("Profile has been saved, please restart bot to load new profile", "Profile saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    _session = new Session(new ClientSettings(_settings), new LogicSettings(_settings));
+                    _session.Client.ApiFailure = new ApiFailureStrategy(_session);
+                    MessageBox.Show("Profile has been saved and has been loaded", "Profile saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch
             {
@@ -753,7 +711,6 @@ namespace PoGo.NecroBot.GUI
             {
                 try
                 {
-
                     List<string> splitString = line.Split(' ').Select(s => s.Trim()).ToList();
                     double lat = 0.00;
                     double lng = 0.00;
@@ -785,7 +742,18 @@ namespace PoGo.NecroBot.GUI
                             continue;
                     }
 
-                    snipeList.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                    if(radioSnipeGetAll.Checked)
+                    {
+                        snipeList.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                    }
+                    else
+                    {
+                        if (_settings.PokemonToSnipe.Pokemon.Where(p => p == (PokemonId)Enum.Parse(typeof(PokemonId), name)).ToList().Count > 0 && IV >= _settings.KeepMinIvPercentage)
+                        {
+                            snipeList.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                        }
+                    }
+
                 }
                 catch {
                     continue;
@@ -802,5 +770,54 @@ namespace PoGo.NecroBot.GUI
             textPokemonSnipeList.Text = "";
         }
 
-     }
+        private async void cmdTransferSelected_Click(object sender, EventArgs e)
+        {
+            Dictionary<ulong, PokemonData> pokemonsToTransfer = new Dictionary<ulong, PokemonData>();
+
+            foreach (DataGridViewRow row in dataMyPokemons.Rows)
+            {
+                if (row.Selected == true)
+                {
+                    pokemonsToTransfer.Add((ulong)row.Cells[0].Value, _guiPokemons._pokemons[(ulong)row.Cells[0].Value]);
+                }
+            }
+
+            if(pokemonsToTransfer.Count > 0)
+            {
+                await ManualTransferPokemon.TransferPokemonTask.AsyncStart(_session, pokemonsToTransfer, default(CancellationToken));
+                foreach(var pokemon in pokemonsToTransfer)
+                {
+                    _guiPokemons.RemovePokemon(pokemon.Key);
+                }
+                
+                UpdateMyPokemons();
+            }
+        }
+
+        private async void cmdEvolveSelected_Click(object sender, EventArgs e)
+        {
+            Dictionary<ulong, PokemonData> pokemonsToTransfer = new Dictionary<ulong, PokemonData>();
+
+            foreach (DataGridViewRow row in dataMyPokemons.Rows)
+            {
+                if (row.Selected == true)
+                {
+                    pokemonsToTransfer.Add((ulong)row.Cells[0].Value, _guiPokemons._pokemons[(ulong)row.Cells[0].Value]);
+                }
+            }
+
+            if (pokemonsToTransfer.Count > 0)
+            {
+                await ManualEvovlePokemon.EvolvePokemonTask.AsyncStart(_session, pokemonsToTransfer, default(CancellationToken));
+                foreach (var pokemon in pokemonsToTransfer)
+                {
+                    _guiPokemons.RemovePokemon(pokemon.Key);
+                }
+
+                UpdateMyPokemons();
+            }
+
+ 
+        }
+    }
 }
