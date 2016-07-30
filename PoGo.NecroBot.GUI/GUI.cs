@@ -748,6 +748,8 @@ namespace PoGo.NecroBot.GUI
                 await ManualSnipePokemon.SnipePokemonTask.AsyncStart(_session, (PokemonId)Enum.Parse(typeof(PokemonId), name), lat, lng, default(CancellationToken));
             }
             _currentlySniping = false;
+
+            textPokemonSnipeList.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
