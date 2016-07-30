@@ -135,9 +135,9 @@ namespace PoGo.NecroBot.GUI
             this.textPokemonSnipeList = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
             this.globalSettingsControl = new PoGo.NecroBot.GUI.UserControls.GlobalSettingsControl();
             this.snipingSettingsControl = new PoGo.NecroBot.GUI.UserControls.SnipingSettingsControl();
-            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConsole)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpPlayer.SuspendLayout();
@@ -1190,11 +1190,11 @@ namespace PoGo.NecroBot.GUI
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(271, 34);
+            this.label9.Location = new System.Drawing.Point(301, 38);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(387, 31);
+            this.label9.Size = new System.Drawing.Size(318, 31);
             this.label9.TabIndex = 3;
-            this.label9.Text = "NOT FULLY IMPLENTED YET";
+            this.label9.Text = "STILL UNDER TESTING";
             // 
             // cmdSnipeList
             // 
@@ -1236,6 +1236,16 @@ namespace PoGo.NecroBot.GUI
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 21);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(642, 13);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "Example: [248 seconds remaining] 78% IV - Porygon at 51.502251182719,-0.126802845" +
+    "41418 [ Moveset: QuickAttackFast/Psybeam ]";
+            // 
             // globalSettingsControl
             // 
             this.globalSettingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1254,16 +1264,6 @@ namespace PoGo.NecroBot.GUI
             this.snipingSettingsControl.Name = "snipingSettingsControl";
             this.snipingSettingsControl.Size = new System.Drawing.Size(674, 423);
             this.snipingSettingsControl.TabIndex = 0;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 21);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(642, 13);
-            this.label10.TabIndex = 4;
-            this.label10.Text = "Example: [248 seconds remaining] 78% IV - Porygon at 51.502251182719,-0.126802845" +
-    "41418 [ Moveset: QuickAttackFast/Psybeam ]";
             // 
             // GUI
             // 
