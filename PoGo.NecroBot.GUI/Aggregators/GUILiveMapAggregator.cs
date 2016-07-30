@@ -31,8 +31,8 @@ namespace PoGo.NecroBot.GUI.Aggregators
 
         public void HandleEvent(PokeStopListEvent evt, Session session)
         {
-            _guiLiveMap.UpdatePokeStopsGyms(session);
             _guiLiveMap.UpdateMapPokemons(session);
+            _guiLiveMap.UpdatePokeStopsGyms(session);
             _guiLiveMap.Dirty(session);
         }
 

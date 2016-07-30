@@ -31,6 +31,7 @@ using PoGo.NecroBot.CLI;
 using PoGo.NecroBot.Logic.Tasks;
 using PoGo.NecroBot.Logic.Common;
 using PoGo.NecroBot.GUI.Aggregators;
+using PoGo.NecroBot.GUI.Tasks;
 
 namespace PoGo.NecroBot.GUI
 {
@@ -724,19 +725,37 @@ namespace PoGo.NecroBot.GUI
             StartBotting();
         }
 
-        private void cmdSnipeList_Click(object sender, EventArgs e)
+        private async void cmdSnipeList_Click(object sender, EventArgs e)
         {
-            Dictionary<PokemonId, PointLatLng> pokemonToSnipe = new Dictionary<PokemonId, PointLatLng>();
+            bool useSnipeLocationServer = _session.LogicSettings.UseSnipeLocationServer;
 
-            foreach(var line in textPokemonSnipeList.Lines)
+
+            //Dictionary<PokemonId, PointLatLng> pokemonToSnipe = new Dictionary<PokemonId, PointLatLng>();
+
+            foreach (var line in textPokemonSnipeList.Lines)
             {
-                string[] split = line.Split(' ');
-                string name = split[1];
-                string[] coords = split[0].Split(',');
+                List<string> splitString1 = line.Split(',').Select(s => s.Trim()).ToList();
+                double lat = Convert.ToDouble(splitString1[0]);
+                List<string> splitString2 = splitString1[1].Split(' ').Select(s => s.Trim()).ToList();
+                double lng = Convert.ToDouble(splitString2[0]);
+                string name = splitString2[1];
 
-                //pokemonToSnipe.Add((PokemonId)name, new PointLatLng(Convert.ToDouble(coords[0]), Convert.ToDouble(coords[1])));
+                //pokemonToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                _session.EventDispatcher.Send(new SnipeScanEvent() { Bounds = new Location(lat, lng) });
+
+                //                    await snipe(session, pokemonIds, location.latitude, location.longitude, cancellationToken);
+                await ManualSnipePokemon.SnipePokemonTask.snipe(_session, (PokemonId)Enum.Parse(typeof(PokemonId), name), lat, lng, new CancellationToken());
             }
 
+
+            //SnipeSettings PokemonToSnipe = new SnipeSettings();
+
+            //_session.LogicSettings.PokemonToSnipe
+
+            //SnipeSettings set = new SnipeSettings();
+
+            //_session.EventDispatcher.Send(new UpdatePositionEvent { Latitude = lat, Longitude = lng });
+            //SnipePokemonTask.Execute(_session, cancellationToken).Wait(); 
             //private static async Task snipe(ISession session, IEnumerable<PokemonId> pokemonIds, double latitude, double longitude, CancellationToken cancellationToken)
         }
     }

@@ -117,7 +117,7 @@ namespace PoGo.NecroBot.GUI.Util
         {
             if (position != _currentPosition)
             {
-                UpdateMapPokemons(session);
+                //UpdateMapPokemons(session);
                 _positionUpdated = true;
                 _lastPosition = _currentPosition;
                 _currentPosition = position;
