@@ -61,7 +61,7 @@ namespace PoGo.NecroBot.GUI.Tasks
                     snipingCount++;
                     session.EventDispatcher.Send(new WarnEvent
                     {
-                        Message = "Sniping pokemon: " + snipingCount.ToString() + "/" + pokemonIdList.Count.ToString() + "(" + pokemonToSnipe.Key.ToString() + ")"
+                        Message = "Sniping pokemon: " + snipingCount.ToString() + "/" + pokemonIdList.Count.ToString() + " (" + pokemonToSnipe.Key.ToString() + ")"
                     });
 
                     foreach (var pokemon in catchablePokemon)

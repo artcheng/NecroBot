@@ -102,6 +102,24 @@ namespace PoGo.NecroBot.Logic.Tasks
                             {
                                 await session.Inventory.RefreshCachedInventory();
                             }
+
+                            if (session.isAwaitingPaused == true)
+                            {
+                                session.isAwaitingPaused = false;
+                                session.isPaused = true;
+                                session.EventDispatcher.Send(new WarnEvent
+                                {
+                                    Message = "Pausing before next Pokestop to run manual tasks"
+                                });
+                                while (session.isPaused == true)
+                                {
+                                    await Task.Delay(1000);
+                                }
+                                session.EventDispatcher.Send(new WarnEvent
+                                {
+                                    Message = "Continuing Pokestop run"
+                                });
+                            }
                         }
 
                         if(DateTime.Now > lastTasksCall)

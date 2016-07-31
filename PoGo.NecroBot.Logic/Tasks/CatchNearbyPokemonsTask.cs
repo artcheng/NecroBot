@@ -70,6 +70,24 @@ namespace PoGo.NecroBot.Logic.Tasks
                     session.EventDispatcher.Send(new WarnEvent { Message = session.Translation.GetTranslation(Common.TranslationString.EncounterProblem, encounter.Status) });
                 }
 
+                if (session.isAwaitingPaused == true)
+                {
+                    session.isAwaitingPaused = false;
+                    session.isPaused = true;
+                    session.EventDispatcher.Send(new WarnEvent
+                    {
+                        Message = "Pausing before next Pokemon catch to run manual tasks"
+                    });
+                    while (session.isPaused == true)
+                    {
+                        await Task.Delay(1000);
+                    }
+                    session.EventDispatcher.Send(new WarnEvent
+                    {
+                        Message = "Continuing Pokemon catch run"
+                    });
+                }
+
                 // If pokemon is not last pokemon in list, create delay between catches, else keep moving.
                 if (!Equals(pokemons.ElementAtOrDefault(pokemons.Count() - 1), pokemon))
                 {

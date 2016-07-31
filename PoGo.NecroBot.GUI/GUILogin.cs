@@ -177,21 +177,28 @@ namespace PoGo.NecroBot.GUI
             radioGoogle.Checked = true;
         }
 
-        private void checkGPX_CheckedChanged(object sender, EventArgs e)
-        {
-            comboGPXFiles.Enabled = checkGPX.Checked;
-            checkUseLastCoords.Checked = !checkGPX.Checked;
-        }
-
         private void comboProfiles_SelectedIndexChanged(object sender, EventArgs e)
         {
             checkUseLastCoords.Checked = guiSettingsList[comboProfiles.Text].UseLiveMap;
             checkUseLastCoords.Text = "Use last coords: " + guiSettingsList[comboProfiles.Text].LastLat.ToString() + "," + guiSettingsList[comboProfiles.Text].LastLng.ToString();
         }
 
-        private void checkUseLastCoords_CheckedChanged(object sender, EventArgs e)
+        private void checkUseLastCoords_Click(object sender, EventArgs e)
         {
-            checkGPX.Checked = !checkUseLastCoords.Checked;
+            if (checkGPX.Checked == true)
+            {
+                checkGPX.Checked = false;
+                comboGPXFiles.Enabled = checkGPX.Checked;
+            }
+        }
+
+        private void checkGPX_Click(object sender, EventArgs e)
+        {
+            if (checkUseLastCoords.Checked == true)
+            {
+                checkUseLastCoords.Checked = false;
+            }
+            comboGPXFiles.Enabled = true;
         }
     }
 }

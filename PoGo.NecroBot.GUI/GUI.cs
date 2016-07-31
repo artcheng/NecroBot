@@ -124,6 +124,8 @@ namespace PoGo.NecroBot.GUI
             _machine = new StateMachine();
             _session = new Session(new ClientSettings(_settings), new LogicSettings(_settings));
             _session.Client.ApiFailure = new ApiFailureStrategy(_session);
+            _session.isAwaitingPaused = false;
+            _session.isPaused = false;
 
             LoadGUISettings();
         }
@@ -720,49 +722,109 @@ namespace PoGo.NecroBot.GUI
 
                     switch (splitString.Count)
                     {
+                        case 3:
+                            //49.943352806097,-97.140605985523 Gengar 98IV
+                            coords = splitString[0].Split(',').Select(s => s.Trim()).ToList();
+                            lat = Convert.ToDouble(coords[0]);
+                            lng = Convert.ToDouble(coords[1]);
+                            name = splitString[1].ToLower();
+                            splitString[2] = splitString[2].ToUpper();
+                            IV = Convert.ToInt16(splitString[2].Replace('%', ' ').Replace("IV", " "));
+                            break;
+
                         case 4:
                             //35.6897618668263,139.73255932331085 Dratini 95% IV
                             coords = splitString[0].Split(',').Select(s => s.Trim()).ToList();
                             lat = Convert.ToDouble(coords[0]);
                             lng = Convert.ToDouble(coords[1]);
                             name = splitString[1];
-                            IV = Convert.ToInt16(splitString[2].Replace('%',' '));
-                            break;
+                            splitString[2] = splitString[2].ToUpper();
+                            if (splitString[2].Replace('%', ' ').Replace("IV", " ").All(Char.IsDigit))
+                            {
+                                IV = Convert.ToInt16(splitString[2].Replace('%', ' ').Replace("IV", " "));
+                            }
+                            else
+                            {
+                                IV = Convert.ToInt16(splitString[3].Replace('%', ' ').Replace("IV", " "));
+                            }
 
+                             break;
+                        case 5:
+                            //35.62657903204875, 139.88984942436218 Dragonite 100 IV
+                            lat = Convert.ToDouble(splitString[0].Replace(',',' '));
+                            lng = Convert.ToDouble(splitString[1]);
+                            name = splitString[2];
+                            splitString[2] = splitString[3].ToUpper();
+                            IV = Convert.ToInt16(splitString[3].Replace('%', ' ').Replace("IV", " "));
+                            break;
                         case 13:
                             //[668 seconds remaining] 72% IV - Vaporeon at 28.416483312498,-16.542801388924 [ Moveset: WaterGunFast/AquaTail ]
                             coords = splitString[8].Split(',').Select(s => s.Trim()).ToList();
                             lat = Convert.ToDouble(coords[0]);
                             lng = Convert.ToDouble(coords[1]);
                             name = splitString[6];
-                            IV = Convert.ToInt16(splitString[3].Replace('%', ' '));
+                            splitString[2] = splitString[3].ToUpper();
+                            IV = Convert.ToInt16(splitString[3].Replace('%', ' ').Replace("IV", " "));
                             break;
  
                         default:
                             continue;
                     }
 
-                    if(radioSnipeGetAll.Checked)
+                    // Parse all lower names
+                    if(char.IsLower(name[0]))
                     {
-                        snipeList.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                        TextInfo ti = new CultureInfo("en-US", false).TextInfo;
+                        name = ti.ToTitleCase(name);
                     }
-                    else
+
+                    if(_isStarted)
                     {
-                        if (_settings.PokemonToSnipe.Pokemon.Where(p => p == (PokemonId)Enum.Parse(typeof(PokemonId), name)).ToList().Count > 0 && IV >= _settings.KeepMinIvPercentage)
+                        if(radioSnipeGetAll.Checked)
                         {
                             snipeList.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                        }
+                        else
+                        {
+                            if (_settings.PokemonToSnipe.Pokemon.Where(p => p == (PokemonId)Enum.Parse(typeof(PokemonId), name)).ToList().Count > 0 && IV >= _settings.KeepMinIvPercentage)
+                            {
+                                snipeList.Add((PokemonId)Enum.Parse(typeof(PokemonId), name), new PointLatLng(lat, lng));
+                            }
                         }
                     }
 
                 }
                 catch {
+                    UpdateMyPokemons();
+                    _session.EventDispatcher.Send(new ErrorEvent
+                    {
+                        Message = "Bad sniping syntax: " + line
+                    });
                     continue;
                 }
             }
 
             if(snipeList.Count > 0 && _isStarted)
             {
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Waiting on last task to finish before we start sniping"
+                });
+                _session.isAwaitingPaused = true;
+                while (_session.isAwaitingPaused == true)
+                {
+                    await Task.Delay(1000);
+                }
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Starting to snipe list"
+                });
                 await ManualSnipePokemon.SnipePokemonTask.AsyncStart(_session, snipeList, default(CancellationToken));
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Done sniping"
+                });
+                _session.isPaused = false;
             }
 
             _currentlySniping = false;
@@ -782,8 +844,21 @@ namespace PoGo.NecroBot.GUI
                 }
             }
 
-            if(pokemonsToTransfer.Count > 0)
+            if(pokemonsToTransfer.Count > 0 && _isStarted)
             {
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Waiting on last task to finish before we start transfering"
+                });
+                _session.isAwaitingPaused = true;
+                while (_session.isAwaitingPaused == true)
+                {
+                    await Task.Delay(1000);
+                }
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Starting to transfer pokemons"
+                });
                 await ManualTransferPokemon.TransferPokemonTask.AsyncStart(_session, pokemonsToTransfer, default(CancellationToken));
                 foreach(var pokemon in pokemonsToTransfer)
                 {
@@ -791,6 +866,11 @@ namespace PoGo.NecroBot.GUI
                 }
                 
                 UpdateMyPokemons();
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Done transfering"
+                });
+                _session.isPaused = false;
             }
         }
 
@@ -806,8 +886,21 @@ namespace PoGo.NecroBot.GUI
                 }
             }
 
-            if (pokemonsToTransfer.Count > 0)
+            if (pokemonsToTransfer.Count > 0 && _isStarted)
             {
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Waiting on last task to finish before we start evolving"
+                });
+                _session.isAwaitingPaused = true;
+                while (_session.isAwaitingPaused == true)
+                {
+                    await Task.Delay(1000);
+                }
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Starting to evolve pokemons"
+                });
                 await ManualEvovlePokemon.EvolvePokemonTask.AsyncStart(_session, pokemonsToTransfer, default(CancellationToken));
                 foreach (var pokemon in pokemonsToTransfer)
                 {
@@ -815,9 +908,31 @@ namespace PoGo.NecroBot.GUI
                 }
 
                 UpdateMyPokemons();
+                _session.EventDispatcher.Send(new WarnEvent
+                {
+                    Message = "Done evolving"
+                });
+                _session.isPaused = false;
             }
 
  
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _session.isAwaitingPaused = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _session.isPaused = false;
+        }
+
+        private void GUI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _profileSettings.LastLat = _session.Client.CurrentLatitude;
+            _profileSettings.LastLng = _session.Client.CurrentLongitude;
+            _profileSettings.Save();
         }
     }
 }

@@ -20,6 +20,8 @@ namespace PoGo.NecroBot.Logic.State
         ILogicSettings LogicSettings { get; }
         ITranslation Translation { get; }
         IEventDispatcher EventDispatcher { get; }
+        bool isAwaitingPaused { get; set; }
+        bool isPaused { get; set; }
     }
 
 
@@ -56,5 +58,8 @@ namespace PoGo.NecroBot.Logic.State
             Inventory = new Inventory(Client, logicSettings);
             Navigation = new Navigation(Client);
         }
+
+        public bool isAwaitingPaused { get; set; }
+        public bool isPaused { get; set; }
     }
 }

@@ -36,18 +36,18 @@
             this.textPassword = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboCopyConfig = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.cmdNewProfile = new System.Windows.Forms.Button();
             this.radioPtc = new System.Windows.Forms.RadioButton();
             this.radioGoogle = new System.Windows.Forms.RadioButton();
             this.tabProfiles = new System.Windows.Forms.TabControl();
             this.tabLoad = new System.Windows.Forms.TabPage();
+            this.checkLiveMap = new System.Windows.Forms.CheckBox();
+            this.checkUseLastCoords = new System.Windows.Forms.CheckBox();
             this.comboGPXFiles = new System.Windows.Forms.ComboBox();
             this.checkGPX = new System.Windows.Forms.CheckBox();
             this.tabPageCreate = new System.Windows.Forms.TabPage();
-            this.checkUseLastCoords = new System.Windows.Forms.CheckBox();
-            this.checkLiveMap = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboCopyConfig = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.tabProfiles.SuspendLayout();
             this.tabLoad.SuspendLayout();
@@ -135,6 +135,24 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "New profile";
             // 
+            // comboCopyConfig
+            // 
+            this.comboCopyConfig.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboCopyConfig.FormattingEnabled = true;
+            this.comboCopyConfig.Location = new System.Drawing.Point(123, 99);
+            this.comboCopyConfig.Name = "comboCopyConfig";
+            this.comboCopyConfig.Size = new System.Drawing.Size(164, 21);
+            this.comboCopyConfig.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 102);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(108, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Copy config.json from";
+            // 
             // cmdNewProfile
             // 
             this.cmdNewProfile.Location = new System.Drawing.Point(297, 99);
@@ -195,6 +213,27 @@
             this.tabLoad.Text = "Load profile";
             this.tabLoad.UseVisualStyleBackColor = true;
             // 
+            // checkLiveMap
+            // 
+            this.checkLiveMap.AutoSize = true;
+            this.checkLiveMap.Location = new System.Drawing.Point(13, 81);
+            this.checkLiveMap.Name = "checkLiveMap";
+            this.checkLiveMap.Size = new System.Drawing.Size(84, 17);
+            this.checkLiveMap.TabIndex = 6;
+            this.checkLiveMap.Text = "Use livemap";
+            this.checkLiveMap.UseVisualStyleBackColor = true;
+            // 
+            // checkUseLastCoords
+            // 
+            this.checkUseLastCoords.AutoSize = true;
+            this.checkUseLastCoords.Location = new System.Drawing.Point(13, 58);
+            this.checkUseLastCoords.Name = "checkUseLastCoords";
+            this.checkUseLastCoords.Size = new System.Drawing.Size(99, 17);
+            this.checkUseLastCoords.TabIndex = 5;
+            this.checkUseLastCoords.Text = "Use last coords";
+            this.checkUseLastCoords.UseVisualStyleBackColor = true;
+            this.checkUseLastCoords.Click += new System.EventHandler(this.checkUseLastCoords_Click);
+            // 
             // comboGPXFiles
             // 
             this.comboGPXFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -214,7 +253,7 @@
             this.checkGPX.TabIndex = 3;
             this.checkGPX.Text = "Use GPX file";
             this.checkGPX.UseVisualStyleBackColor = true;
-            this.checkGPX.CheckedChanged += new System.EventHandler(this.checkGPX_CheckedChanged);
+            this.checkGPX.Click += new System.EventHandler(this.checkGPX_Click);
             // 
             // tabPageCreate
             // 
@@ -226,46 +265,6 @@
             this.tabPageCreate.TabIndex = 1;
             this.tabPageCreate.Text = "Create new profile";
             this.tabPageCreate.UseVisualStyleBackColor = true;
-            // 
-            // checkUseLastCoords
-            // 
-            this.checkUseLastCoords.AutoSize = true;
-            this.checkUseLastCoords.Location = new System.Drawing.Point(13, 58);
-            this.checkUseLastCoords.Name = "checkUseLastCoords";
-            this.checkUseLastCoords.Size = new System.Drawing.Size(99, 17);
-            this.checkUseLastCoords.TabIndex = 5;
-            this.checkUseLastCoords.Text = "Use last coords";
-            this.checkUseLastCoords.UseVisualStyleBackColor = true;
-            this.checkUseLastCoords.Visible = false;
-            this.checkUseLastCoords.CheckedChanged += new System.EventHandler(this.checkUseLastCoords_CheckedChanged);
-            // 
-            // checkLiveMap
-            // 
-            this.checkLiveMap.AutoSize = true;
-            this.checkLiveMap.Location = new System.Drawing.Point(13, 81);
-            this.checkLiveMap.Name = "checkLiveMap";
-            this.checkLiveMap.Size = new System.Drawing.Size(84, 17);
-            this.checkLiveMap.TabIndex = 6;
-            this.checkLiveMap.Text = "Use livemap";
-            this.checkLiveMap.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 102);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(108, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Copy config.json from";
-            // 
-            // comboCopyConfig
-            // 
-            this.comboCopyConfig.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboCopyConfig.FormattingEnabled = true;
-            this.comboCopyConfig.Location = new System.Drawing.Point(123, 99);
-            this.comboCopyConfig.Name = "comboCopyConfig";
-            this.comboCopyConfig.Size = new System.Drawing.Size(164, 21);
-            this.comboCopyConfig.TabIndex = 11;
             // 
             // GUILogin
             // 

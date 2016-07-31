@@ -58,7 +58,7 @@ namespace PoGo.NecroBot.GUI.Tasks
                         FamilyCandies = family.Candy_
                     });
 
-                    await Task.Delay(1500, cancellationToken);
+                    await Task.Delay(1000, cancellationToken);
                 }
 
             }
